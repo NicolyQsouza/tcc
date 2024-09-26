@@ -12,7 +12,7 @@ exports.renderCreateForm = (req, res) => {
 exports.createAgenda = async (req, res) => {
     const agenda = req.body;
     await Agenda.create(agenda);
-    res.redirect('/agendas');
+    res.redirect('/agenda');
 };
 
 exports.getAgendaById = async (req, res) => {
@@ -27,10 +27,10 @@ exports.renderEditForm = async (req, res) => {
 
 exports.updateAgenda = async (req, res) => {
     await Agenda.update(req.params.id, req.body);
-    res.redirect('/agendas');
+    res.redirect('/agenda');
 };
 
 exports.deleteAgenda = async (req, res) => {
     await Agenda.delete(req.params.id);
-    res.redirect('/agendas');
+    res.redirect('/agenda');
 };

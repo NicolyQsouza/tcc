@@ -2,14 +2,13 @@ CREATE DATABASE CRUD;
 
 USE CRUD;
 
-CREATE TABLE users (
+CREATE TABLE usuario (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'user') NOT NULL
+    nome VARCHAR(255) NOT NULL,
+    senha VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE Clientes (
+CREATE TABLE clientes (
     foto BLOB NULL,
     genero varchar(10),
     endereco varchar(40),
@@ -20,22 +19,24 @@ CREATE TABLE Clientes (
     feedback int,
     agenda int,
     data_de_nascimento DATE,
-    FOREIGN KEY (feedback)  REFERENCES Feedbacks (cod),
+    FOREIGN KEY (feedback)  REFERENCES feedbacks (cod),
     FOREIGN KEY (agenda) REFERENCES agendas (cod)
 );
 
-CREATE TABLE Procedimentos (
+CREATE TABLE procedimentos (
     duracao varchar(10),
     restricao varchar(40),
     descricao varchar(40),
     cod INT(4) PRIMARY KEY,
     nome varchar(40),
     valor REAL,
+    agenda int,
+    usa int,
     FOREIGN KEY (agenda) REFERENCES agenda (cod),
-    FOREIGN KEY (usa) REFERENCES usa (cod)
+    FOREIGN KEY (usa) REFERENCES items_proce (cod)
 );
 
-CREATE TABLE Produtos (
+CREATE TABLE produtos (
     foto BLOB,
     restricao varchar(40),
     valor FLOAT,
@@ -43,16 +44,17 @@ CREATE TABLE Produtos (
     marca varchar(25),
     descricao varchar(40),
     cod INT(4) PRIMARY KEY,
-    FOREIGN KEY (usa) REFERENCES usa (cod)
+    items_proce int,
+    FOREIGN KEY (usa) REFERENCES items_proce (cod)
 );
 
-CREATE TABLE Feedback (
+CREATE TABLE feedbacks (
     foto BLOB,
     comentario VARCHAR(200),
     cod INT(4) PRIMARY KEY,
     avaliacao INT(1),
     cliente INT(4),
-    FOREIGN KEY (cliente)  REFERENCES Cliente (cod)
+    FOREIGN KEY (cliente)  REFERENCES cliente (cod)
 );
 
 CREATE TABLE agenda (
@@ -62,14 +64,18 @@ CREATE TABLE agenda (
     forma_pag varchar(10),
     data DATE,
     hora TIME,
-    FOREIGN KEY (cliente) REFERENCES Cliente (cod),
-    FOREIGN KEY (procedimento) REFERENCES Procedimento (cod)
+    cliente int,
+    procedimento int,
+    FOREIGN KEY (cliente) REFERENCES cliente (cod),
+    FOREIGN KEY (procedimento) REFERENCES procedimento (cod)
 );
 
-CREATE TABLE usa (
+CREATE TABLE items_proce (
     procedimento INT(4),
     produto INT(4),
     quantidade INT(3),
-    FOREIGN KEY (procedimento) REFERENCES Procedimento (cod),
-    FOREIGN KEY (produto) REFERENCES Produto (cod)
+    procedimento int,
+    produto int,
+    FOREIGN KEY (procedimento) REFERENCES procedimento (cod),
+    FOREIGN KEY (produto) REFERENCES produto (cod)
 );
