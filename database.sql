@@ -2,7 +2,14 @@ CREATE DATABASE CRUD;
 
 USE CRUD;
 
-CREATE TABLE Cliente (
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'user') NOT NULL
+);
+
+CREATE TABLE Clientes (
     foto BLOB NULL,
     genero varchar(10),
     endereco varchar(40),
@@ -10,17 +17,14 @@ CREATE TABLE Cliente (
     nome varchar(25),
     fone varchar(15),
     email varchar(25),
+    feedback int,
+    agenda int,
     data_de_nascimento DATE,
-    FOREIGN KEY (Feedback)  REFERENCES Feedback (cod),
-    FOREIGN KEY (agenda) REFERENCES agenda (cod)
+    FOREIGN KEY (feedback)  REFERENCES Feedbacks (cod),
+    FOREIGN KEY (agenda) REFERENCES agendas (cod)
 );
 
-CREATE TABLE categorias (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE Procedimento (
+CREATE TABLE Procedimentos (
     duracao varchar(10),
     restricao varchar(40),
     descricao varchar(40),
@@ -31,7 +35,7 @@ CREATE TABLE Procedimento (
     FOREIGN KEY (usa) REFERENCES usa (cod)
 );
 
-CREATE TABLE Produto (
+CREATE TABLE Produtos (
     foto BLOB,
     restricao varchar(40),
     valor FLOAT,
