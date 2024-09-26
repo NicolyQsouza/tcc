@@ -1,0 +1,9 @@
+<h1>Detalhes da Agenda</h1>
+<p>ID: <%= agenda.cod %></p>
+<p>Cliente: <%= agenda.cliente %></p>
+<p>Procedimento: <%= agenda.procedimento %></p>
+<p>Profissional: <%= agenda.profissional %></p>
+<p>Forma de Pagamento: <%= agenda.forma_pag %></p>
+<p>Data: <%= new Date(agenda.data).toLocaleDateString('pt-BR') %></p>
+<p>Hora: <%= agenda.hora %></p>
+<a href="/agendas" class="btn btn-primary">Voltar para a Lista</a>

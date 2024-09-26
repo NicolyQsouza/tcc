@@ -1,0 +1,36 @@
+<h1>Listagem de Agendas</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Procedimento</th>
+            <th>Profissional</th>
+            <th>Forma de Pagamento</th>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% agendas.forEach(agenda => { %>
+            <tr>
+                <td><%= agenda.cod %></td>
+                <td><%= agenda.cliente %></td>
+                <td><%= agenda.procedimento %></td>
+                <td><%= agenda.profissional %></td>
+                <td><%= agenda.forma_pag %></td>
+                <td><%= new Date(agenda.data).toLocaleDateString('pt-BR') %></td>
+                <td><%= agenda.hora %></td>
+                <td>
+                    <a href="/agendas/<%= agenda.cod %>" class="btn btn-primary">Detalhes</a>
+                    <a href="/agendas/<%= agenda.cod %>/edit" class="btn btn-warning">Editar</a>
+                    <form action="/agendas/<%= agenda.cod %>?_method=DELETE" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+<a href="/agendas/new" class="btn btn-primary">Nova Agenda</a>

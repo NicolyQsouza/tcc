@@ -1,0 +1,28 @@
+<h1>Listagem de Feedbacks</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Comentário</th>
+            <th>Avaliação</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% feedbacks.forEach(feedback => { %>
+            <tr>
+                <td><%= feedback.cod %></td>
+                <td><%= feedback.comentario %></td>
+                <td><%= feedback.avaliacao %></td>
+                <td>
+                    <a href="/feedbacks/<%= feedback.cod %>" class="btn btn-primary">Detalhes</a>
+                    <a href="/feedbacks/<%= feedback.cod %>/edit" class="btn btn-warning">Editar</a>
+                    <form action="/feedbacks/<%= feedback.cod %>?_method=DELETE" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+<a href="/feedbacks/new" class="btn btn-primary">Novo Feedback</a>

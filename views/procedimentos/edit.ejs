@@ -1,0 +1,35 @@
+<!-- views/edit.ejs -->
+<h1>Editar Procedimento</h1>
+
+<form action="/procedimentos/<%= procedimento.cod %>?_method=PUT" method="POST">
+    <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" class="form-control" id="nome" name="nome" value="<%= procedimento.nome %>" required>
+    </div>
+    <div class="form-group">
+        <label for="descricao">Descrição</label>
+        <input type="text" class="form-control" id="descricao" name="descricao" value="<%= procedimento.descricao %>" required>
+    </div>
+    <div class="form-group">
+        <label for="valor">Valor</label>
+        <input type="number" class="form-control" id="valor" name="valor" value="<%= procedimento.valor %>" required step="0.01">
+    </div>
+    <div class="form-group">
+        <label for="duracao">Duração</label>
+        <input type="text" class="form-control" id="duracao" name="duracao" value="<%= procedimento.duracao %>" required>
+    </div>
+    <div class="form-group">
+        <label for="restricao">Restrições</label>
+        <input type="text" class="form-control" id="restricao" name="restricao" value="<%= procedimento.restricao %>">
+    </div>
+    <div class="form-group">
+        <label for="agenda">Agenda</label>
+        <select class="form-control" id="agenda" name="agenda" required>
+            <% agendas.forEach(agenda => { %>
+                <option value="<%= agenda.cod %>" <%= procedimento.agenda == agenda.cod ? 'selected' : '' %>><%= agenda.nome %></option>
+            <% }) %>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-warning">Salvar</button>
+</form>
+<a href="/procedimentos" class="btn btn-primary">Voltar para a Lista</a>

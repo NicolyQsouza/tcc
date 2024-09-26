@@ -1,5 +1,9 @@
 <h1>Cadastrar novo produto</h1>
-<form action="/produtos" method="POST">
+<form action="/produtos" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="foto">Foto do Produto:</label>
+        <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+    </div>
     <div class="form-group">
         <label for="nome">Nome do Produto:</label>
         <input type="text" class="form-control" id="nome" name="nome" required>
@@ -9,18 +13,26 @@
         <textarea id="descricao" class="form-control" name="descricao" required></textarea>
     </div>
     <div class="form-group">
-        <label for="preco">Preço:</label>
-        <input type="number" class="form-control" id="preco" name="preco" required>
+        <label for="valor">Valor:</label>
+        <input type="number" step="0.01" class="form-control" id="valor" name="valor" required>
     </div>
     <div class="form-group">
-        <label for="quantidade">Quantidade:</label>
-        <input type="number" class="form-control" id="quantidade" name="quantidade" required>
+        <label for="restricao">Restrição:</label>
+        <input type="text" class="form-control" id="restricao" name="restricao">
     </div>
     <div class="form-group">
-        <label for="categoria">Categoria:</label>
-        <select class="form-control" id="categoria" name="categoria" required>
-            <% categorias.forEach(categoria => { %>
-                <option value="<%= categoria.id %>"><%= categoria.nome %></option>
+        <label for="indicacao">Indicação:</label>
+        <input type="text" class="form-control" id="indicacao" name="indicacao">
+    </div>
+    <div class="form-group">
+        <label for="marca">Marca:</label>
+        <input type="text" class="form-control" id="marca" name="marca">
+    </div>
+    <div class="form-group">
+        <label for="usa">Referência de Uso:</label>
+        <select class="form-control" id="usa" name="usa" required>
+            <% usos.forEach(uso => { %>
+                <option value="<%= uso.cod %>"><%= uso.nome %></option>
             <% }) %>
         </select>
     </div>

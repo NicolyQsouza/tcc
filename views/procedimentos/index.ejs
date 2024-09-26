@@ -1,0 +1,33 @@
+<!-- views/index.ejs -->
+<h1>Listagem de Procedimentos</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Duração</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% procedimentos.forEach(procedimento => { %>
+            <tr>
+                <td><%= procedimento.cod %></td>
+                <td><%= procedimento.nome ? procedimento.nome : 'Desconhecido' %></td>
+                <td><%= procedimento.descricao ? procedimento.descricao : 'Desconhecido' %></td>
+                <td><%= procedimento.valor ? procedimento.valor.toFixed(2) : 'Desconhecido' %></td>
+                <td><%= procedimento.duracao ? procedimento.duracao : 'Desconhecido' %></td>
+                <td>
+                    <a href="/procedimentos/<%= procedimento.cod %>" class="btn btn-primary">Detalhes</a>
+                    <a href="/procedimentos/<%= procedimento.cod %>/edit" class="btn btn-warning">Editar</a>
+                    <form action="/procedimentos/<%= procedimento.cod %>?_method=DELETE" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+<a href="/procedimentos/new" class="btn btn-primary">Novo Procedimento</a>
