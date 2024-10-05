@@ -1,42 +1,41 @@
-const feedbacks = require('../models/feedbacks');
+const FeedbacksModel = require('../models/feedbacksModel');
 
-exports.getAllfeedbacks = async (req, res) => {
-    const feedbacks = await feedbacks.getAll();
+exports.getAllFeedbacks = async (req, res) => {
+    const feedbacks = await FeedbacksModel.getAll();
     res.render('feedbacks/index', { feedbacks });
 };
 
 exports.renderCreateForm = async (req, res) => {
-    // Assuming you have a method to fetch clients for the form
-    const clients = await feedbacks.getClients();
+    const clients = await FeedbacksModel.getClients();
     res.render('feedbacks/create', { clients });
 };
 
-exports.createfeedbacks = async (req, res) => {
+exports.createFeedbacks = async (req, res) => {
     const { foto, comentario, cod, avaliacao, clientes } = req.body;
-    const feedbacks = { foto, comentario, cod, avaliacao, clientes };
-    await feedbacks.create(feedbacks);
+    const newFeedback = { foto, comentario, cod, avaliacao, clientes };
+    await FeedbacksModel.create(newFeedback);
     res.redirect('/feedbacks');
 };
 
-exports.getfeedbacksById = async (req, res) => {
-    const feedbacks = await feedbacks.getById(req.params.id);
-    res.render('feedbacks/show', { feedbacks });
+exports.getFeedbacksById = async (req, res) => {
+    const feedback = await FeedbacksModel.getById(req.params.id);
+    res.render('feedbacks/show', { feedback });
 };
 
 exports.renderEditForm = async (req, res) => {
-    const feedbacks = await feedbacks.getById(req.params.id);
-    const clients = await feedbacks.getClients();
-    res.render('feedbacks/edit', { feedbacks, clients });
+    const feedback = await FeedbacksModel.getById(req.params.id);
+    const clients = await FeedbacksModel.getClients();
+    res.render('feedbacks/edit', { feedback, clients });
 };
 
-exports.updatefeedbacks = async (req, res) => {
+exports.updateFeedbacks = async (req, res) => {
     const { foto, comentario, avaliacao, clientes } = req.body;
-    const updatedfeedbacks = { foto, comentario, avaliacao, clientes };
-    await feedbacks.update(req.params.id, updatedfeedbacks);
+    const updatedFeedback = { foto, comentario, avaliacao, clientes };
+    await FeedbacksModel.update(req.params.id, updatedFeedback);
     res.redirect('/feedbacks');
 };
 
-exports.deletefeedbacks = async (req, res) => {
-    await feedbacks.delete(req.params.id);
+exports.deleteFeedbacks = async (req, res) => {
+    await FeedbacksModel.delete(req.params.id);
     res.redirect('/feedbacks');
 };

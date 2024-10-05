@@ -1,9 +1,9 @@
-const ItemsProce = require('../models/itemsProce'); // Altere o caminho para o modelo correto
+const items_proce = require('../models/items_proceModel'); // Altere o caminho para o modelo correto
 
-exports.getAllItemsProce = async (req, res) => {
+exports.getAllitems_proce = async (req, res) => {
     try {
-        const itemsProce = await ItemsProce.getAll();
-        res.render('items_proce/index', { itemsProce });
+        const items_proce = await items_proce.getAll();
+        res.render('items_proce/index', { items_proce });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -11,32 +11,32 @@ exports.getAllItemsProce = async (req, res) => {
 
 exports.renderCreateForm = async (req, res) => {
     try {
-        const procedimentos = await ItemsProce.getProcedimentos();
-        const produtos = await ItemsProce.getProdutos();
+        const procedimentos = await items_proce.getProcedimentos();
+        const produtos = await items_proce.getProdutos();
         res.render('items_proce/create', { procedimentos, produtos });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
 
-exports.createItemsProce = async (req, res) => {
+exports.createitems_proce = async (req, res) => {
     try {
         const { procedimentos, produtos, quantidade } = req.body;
-        const itemsProce = { procedimentos, produtos, quantidade };
-        await ItemsProce.create(itemsProce);
+        const items_proce = { procedimentos, produtos, quantidade };
+        await items_proce.create(items_proce);
         res.redirect('/items_proce');
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
 
-exports.getItemsProceById = async (req, res) => {
+exports.getitems_proceById = async (req, res) => {
     try {
-        const itemsProce = await ItemsProce.getById(req.params.id);
-        if (!itemsProce) {
+        const items_proce = await items_proce.getById(req.params.id);
+        if (!items_proce) {
             return res.status(404).json({ message: 'Item não encontrado' });
         }
-        res.render('items_proce/show', { itemsProce });
+        res.render('items_proce/show', { items_proce });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -44,32 +44,32 @@ exports.getItemsProceById = async (req, res) => {
 
 exports.renderEditForm = async (req, res) => {
     try {
-        const itemsProce = await ItemsProce.getById(req.params.id);
-        if (!itemsProce) {
+        const items_proce = await items_proce.getById(req.params.id);
+        if (!items_proce) {
             return res.status(404).json({ message: 'Item não encontrado' });
         }
-        const procedimentos = await ItemsProce.getProcedimentos();
-        const produtos = await ItemsProce.getProdutos();
-        res.render('items_proce/edit', { itemsProce, procedimentos, produtos });
+        const procedimentos = await items_proce.getProcedimentos();
+        const produtos = await items_proce.getProdutos();
+        res.render('items_proce/edit', { items_proce, procedimentos, produtos });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
 
-exports.updateItemsProce = async (req, res) => {
+exports.updateitems_proce = async (req, res) => {
     try {
         const { procedimentos, produtos, quantidade } = req.body;
-        const updatedItemsProce = { procedimentos, produtos, quantidade };
-        await ItemsProce.update(req.params.id, updatedItemsProce);
+        const updateditems_proce = { procedimentos, produtos, quantidade };
+        await items_proce.update(req.params.id, updateditems_proce);
         res.redirect('/items_proce');
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
 
-exports.deleteItemsProce = async (req, res) => {
+exports.deleteitems_proce = async (req, res) => {
     try {
-        await ItemsProce.delete(req.params.id);
+        await items_proce.delete(req.params.id);
         res.redirect('/items_proce');
     } catch (err) {
         res.status(500).json({ error: err.message });

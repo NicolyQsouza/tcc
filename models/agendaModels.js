@@ -33,4 +33,4 @@ class Agenda {
     }
 }
 
-module.exports = Agenda;
+module.exports = agenda;

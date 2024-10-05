@@ -1,6 +1,6 @@
 const db = require('../config/database'); // Certifique-se de que o arquivo de configuração do banco de dados está correto
 
-class Feedbacks {
+class feedbacks {
     static async create(feedbacks) {
         const { foto, comentario, avaliacao, clientes } = feedbacks;
         const result = await db.query(

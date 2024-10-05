@@ -1,8 +1,8 @@
 const db = require('../config/database'); // Certifique-se de que o arquivo de configuração do banco de dados está correto
 
-class ItemsProce {
-    static async create(itemsProce) {
-        const { procedimentos, produtos, quantidade } = itemsProce;
+class items_proce {
+    static async create(items_proce) {
+        const { procedimentos, produtos, quantidade } = items_proce;
         const result = await db.query(
             'INSERT INTO items_proce (procedimentos, produtos, quantidade) VALUES (?, ?, ?)',
             [procedimentos, produtos, quantidade]
@@ -20,8 +20,8 @@ class ItemsProce {
         return result[0];
     }
 
-    static async update(id, itemsProce) {
-        const { procedimentos, produtos, quantidade } = itemsProce;
+    static async update(id, items_proce) {
+        const { procedimentos, produtos, quantidade } = items_proce;
         await db.query(
             'UPDATE items_proce SET procedimentos = ?, produtos = ?, quantidade = ? WHERE id = ?',
             [procedimentos, produtos, quantidade, id]
@@ -33,4 +33,4 @@ class ItemsProce {
     }
 }
 
-module.exports = ItemsProce;
+module.exports = items_proce;

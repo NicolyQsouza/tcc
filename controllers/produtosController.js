@@ -1,9 +1,9 @@
-const produtos = require('../models/produtosModel');
+const Produtos = require('../models/produtosModel');
 
-const produtoController = {
-    createprodutos: async (req, res) => {
+const produtosController = {
+    createProdutos: async (req, res) => {
         try {
-            const newprodutos = {
+            const newProduto = {
                 foto: req.body.foto,
                 restricao: req.body.restricao,
                 valor: req.body.valor,
@@ -11,26 +11,28 @@ const produtoController = {
                 marca: req.body.marca,
                 descricao: req.body.descricao,
                 cod: req.body.cod,
-                items_proce: req.body.items_proce // Alterado para items_proce
+                items_proce: req.body.items_proce
             };
 
-            await produtos.create(newprodutos);
+            await Produtos.create(newProduto);
             res.redirect('/produtos');
         } catch (err) {
+            console.error(err); // Log do erro
             res.status(500).json({ error: err.message });
         }
     },
 
-    getprodutosById: async (req, res) => {
+    getProdutosById: async (req, res) => {
         const produtosId = req.params.cod;
 
         try {
-            const produtos = await produtos.findById(produtosId);
-            if (!produtos) {
-                return res.status(404).json({ message: 'produtos não encontrado' });
+            const produto = await Produtos.findById(produtosId);
+            if (!produto) {
+                return res.status(404).json({ message: 'Produto não encontrado' });
             }
-            res.render('produtos/show', { produtos });
+            res.render('produtos/show', { produto });
         } catch (err) {
+            console.error(err); // Log do erro
             res.status(500).json({ error: err.message });
         }
     },
@@ -40,6 +42,7 @@ const produtoController = {
             const produtos = await Produtos.getAll();
             res.render('produtos/index', { produtos });
         } catch (err) {
+            console.error(err); // Log do erro
             res.status(500).json({ error: err.message });
         }
     },
@@ -52,12 +55,13 @@ const produtoController = {
         const produtosId = req.params.cod;
 
         try {
-            const produtos = await Produtos.findById(produtosId);
-            if (!produtos) {
-                return res.status(404).json({ message: 'Produtos não encontrado' });
+            const produto = await Produtos.findById(produtosId);
+            if (!produto) {
+                return res.status(404).json({ message: 'Produto não encontrado' });
             }
-            res.render('produtos/edit', { produtos });
+            res.render('produtos/edit', { produto });
         } catch (err) {
+            console.error(err); // Log do erro
             res.status(500).json({ error: err.message });
         }
     },
@@ -65,31 +69,33 @@ const produtoController = {
     updateProdutos: async (req, res) => {
         const produtosId = req.params.cod;
         
-        const updatedProdutos = {
+        const updatedProduto = {
             foto: req.body.foto,
             restricao: req.body.restricao,
             valor: req.body.valor,
             indicacao: req.body.indicacao,
             marca: req.body.marca,
             descricao: req.body.descricao,
-            items_proce: req.body.items_proce // Alterado para items_proce
+            items_proce: req.body.items_proce
         };
 
         try {
-            await produtos.update(produtosId, updatedprodutos);
+            await Produtos.update(produtosId, updatedProduto);
             res.redirect('/produtos');
         } catch (err) {
+            console.error(err); // Log do erro
             res.status(500).json({ error: err.message });
         }
     },
 
-    deleteprodutos: async (req, res) => {
+    deleteProdutos: async (req, res) => {
         const produtosId = req.params.cod;
 
         try {
-            await produtos.delete(produtosId);
+            await Produtos.delete(produtosId);
             res.redirect('/produtos');
         } catch (err) {
+            console.error(err); // Log do erro
             res.status(500).json({ error: err.message });
         }
     }

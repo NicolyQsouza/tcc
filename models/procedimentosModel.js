@@ -52,4 +52,4 @@ const procedimentos = {
     }
 };
 
-module.exports = Procedimentos;
+module.exports = procedimentos;

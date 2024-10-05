@@ -52,4 +52,4 @@ const produtos = {
     },
 };
 
-module.exports = Produtos;
+module.exports = produtos;
