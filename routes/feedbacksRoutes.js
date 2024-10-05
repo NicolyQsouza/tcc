@@ -1,26 +1,26 @@
 const express = require('express');
-const feedbackController = require('../controllers/feedbackController');
+const feedbacksController = require('../controllers/feedbacksController');
 const router = express.Router();
 
 // Rota para obter todos os feedbacks
-router.get('/', feedbackController.getAllFeedbacks);
+router.get('/', feedbacksController.getAllfeedbacks);
 
-// Rota para renderizar o formulário de criação de feedback
-router.get('/new', feedbackController.renderCreateForm);
+// Rota para renderizar o formulário de criação de feedbacks
+router.get('/new', feedbacksController.renderCreateForm);
 
-// Rota para criar um novo feedback
-router.post('/', feedbackController.createFeedback);
+// Rota para criar um novo feedbacks
+router.post('/', feedbacksController.createfeedbacks);
 
-// Rota para obter um feedback específico pelo ID
-router.get('/:id', feedbackController.getFeedbackById);
+// Rota para obter um feedbacks específico pelo ID
+router.get('/:id', feedbacksController.getfeedbacksById);
 
-// Rota para renderizar o formulário de edição de feedback
-router.get('/:id/edit', feedbackController.renderEditForm);
+// Rota para renderizar o formulário de edição de feedbacks
+router.get('/:id/edit', feedbacksController.renderEditForm);
 
-// Rota para atualizar um feedback específico
-router.put('/:id', feedbackController.updateFeedback);
+// Rota para atualizar um feedbacks específico
+router.put('/:id', feedbacksController.updatefeedbacks);
 
-// Rota para deletar um feedback específico
-router.delete('/:id', feedbackController.deleteFeedback);
+// Rota para deletar um feedbacks específico
+router.delete('/:id', feedbacksController.deletefeedbacks);
 
 module.exports = router;

@@ -1,8 +1,8 @@
-const Cliente = require('../models/clienteModel');
+const clientes = require('../models/clientesModel');
 
-const clienteController = {
-    createCliente: (req, res) => {
-        const newCliente = {
+const clientesController = {
+    createclientes: (req, res) => {
+        const newclientes = {
             foto: req.body.foto,
             genero: req.body.genero,
             endereco: req.body.endereco,
@@ -10,12 +10,12 @@ const clienteController = {
             nome: req.body.nome,
             fone: req.body.fone,
             email: req.body.email,
-            feedback: req.body.feedback, // New field
+            feedbacks: req.body.feedbacks, // New field
             agenda: req.body.agenda,     // New field
             data_de_nascimento: req.body.data_de_nascimento,
         };
 
-        Cliente.create(newCliente, (err) => {
+        clientes.create(newclientes, (err) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -23,22 +23,22 @@ const clienteController = {
         });
     },
 
-    getClienteById: (req, res) => {
-        const clienteId = req.params.cod;
+    getclientesById: (req, res) => {
+        const clientesId = req.params.cod;
 
-        Cliente.findById(clienteId, (err, cliente) => {
+        clientes.findById(clientesId, (err, clientes) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
-            if (!cliente) {
-                return res.status(404).json({ message: 'Cliente não encontrado' });
+            if (!clientes) {
+                return res.status(404).json({ message: 'clientes não encontrado' });
             }
-            res.render('clientes/show', { cliente });
+            res.render('clientes/show', { clientes });
         });
     },
 
-    getAllClientes: (req, res) => {
-        Cliente.getAll((err, clientes) => {
+    getAllclientes: (req, res) => {
+        clientes.getAll((err, clientes) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -51,34 +51,34 @@ const clienteController = {
     },
 
     renderEditForm: (req, res) => {
-        const clienteId = req.params.cod;
+        const clientesId = req.params.cod;
 
-        Cliente.findById(clienteId, (err, cliente) => {
+        clientes.findById(clientesId, (err, clientes) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
-            if (!cliente) {
-                return res.status(404).json({ message: 'Cliente não encontrado' });
+            if (!clientes) {
+                return res.status(404).json({ message: 'clientes não encontrado' });
             }
-            res.render('clientes/edit', { cliente });
+            res.render('clientes/edit', { clientes });
         });
     },
 
-    updateCliente: (req, res) => {
-        const clienteId = req.params.cod;
-        const updatedCliente = {
+    updateclientes: (req, res) => {
+        const clientesId = req.params.cod;
+        const updatedclientes = {
             foto: req.body.foto,
             genero: req.body.genero,
             endereco: req.body.endereco,
             nome: req.body.nome,
             fone: req.body.fone,
             email: req.body.email,
-            feedback: req.body.feedback, // New field
+            feedbacks: req.body.feedbacks, // New field
             agenda: req.body.agenda,     // New field
             data_de_nascimento: req.body.data_de_nascimento,
         };
 
-        Cliente.update(clienteId, updatedCliente, (err) => {
+        clientes.update(clientesId, updatedclientes, (err) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -86,10 +86,10 @@ const clienteController = {
         });
     },
 
-    deleteCliente: (req, res) => {
-        const clienteId = req.params.cod;
+    deleteclientes: (req, res) => {
+        const clientesId = req.params.cod;
 
-        Cliente.delete(clienteId, (err) => {
+        clientes.delete(clientesId, (err) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -97,10 +97,10 @@ const clienteController = {
         });
     },
 
-    searchClientes: (req, res) => {
+    searchclientes: (req, res) => {
         const search = req.query.search || '';
 
-        Cliente.searchByName(search, (err, clientes) => {
+        clientes.searchByName(search, (err, clientes) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -109,4 +109,4 @@ const clienteController = {
     },
 };
 
-module.exports = clienteController;
+module.exports = clientesController;

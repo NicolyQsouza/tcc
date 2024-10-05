@@ -1,9 +1,9 @@
-const Produto = require('../models/produtosModel');
+const produtos = require('../models/produtosModel');
 
 const produtoController = {
-    createProduto: async (req, res) => {
+    createprodutos: async (req, res) => {
         try {
-            const newProduto = {
+            const newprodutos = {
                 foto: req.body.foto,
                 restricao: req.body.restricao,
                 valor: req.body.valor,
@@ -14,22 +14,22 @@ const produtoController = {
                 items_proce: req.body.items_proce // Alterado para items_proce
             };
 
-            await Produto.create(newProduto);
+            await produtos.create(newprodutos);
             res.redirect('/produtos');
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    getProdutoById: async (req, res) => {
-        const produtoId = req.params.cod;
+    getprodutosById: async (req, res) => {
+        const produtosId = req.params.cod;
 
         try {
-            const produto = await Produto.findById(produtoId);
-            if (!produto) {
-                return res.status(404).json({ message: 'Produto não encontrado' });
+            const produtos = await produtos.findById(produtosId);
+            if (!produtos) {
+                return res.status(404).json({ message: 'produtos não encontrado' });
             }
-            res.render('produtos/show', { produto });
+            res.render('produtos/show', { produtos });
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
@@ -37,7 +37,7 @@ const produtoController = {
     
     getAllProdutos: async (req, res) => {
         try {
-            const produtos = await Produto.getAll();
+            const produtos = await Produtos.getAll();
             res.render('produtos/index', { produtos });
         } catch (err) {
             res.status(500).json({ error: err.message });
@@ -49,23 +49,23 @@ const produtoController = {
     },
 
     renderEditForm: async (req, res) => {
-        const produtoId = req.params.cod;
+        const produtosId = req.params.cod;
 
         try {
-            const produto = await Produto.findById(produtoId);
-            if (!produto) {
-                return res.status(404).json({ message: 'Produto não encontrado' });
+            const produtos = await Produtos.findById(produtosId);
+            if (!produtos) {
+                return res.status(404).json({ message: 'Produtos não encontrado' });
             }
-            res.render('produtos/edit', { produto });
+            res.render('produtos/edit', { produtos });
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    updateProduto: async (req, res) => {
-        const produtoId = req.params.cod;
+    updateProdutos: async (req, res) => {
+        const produtosId = req.params.cod;
         
-        const updatedProduto = {
+        const updatedProdutos = {
             foto: req.body.foto,
             restricao: req.body.restricao,
             valor: req.body.valor,
@@ -76,18 +76,18 @@ const produtoController = {
         };
 
         try {
-            await Produto.update(produtoId, updatedProduto);
+            await produtos.update(produtosId, updatedprodutos);
             res.redirect('/produtos');
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    deleteProduto: async (req, res) => {
-        const produtoId = req.params.cod;
+    deleteprodutos: async (req, res) => {
+        const produtosId = req.params.cod;
 
         try {
-            await Produto.delete(produtoId);
+            await produtos.delete(produtosId);
             res.redirect('/produtos');
         } catch (err) {
             res.status(500).json({ error: err.message });
@@ -95,4 +95,4 @@ const produtoController = {
     }
 };
 
-module.exports = produtoController;
+module.exports = produtosController;

@@ -21,8 +21,8 @@ exports.renderCreateForm = async (req, res) => {
 
 exports.createItemsProce = async (req, res) => {
     try {
-        const { procedimento, produto, quantidade } = req.body;
-        const itemsProce = { procedimento, produto, quantidade };
+        const { procedimentos, produtos, quantidade } = req.body;
+        const itemsProce = { procedimentos, produtos, quantidade };
         await ItemsProce.create(itemsProce);
         res.redirect('/items_proce');
     } catch (err) {
@@ -58,8 +58,8 @@ exports.renderEditForm = async (req, res) => {
 
 exports.updateItemsProce = async (req, res) => {
     try {
-        const { procedimento, produto, quantidade } = req.body;
-        const updatedItemsProce = { procedimento, produto, quantidade };
+        const { procedimentos, produtos, quantidade } = req.body;
+        const updatedItemsProce = { procedimentos, produtos, quantidade };
         await ItemsProce.update(req.params.id, updatedItemsProce);
         res.redirect('/items_proce');
     } catch (err) {

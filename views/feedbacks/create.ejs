@@ -1,9 +1,9 @@
-<h1>Cadastrar Novo Feedback</h1>
+<h1>Cadastrar Novo Feedbacks</h1>
 <form action="/feedbacks" method="POST" enctype="multipart/form-data">
     <div class="form-group">
         <label for="foto">Foto</label>
         <input type="file" class="form-control" id="foto" name="foto" accept="image/*" aria-describedby="fotoHelp">
-        <small id="fotoHelp" class="form-text text-muted">Selecione uma imagem para o feedback (opcional).</small>
+        <small id="fotoHelp" class="form-text text-muted">Selecione uma imagem para o feedbacks (opcional).</small>
     </div>
     <div class="form-group">
         <label for="comentario">Comentário</label>
@@ -14,11 +14,11 @@
         <input type="number" class="form-control" id="avaliacao" name="avaliacao" min="1" max="5" required placeholder="Digite sua avaliação">
     </div>
     <div class="form-group">
-        <label for="cliente">Cliente</label>
-        <select class="form-control" id="cliente" name="cliente" required>
-            <option value="" disabled selected>Selecione um cliente</option>
-            <% clientes.forEach(cliente => { %>
-                <option value="<%= cliente.cod %>"><%= cliente.nome %></option>
+        <label for="clientes">clientes</label>
+        <select class="form-control" id="clientes" name="clientes" required>
+            <option value="" disabled selected>Selecione um clientes</option>
+            <% clientes.forEach(clientes => { %>
+                <option value="<%= clientes.cod %>"><%= clientes.nome %></option>
             <% }) %>
         </select>
     </div>

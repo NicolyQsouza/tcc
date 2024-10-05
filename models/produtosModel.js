@@ -1,9 +1,9 @@
 const db = require('../config/db');
 
-const Produto = {
-    create: (produto, callback) => {
+const produtos = {
+    create: (produtos, callback) => {
         const query = 'INSERT INTO produtos (foto, restricao, valor, indicacao, marca, descricao, cod, items_proce) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-        db.query(query, [produto.foto, produto.restricao, produto.valor, produto.indicacao, produto.marca, produto.descricao, produto.cod, produto.items_proce], (err, results) => {
+        db.query(query, [produtos.foto, produtos.restricao, produtos.valor, produtos.indicacao, produtos.marca, produtos.descricao, produtos.cod, produtos.items_proce], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -21,9 +21,9 @@ const Produto = {
         });
     },
 
-    update: (id, produto, callback) => {
+    update: (id, produtos, callback) => {
         const query = 'UPDATE produtos SET foto = ?, restricao = ?, valor = ?, indicacao = ?, marca = ?, descricao = ?, items_proce = ? WHERE cod = ?';
-        db.query(query, [produto.foto, produto.restricao, produto.valor, produto.indicacao, produto.marca, produto.descricao, produto.items_proce, id], (err, results) => {
+        db.query(query, [produtos.foto, produtos.restricao, produtos.valor, produtos.indicacao, produtos.marca, produtos.descricao, produtos.items_proce, id], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -52,4 +52,4 @@ const Produto = {
     },
 };
 
-module.exports = Produto;
+module.exports = Produtos;

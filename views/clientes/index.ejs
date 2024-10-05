@@ -1,9 +1,9 @@
-<h1>Lista de Clientes</h1>
+<h1>Lista de clientes</h1>
 
 <form id="searchForm" method="GET" action="/clientes" class="mb-3">
     <div class="form-group">
-        <label for="search">Buscar Cliente:</label>
-        <input type="text" id="search" name="search" class="form-control" placeholder="Digite o nome do cliente" autocomplete="off" required>
+        <label for="search">Buscar clientes:</label>
+        <input type="text" id="search" name="search" class="form-control" placeholder="Digite o nome do clientes" autocomplete="off" required>
     </div>
     <button type="submit" class="btn btn-primary mt-2">Buscar</button>
 </form>
@@ -19,16 +19,16 @@
         </tr>
     </thead>
     <tbody id="clientTableBody">
-        <% clientes.forEach(cliente => { %>
+        <% clientes.forEach(clientes => { %>
             <tr>
-                <td><%= cliente.cod %></td>
-                <td><%= cliente.nome %></td>
-                <td><%= cliente.fone %></td>
-                <td><%= cliente.email %></td>
+                <td><%= clientes.cod %></td>
+                <td><%= clientes.nome %></td>
+                <td><%= clientes.fone %></td>
+                <td><%= clientes.email %></td>
                 <td>
-                    <a href="/clientes/<%= cliente.cod %>" class="btn btn-primary">Ver</a>
-                    <a href="/clientes/<%= cliente.cod %>/edit" class="btn btn-warning">Editar</a>
-                    <form action="/clientes/<%= cliente.cod %>?_method=DELETE" method="POST" style="display: inline;">
+                    <a href="/clientes/<%= clientes.cod %>" class="btn btn-primary">Ver</a>
+                    <a href="/clientes/<%= clientes.cod %>/edit" class="btn btn-warning">Editar</a>
+                    <form action="/clientes/<%= clientes.cod %>?_method=DELETE" method="POST" style="display: inline;">
                         <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                 </td>

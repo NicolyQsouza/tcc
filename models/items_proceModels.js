@@ -2,10 +2,10 @@ const db = require('../config/database'); // Certifique-se de que o arquivo de c
 
 class ItemsProce {
     static async create(itemsProce) {
-        const { procedimento, produto, quantidade } = itemsProce;
+        const { procedimentos, produtos, quantidade } = itemsProce;
         const result = await db.query(
-            'INSERT INTO items_proce (procedimento, produto, quantidade) VALUES (?, ?, ?)',
-            [procedimento, produto, quantidade]
+            'INSERT INTO items_proce (procedimentos, produtos, quantidade) VALUES (?, ?, ?)',
+            [procedimentos, produtos, quantidade]
         );
         return result.insertId;
     }
@@ -21,10 +21,10 @@ class ItemsProce {
     }
 
     static async update(id, itemsProce) {
-        const { procedimento, produto, quantidade } = itemsProce;
+        const { procedimentos, produtos, quantidade } = itemsProce;
         await db.query(
-            'UPDATE items_proce SET procedimento = ?, produto = ?, quantidade = ? WHERE id = ?',
-            [procedimento, produto, quantidade, id]
+            'UPDATE items_proce SET procedimentos = ?, produtos = ?, quantidade = ? WHERE id = ?',
+            [procedimentos, produtos, quantidade, id]
         );
     }
 

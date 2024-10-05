@@ -2,8 +2,8 @@ const express = require('express');
 const agendaController = require('../controllers/agendaController');
 const router = express.Router();
 
-// Rota para obter todas as agendas
-router.get('/', agendaController.getAllAgendas);
+// Rota para obter todas as agenda
+router.get('/', agendaController.getAllagenda);
 
 // Rota para renderizar o formulário de criação
 router.get('/new', agendaController.renderCreateForm);

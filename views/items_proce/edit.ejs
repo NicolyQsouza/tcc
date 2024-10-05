@@ -1,12 +1,12 @@
-<h1>Editar Item do Procedimento</h1>
+<h1>Editar Item do procedimentos</h1>
 <form action="/items_proces/<%= items_proce.cod %>?_method=PUT" method="POST">
     <div class="form-group">
-        <label for="procedimento">Procedimento</label>
-        <input type="text" class="form-control" id="procedimento" name="procedimento" value="<%= items_proce.procedimento %>" required placeholder="Insira o procedimento">
+        <label for="procedimentos">procedimentos</label>
+        <input type="text" class="form-control" id="procedimentos" name="procedimentos" value="<%= items_proce.procedimentos %>" required placeholder="Insira o procedimentos">
     </div>
     <div class="form-group">
-        <label for="produto">Produto</label>
-        <input type="text" class="form-control" id="produto" name="produto" value="<%= items_proce.produto %>" required placeholder="Insira o produto">
+        <label for="produtos">produtos</label>
+        <input type="text" class="form-control" id="produtos" name="produtos" value="<%= items_proce.produtos %>" required placeholder="Insira o produtos">
     </div>
     <div class="form-group">
         <label for="quantidade">Quantidade</label>

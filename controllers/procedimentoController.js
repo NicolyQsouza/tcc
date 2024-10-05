@@ -1,9 +1,9 @@
-const Procedimento = require('../models/procedimentoModel');
+const Procedimentos = require('../models/procedimentosModel');
 
-const procedimentoController = {
-    createProcedimento: async (req, res) => {
+const procedimentosController = {
+    createProcedimentos: async (req, res) => {
         try {
-            const newProcedimento = {
+            const newProcedimentos = {
                 duracao: req.body.duracao,
                 restricao: req.body.restricao,
                 descricao: req.body.descricao,
@@ -14,22 +14,22 @@ const procedimentoController = {
                 items_proce: req.body.items_proce, // Alterado para items_proce
             };
 
-            await Procedimento.create(newProcedimento);
+            await Procedimentos.create(newProcedimentos);
             res.redirect('/procedimentos');
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    getProcedimentoById: async (req, res) => {
-        const procedimentoId = req.params.cod;
+    getProcedimentosById: async (req, res) => {
+        const procedimentosId = req.params.cod;
 
         try {
-            const procedimento = await Procedimento.findById(procedimentoId);
-            if (!procedimento) {
-                return res.status(404).json({ message: 'Procedimento não encontrado' });
+            const procedimentos = await procedimentos.findById(procedimentosId);
+            if (!procedimentos) {
+                return res.status(404).json({ message: 'procedimentos não encontrado' });
             }
-            res.render('procedimentos/show', { procedimento });
+            res.render('procedimentoss/show', { procedimentos });
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
@@ -37,7 +37,7 @@ const procedimentoController = {
 
     getAllProcedimentos: async (req, res) => {
         try {
-            const procedimentos = await Procedimento.getAll();
+            const procedimentos = await procedimentos.getAll();
             res.render('procedimentos/index', { procedimentos });
         } catch (err) {
             res.status(500).json({ error: err.message });
@@ -46,33 +46,33 @@ const procedimentoController = {
 
     renderCreateForm: async (req, res) => {
         try {
-            const agendas = await Procedimento.getAgendas();
-            const items_proce = await Procedimento.getItemsProce(); // Alterado para items_proce
-            res.render('procedimentos/create', { agendas, items_proce });
+            const agenda = await procedimentos.getagenda();
+            const items_proce = await procedimentos.getItemsProce(); // Alterado para items_proce
+            res.render('procedimentos/create', { agenda, items_proce });
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
     renderEditForm: async (req, res) => {
-        const procedimentoId = req.params.cod;
+        const procedimentosId = req.params.cod;
 
         try {
-            const procedimento = await Procedimento.findById(procedimentoId);
-            if (!procedimento) {
-                return res.status(404).json({ message: 'Procedimento não encontrado' });
+            const procedimentos = await procedimentos.findById(procedimentosId);
+            if (!procedimentos) {
+                return res.status(404).json({ message: 'procedimentos não encontrado' });
             }
-            const agendas = await Procedimento.getAgendas();
-            const items_proce = await Procedimento.getItemsProce(); // Alterado para items_proce
-            res.render('procedimentos/edit', { procedimento, agendas, items_proce });
+            const agenda = await procedimentos.getagenda();
+            const items_proce = await procedimentos.getItemsProce(); // Alterado para items_proce
+            res.render('procedimentos/edit', { procedimentos, agenda, items_proce });
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    updateProcedimento: async (req, res) => {
-        const procedimentoId = req.params.cod;
-        const updatedProcedimento = {
+    updateprocedimentos: async (req, res) => {
+        const procedimentosId = req.params.cod;
+        const updatedprocedimentos = {
             duracao: req.body.duracao,
             restricao: req.body.restricao,
             descricao: req.body.descricao,
@@ -83,18 +83,18 @@ const procedimentoController = {
         };
 
         try {
-            await Procedimento.update(procedimentoId, updatedProcedimento);
+            await procedimentos.update(procedimentosId, updatedprocedimentos);
             res.redirect('/procedimentos');
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    deleteProcedimento: async (req, res) => {
-        const procedimentoId = req.params.cod;
+    deleteprocedimentos: async (req, res) => {
+        const procedimentosId = req.params.cod;
 
         try {
-            await Procedimento.delete(procedimentoId);
+            await procedimentos.delete(procedimentosId);
             res.redirect('/procedimentos');
         } catch (err) {
             res.status(500).json({ error: err.message });
@@ -105,7 +105,7 @@ const procedimentoController = {
         const search = req.query.search || '';
 
         try {
-            const procedimentos = await Procedimento.searchByName(search);
+            const procedimentos = await Procedimentos.searchByName(search);
             res.json({ procedimentos });
         } catch (err) {
             res.status(500).json({ error: err.message });
@@ -113,4 +113,4 @@ const procedimentoController = {
     },
 };
 
-module.exports = procedimentoController;
+module.exports = procedimentosController;

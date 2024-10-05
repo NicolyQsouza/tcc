@@ -1,9 +1,9 @@
 const db = require('../config/db');
 
-const Procedimento = {
-    create: (procedimento, callback) => {
-        const query = 'INSERT INTO procedimentos (duracao, restricao, descricao, cod, nome, valor, agenda, usa) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-        db.query(query, [procedimento.duracao, procedimento.restricao, procedimento.descricao, procedimento.cod, procedimento.nome, procedimento.valor, procedimento.agenda, procedimento.usa], (err, results) => {
+const procedimentos = {
+    create: (procedimentos, callback) => {
+        const query = 'INSERT INTO procedimentos (duracao, restricao, descricao, cod, nome, valor, agenda, items_proce) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        db.query(query, [procedimentos.duracao, procedimentos.restricao, procedimentos.descricao, procedimentos.cod, procedimentos.nome, procedimentos.valor, procedimentos.agenda, procedimentos.items_proce], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -31,9 +31,9 @@ const Procedimento = {
         });
     },
 
-    update: (id, procedimento, callback) => {
-        const query = 'UPDATE procedimentos SET duracao = ?, restricao = ?, descricao = ?, nome = ?, valor = ?, agenda = ?, usa = ? WHERE cod = ?';
-        db.query(query, [procedimento.duracao, procedimento.restricao, procedimento.descricao, procedimento.nome, procedimento.valor, procedimento.agenda, procedimento.usa, id], (err, results) => {
+    update: (id, procedimentos, callback) => {
+        const query = 'UPDATE procedimentos SET duracao = ?, restricao = ?, descricao = ?, nome = ?, valor = ?, agenda = ?, items_proce = ? WHERE cod = ?';
+        db.query(query, [procedimentos.duracao, procedimentos.restricao, procedimentos.descricao, procedimentos.nome, procedimentos.valor, procedimentos.agenda, procedimentos.items_proce, id], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -52,4 +52,4 @@ const Procedimento = {
     }
 };
 
-module.exports = Procedimento;
+module.exports = Procedimentos;

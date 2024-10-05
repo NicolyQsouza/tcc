@@ -16,7 +16,7 @@ CREATE TABLE clientes (
     nome VARCHAR(50),
     fone VARCHAR(15),
     email VARCHAR(255),
-    feedback INT,
+    feedbacks INT,
     agenda INT,
     data_de_nascimento DATE,
     FOREIGN KEY (feedback) REFERENCES feedbacks(cod),
@@ -53,25 +53,25 @@ CREATE TABLE feedbacks (
     comentario VARCHAR(200),
     cod INT(4) PRIMARY KEY,
     avaliacao INT CHECK(avaliacao BETWEEN 1 AND 5),
-    cliente INT,
-    FOREIGN KEY (cliente) REFERENCES clientes(cod)
+    clientes INT,
+    FOREIGN KEY (clientes) REFERENCES clientes(cod)
 );
 
 CREATE TABLE agenda (
-    cliente INT,
-    procedimento INT,
+    clientes INT,
+    procedimentos INT,
     profissional VARCHAR(50),
     forma_pag VARCHAR(15),
     data DATE,
     hora TIME,
-    FOREIGN KEY (cliente) REFERENCES clientes(cod),
-    FOREIGN KEY (procedimento) REFERENCES procedimentos(cod)
+    FOREIGN KEY (clientes) REFERENCES clientes(cod),
+    FOREIGN KEY (procedimentos) REFERENCES procedimentos(cod)
 );
 
 CREATE TABLE items_proce (
-    procedimento INT,
-    produto INT,
+    procedimentos INT,
+    produtos INT,
     quantidade INT CHECK(quantidade > 0),
-    FOREIGN KEY (procedimento) REFERENCES procedimentos(cod),
-    FOREIGN KEY (produto) REFERENCES produtos(cod)
+    FOREIGN KEY (procedimentos) REFERENCES procedimentos(cod),
+    FOREIGN KEY (produtos) REFERENCES produtos(cod)
 );

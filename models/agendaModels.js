@@ -2,10 +2,10 @@ const db = require('../config/database'); // Certifique-se de que o arquivo de c
 
 class Agenda {
     static async create(agenda) {
-        const { cliente, procedimento, profissional, forma_pag, data, hora } = agenda;
+        const { clientes, procedimentos, profissional, forma_pag, data, hora } = agenda;
         const result = await db.query(
-            'INSERT INTO agenda (cliente, procedimento, profissional, forma_pag, data, hora) VALUES (?, ?, ?, ?, ?, ?)',
-            [cliente, procedimento, profissional, forma_pag, data, hora]
+            'INSERT INTO agenda (clientes, procedimentos, profissional, forma_pag, data, hora) VALUES (?, ?, ?, ?, ?, ?)',
+            [clientes, procedimentos, profissional, forma_pag, data, hora]
         );
         return result.insertId;
     }
@@ -21,10 +21,10 @@ class Agenda {
     }
 
     static async update(id, agenda) {
-        const { cliente, procedimento, profissional, forma_pag, data, hora } = agenda;
+        const { clientes, procedimentos, profissional, forma_pag, data, hora } = agenda;
         await db.query(
-            'UPDATE agenda SET cliente = ?, procedimento = ?, profissional = ?, forma_pag = ?, data = ?, hora = ? WHERE id = ?',
-            [cliente, procedimento, profissional, forma_pag, data, hora, id]
+            'UPDATE agenda SET clientes = ?, procedimentos = ?, profissional = ?, forma_pag = ?, data = ?, hora = ? WHERE id = ?',
+            [clientes, procedimentos, profissional, forma_pag, data, hora, id]
         );
     }
 

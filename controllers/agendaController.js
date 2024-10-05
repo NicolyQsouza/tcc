@@ -1,8 +1,8 @@
 const Agenda = require('../models/Agenda');
 
-exports.getAllAgendas = async (req, res) => {
-    const agendas = await Agenda.getAll();
-    res.render('agenda/index', { agendas });
+exports.getAllagenda = async (req, res) => {
+    const agenda = await Agenda.getAll();
+    res.render('agenda/index', { agenda });
 };
 
 exports.renderCreateForm = async (req, res) => {
@@ -13,8 +13,8 @@ exports.renderCreateForm = async (req, res) => {
 };
 
 exports.createAgenda = async (req, res) => {
-    const { cliente, procedimento, profissional, forma_pag, data, hora } = req.body;
-    const agenda = { cliente, procedimento, profissional, forma_pag, data, hora };
+    const { clientes, procedimentos, profissional, forma_pag, data, hora } = req.body;
+    const agenda = { clientes, procedimentos, profissional, forma_pag, data, hora };
     await Agenda.create(agenda);
     res.redirect('/agenda');
 };
@@ -32,8 +32,8 @@ exports.renderEditForm = async (req, res) => {
 };
 
 exports.updateAgenda = async (req, res) => {
-    const { cliente, procedimento, profissional, forma_pag, data, hora } = req.body;
-    const agendaData = { cliente, procedimento, profissional, forma_pag, data, hora };
+    const { clientes, procedimentos, profissional, forma_pag, data, hora } = req.body;
+    const agendaData = { clientes, procedimentos, profissional, forma_pag, data, hora };
     await Agenda.update(req.params.id, agendaData);
     res.redirect('/agenda');
 };

@@ -1,5 +1,5 @@
 <!-- views/create.ejs -->
-<h1>Cadastrar Novo Procedimento</h1>
+<h1>Cadastrar Novo procedimentos</h1>
 <form action="/procedimentos" method="POST">
     <div class="form-group">
         <label for="nome">Nome</label>
@@ -24,7 +24,7 @@
     <div class="form-group">
         <label for="agenda">Agenda</label>
         <select class="form-control" id="agenda" name="agenda" required>
-            <% agendas.forEach(agenda => { %>
+            <% agenda.forEach(agenda => { %>
                 <option value="<%= agenda.cod %>"><%= agenda.nome %></option>
             <% }) %>
         </select>

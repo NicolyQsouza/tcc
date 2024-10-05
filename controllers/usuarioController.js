@@ -1,97 +1,97 @@
-const User = require('../models/userModel');
+const usuarios = require('../models/usuariosModel');
 
-const userController = {
-    createUser: async (req, res) => {
+const usuariosController = {
+    createusuarios: async (req, res) => {
         try {
-            const newUser = {
+            const newusuarios = {
                 nome: req.body.nome, // Alterado para "nome"
                 senha: req.body.senha, // Alterado para "senha"
             };
 
-            await User.create(newUser);
-            res.redirect('/users');
+            await usuarios.create(newusuarios);
+            res.redirect('/usuarios');
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    getUserById: async (req, res) => {
-        const userId = req.params.id;
+    getusuariosById: async (req, res) => {
+        const usuariosId = req.params.id;
 
         try {
-            const user = await User.findById(userId);
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
+            const usuarios = await usuarios.findById(usuariosId);
+            if (!usuarios) {
+                return res.status(404).json({ message: 'usuarios not found' });
             }
-            res.render('users/show', { user });
+            res.render('usuarios/show', { usuarios });
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    getAllUsers: async (req, res) => {
+    getAllusuarios: async (req, res) => {
         try {
-            const users = await User.getAll();
-            res.render('users/index', { users });
+            const usuarios = await usuarios.getAll();
+            res.render('usuarios/index', { usuarios });
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
     renderCreateForm: (req, res) => {
-        res.render('users/create');
+        res.render('usuarios/create');
     },
 
     renderEditForm: async (req, res) => {
-        const userId = req.params.id;
+        const usuariosId = req.params.id;
 
         try {
-            const user = await User.findById(userId);
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
+            const usuarios = await usuarios.findById(usuariosId);
+            if (!usuarios) {
+                return res.status(404).json({ message: 'usuarios not found' });
             }
-            res.render('users/edit', { user });
+            res.render('usuarios/edit', { usuarios });
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    updateUser: async (req, res) => {
-        const userId = req.params.id;
-        const updatedUser = {
+    updateusuarios: async (req, res) => {
+        const usuariosId = req.params.id;
+        const updatedusuarios = {
             nome: req.body.nome, // Alterado para "nome"
             senha: req.body.senha, // Alterado para "senha"
         };
 
         try {
-            await User.update(userId, updatedUser);
-            res.redirect('/users');
+            await usuarios.update(usuariosId, updatedusuarios);
+            res.redirect('/usuarios');
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    deleteUser: async (req, res) => {
-        const userId = req.params.id;
+    deleteusuarios: async (req, res) => {
+        const usuariosId = req.params.id;
 
         try {
-            await User.delete(userId);
-            res.redirect('/users');
+            await usuarios.delete(usuariosId);
+            res.redirect('/usuarios');
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    searchUsers: async (req, res) => {
+    searchusuarios: async (req, res) => {
         const search = req.query.search || '';
 
         try {
-            const users = await User.searchByName(search);
-            res.json({ users });
+            const usuarios = await usuarios.searchByName(search);
+            res.json({ usuarios });
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 };
 
-module.exports = userController;
+module.exports = usuariosController;

@@ -1,29 +1,29 @@
 const express = require('express');
-const clienteController = require('../controllers/clienteController');
+const clientesController = require('../controllers/clientesController');
 const router = express.Router();
 
 // Rota para obter todos os clientes
-router.get('/', clienteController.getAllClientes);
+router.get('/', clientesController.getAllclientes);
 
 // Rota para buscar clientes
-router.get('/search', clienteController.searchClientes); // Adicione esta rota
+router.get('/search', clientesController.searchclientes); // Adicione esta rota
 
 // Rota para renderizar o formulário de criação
-router.get('/new', clienteController.renderCreateForm);
+router.get('/new', clientesController.renderCreateForm);
 
-// Rota para criar um novo cliente
-router.post('/', clienteController.createCliente);
+// Rota para criar um novo clientes
+router.post('/', clientesController.createclientes);
 
-// Rota para obter um cliente específico pelo código
-router.get('/:cod', clienteController.getClienteById);
+// Rota para obter um clientes específico pelo código
+router.get('/:cod', clientesController.getclientesById);
 
 // Rota para renderizar o formulário de edição
-router.get('/:cod/edit', clienteController.renderEditForm);
+router.get('/:cod/edit', clientesController.renderEditForm);
 
-// Rota para atualizar um cliente específico
-router.put('/:cod', clienteController.updateCliente);
+// Rota para atualizar um clientes específico
+router.put('/:cod', clientesController.updateclientes);
 
-// Rota para deletar um cliente específico
-router.delete('/:cod', clienteController.deleteCliente);
+// Rota para deletar um clientes específico
+router.delete('/:cod', clientesController.deleteclientes);
 
 module.exports = router;

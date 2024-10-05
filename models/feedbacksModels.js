@@ -1,11 +1,11 @@
 const db = require('../config/database'); // Certifique-se de que o arquivo de configuração do banco de dados está correto
 
-class Feedback {
-    static async create(feedback) {
-        const { foto, comentario, avaliacao, cliente } = feedback;
+class Feedbacks {
+    static async create(feedbacks) {
+        const { foto, comentario, avaliacao, clientes } = feedbacks;
         const result = await db.query(
-            'INSERT INTO feedbacks (foto, comentario, avaliacao, cliente) VALUES (?, ?, ?, ?)',
-            [foto, comentario, avaliacao, cliente]
+            'INSERT INTO feedbacks (foto, comentario, avaliacao, clientes) VALUES (?, ?, ?, ?)',
+            [foto, comentario, avaliacao, clientes]
         );
         return result.insertId;
     }
@@ -20,11 +20,11 @@ class Feedback {
         return result[0];
     }
 
-    static async update(cod, feedback) {
-        const { foto, comentario, avaliacao, cliente } = feedback;
+    static async update(cod, feedbacks) {
+        const { foto, comentario, avaliacao, clientes } = feedbacks;
         await db.query(
-            'UPDATE feedbacks SET foto = ?, comentario = ?, avaliacao = ?, cliente = ? WHERE cod = ?',
-            [foto, comentario, avaliacao, cliente, cod]
+            'UPDATE feedbacks SET foto = ?, comentario = ?, avaliacao = ?, clientes = ? WHERE cod = ?',
+            [foto, comentario, avaliacao, clientes, cod]
         );
     }
 
@@ -33,4 +33,4 @@ class Feedback {
     }
 }
 
-module.exports = Feedback;
+module.exports = feedbacks;

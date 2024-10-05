@@ -3,8 +3,8 @@
 <!-- Formulário de filtro por uso -->
 <form method="GET" action="/produtos">
     <div class="form-group">
-        <label for="usa">Filtrar por Uso:</label>
-        <select id="usa" name="usa" class="form-control">
+        <label for="items_proce">Filtrar por Uso:</label>
+        <select id="items_proce" name="items_proce" class="form-control">
             <option value="">Todos os Usos</option>
             <% usos.forEach(uso => { %>
                 <option value="<%= uso.cod %>" <%= usoSelecionado == uso.cod ? 'selected' : '' %>><%= uso.nome %></option>
@@ -28,19 +28,19 @@
         </tr>
     </thead>
     <tbody>
-        <% produtos.forEach(produto => { %>
+        <% produtos.forEach(produtos => { %>
             <tr>
-                <td><%= produto.cod %></td>
-                <td><%= produto.nome || 'Desconhecido' %></td>
-                <td><%= produto.descricao || 'Desconhecido' %></td>
-                <td><%= produto.valor ? produto.valor.toFixed(2) : 'Desconhecido' %></td>
-                <td><%= produto.restricao || 'N/A' %></td>
-                <td><%= produto.indicacao || 'N/A' %></td>
-                <td><%= produto.marca || 'N/A' %></td>
+                <td><%= produtos.cod %></td>
+                <td><%= produtos.nome || 'Desconhecido' %></td>
+                <td><%= produtos.descricao || 'Desconhecido' %></td>
+                <td><%= produtos.valor ? produtos.valor.toFixed(2) : 'Desconhecido' %></td>
+                <td><%= produtos.restricao || 'N/A' %></td>
+                <td><%= produtos.indicacao || 'N/A' %></td>
+                <td><%= produtos.marca || 'N/A' %></td>
                 <td>
-                    <a href="/produtos/<%= produto.cod %>" class="btn btn-primary">Ver</a>
-                    <a href="/produtos/<%= produto.cod %>/edit" class="btn btn-warning">Editar</a>
-                    <form action="/produtos/<%= produto.cod %>?_method=DELETE" method="POST" style="display: inline;">
+                    <a href="/produtos/<%= produtos.cod %>" class="btn btn-primary">Ver</a>
+                    <a href="/produtos/<%= produtos.cod %>/edit" class="btn btn-warning">Editar</a>
+                    <form action="/produtos/<%= produtos.cod %>?_method=DELETE" method="POST" style="display: inline;">
                         <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                 </td>
