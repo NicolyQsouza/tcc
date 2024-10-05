@@ -1,0 +1,12 @@
+<h1>Detalhes do Item do Procedimento</h1>
+<p>ID: <%= items_proce.cod %></p>
+<p>Procedimento: <%= items_proce.procedimento %></p>
+<p>Produto: <%= items_proce.produto %></p>
+<p>Quantidade: <%= items_proce.quantidade %></p>
+
+<a href="/items_proces" class="btn btn-primary">Voltar à Lista</a>
+<a href="/items_proces/<%= items_proce.cod %>/edit" class="btn btn-warning">Editar</a>
+
+<form action="/items_proces/<%= items_proce.cod %>?_method=DELETE" method="POST" style="display: inline;">
+    <button type="submit" class="btn btn-danger">Excluir</button>
+</form>

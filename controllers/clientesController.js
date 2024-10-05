@@ -10,6 +10,8 @@ const clienteController = {
             nome: req.body.nome,
             fone: req.body.fone,
             email: req.body.email,
+            feedback: req.body.feedback, // New field
+            agenda: req.body.agenda,     // New field
             data_de_nascimento: req.body.data_de_nascimento,
         };
 
@@ -71,6 +73,8 @@ const clienteController = {
             nome: req.body.nome,
             fone: req.body.fone,
             email: req.body.email,
+            feedback: req.body.feedback, // New field
+            agenda: req.body.agenda,     // New field
             data_de_nascimento: req.body.data_de_nascimento,
         };
 

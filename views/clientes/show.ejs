@@ -1,7 +1,7 @@
 <h1>Detalhes do Cliente</h1>
-<p>ID: <%= cliente.cod %></p>
-<p>Nome: <%= cliente.nome %></p>
-<p>Telefone: <%= cliente.fone %></p>
-<p>Email: <%= cliente.email %></p>
-<p>Data de Nascimento: <%= cliente.data_de_nascimento %></p>
+<p><strong>ID:</strong> <%= cliente.cod %></p>
+<p><strong>Nome:</strong> <%= cliente.nome %></p>
+<p><strong>Telefone:</strong> <%= cliente.fone %></p>
+<p><strong>Email:</strong> <%= cliente.email %></p>
+<p><strong>Data de Nascimento:</strong> <%= new Date(cliente.data_de_nascimento).toLocaleDateString('pt-BR') %></p>
 <a href="/clientes" class="btn btn-primary">Voltar à Lista</a>

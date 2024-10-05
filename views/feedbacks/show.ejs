@@ -1,6 +1,6 @@
 <h1>Detalhes do Feedback</h1>
-<p>ID: <%= feedback.cod %></p>
-<p>Comentário: <%= feedback.comentario %></p>
-<p>Avaliação: <%= feedback.avaliacao %></p>
-<p>Cliente: <%= feedback.cliente %></p>
+<p><strong>ID:</strong> <%= feedback.cod %></p>
+<p><strong>Comentário:</strong> <%= feedback.comentario %></p>
+<p><strong>Avaliação:</strong> <%= feedback.avaliacao %></p>
+<p><strong>Cliente:</strong> <%= feedback.clienteNome || feedback.cliente %></p>
 <a href="/feedbacks" class="btn btn-primary">Voltar para a Lista</a>

@@ -2,8 +2,8 @@ const db = require('../config/db');
 
 const Procedimento = {
     create: (procedimento, callback) => {
-        const query = 'INSERT INTO procedimentos (duracao, restricao, descricao, cod, nome, valor) VALUES (?, ?, ?, ?, ?, ?)';
-        db.query(query, [procedimento.duracao, procedimento.restricao, procedimento.descricao, procedimento.cod, procedimento.nome, procedimento.valor], (err, results) => {
+        const query = 'INSERT INTO procedimentos (duracao, restricao, descricao, cod, nome, valor, agenda, usa) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        db.query(query, [procedimento.duracao, procedimento.restricao, procedimento.descricao, procedimento.cod, procedimento.nome, procedimento.valor, procedimento.agenda, procedimento.usa], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -32,8 +32,8 @@ const Procedimento = {
     },
 
     update: (id, procedimento, callback) => {
-        const query = 'UPDATE procedimentos SET duracao = ?, restricao = ?, descricao = ?, nome = ?, valor = ? WHERE cod = ?';
-        db.query(query, [procedimento.duracao, procedimento.restricao, procedimento.descricao, procedimento.nome, procedimento.valor, id], (err, results) => {
+        const query = 'UPDATE procedimentos SET duracao = ?, restricao = ?, descricao = ?, nome = ?, valor = ?, agenda = ?, usa = ? WHERE cod = ?';
+        db.query(query, [procedimento.duracao, procedimento.restricao, procedimento.descricao, procedimento.nome, procedimento.valor, procedimento.agenda, procedimento.usa, id], (err, results) => {
             if (err) {
                 return callback(err);
             }

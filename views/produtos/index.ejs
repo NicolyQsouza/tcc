@@ -1,4 +1,4 @@
-<h1>Lista de produtos</h1>
+<h1>Lista de Produtos</h1>
 
 <!-- Formulário de filtro por uso -->
 <form method="GET" action="/produtos">
@@ -31,17 +31,17 @@
         <% produtos.forEach(produto => { %>
             <tr>
                 <td><%= produto.cod %></td>
-                <td><%= produto.nome %></td>
-                <td><%= produto.descricao %></td>
-                <td><%= produto.valor %></td>
-                <td><%= produto.restricao %></td>
-                <td><%= produto.indicacao %></td>
-                <td><%= produto.marca %></td>
+                <td><%= produto.nome || 'Desconhecido' %></td>
+                <td><%= produto.descricao || 'Desconhecido' %></td>
+                <td><%= produto.valor ? produto.valor.toFixed(2) : 'Desconhecido' %></td>
+                <td><%= produto.restricao || 'N/A' %></td>
+                <td><%= produto.indicacao || 'N/A' %></td>
+                <td><%= produto.marca || 'N/A' %></td>
                 <td>
-                    <a href="/produtos/<%= produto.cod %>" class="btn btn-primary">View</a>
-                    <a href="/produtos/<%= produto.cod %>/edit" class="btn btn-warning">Edit</a>
+                    <a href="/produtos/<%= produto.cod %>" class="btn btn-primary">Ver</a>
+                    <a href="/produtos/<%= produto.cod %>/edit" class="btn btn-warning">Editar</a>
                     <form action="/produtos/<%= produto.cod %>?_method=DELETE" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                 </td>
             </tr>

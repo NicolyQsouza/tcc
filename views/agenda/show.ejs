@@ -1,9 +1,11 @@
 <h1>Detalhes da Agenda</h1>
-<p>ID: <%= agenda.cod %></p>
-<p>Cliente: <%= agenda.cliente %></p>
-<p>Procedimento: <%= agenda.procedimento %></p>
-<p>Profissional: <%= agenda.profissional %></p>
-<p>Forma de Pagamento: <%= agenda.forma_pag %></p>
-<p>Data: <%= new Date(agenda.data).toLocaleDateString('pt-BR') %></p>
-<p>Hora: <%= agenda.hora %></p>
+<div class="details">
+    <p><strong>ID:</strong> <%= agenda.cod %></p>
+    <p><strong>Cliente:</strong> <%= agenda.clienteNome %></p> <!-- Supondo que você tenha esse campo -->
+    <p><strong>Procedimento:</strong> <%= agenda.procedimentoNome %></p> <!-- Supondo que você tenha esse campo -->
+    <p><strong>Profissional:</strong> <%= agenda.profissional %></p>
+    <p><strong>Forma de Pagamento:</strong> <%= agenda.forma_pag %></p>
+    <p><strong>Data:</strong> <%= new Date(agenda.data).toLocaleDateString('pt-BR') %></p>
+    <p><strong>Hora:</strong> <%= agenda.hora %></p>
+</div>
 <a href="/agendas" class="btn btn-primary">Voltar para a Lista</a>

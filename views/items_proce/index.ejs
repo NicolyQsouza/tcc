@@ -1,4 +1,4 @@
-<h1>Listagem de Usa</h1>
+<h1>Listagem de Itens do Procedimento</h1>
 <table class="table">
     <thead>
         <tr>
@@ -10,21 +10,21 @@
         </tr>
     </thead>
     <tbody>
-        <% usas.forEach(usa => { %>
+        <% items_proces.forEach(items_proce => { %>
             <tr>
-                <td><%= usa.id %></td>
-                <td><%= usa.procedimento %></td>
-                <td><%= usa.produto %></td>
-                <td><%= usa.quantidade %></td>
+                <td><%= items_proce.cod %></td> <!-- Use cod se for o campo correto -->
+                <td><%= items_proce.procedimento %></td>
+                <td><%= items_proce.produto %></td>
+                <td><%= items_proce.quantidade %></td>
                 <td>
-                    <a href="/usas/<%= usa.id %>" class="btn btn-primary">Detalhes</a>
-                    <a href="/usas/<%= usa.id %>/edit" class="btn btn-warning">Editar</a>
-                    <form action="/usas/<%= usa.id %>?_method=DELETE" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    <a href="/items_proces/<%= items_proce.cod %>" class="btn btn-primary" aria-label="Detalhes de <%= items_proce.produto %>">Detalhes</a>
+                    <a href="/items_proces/<%= items_proce.cod %>/edit" class="btn btn-warning" aria-label="Editar <%= items_proce.produto %>">Editar</a>
+                    <form action="/items_proces/<%= items_proce.cod %>?_method=DELETE" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-danger" aria-label="Excluir <%= items_proce.produto %>">Excluir</button>
                     </form>
                 </td>
             </tr>
         <% }) %>
     </tbody>
 </table>
-<a href="/usas/new" class="btn btn-primary">Nova Usa</a>
+<a href="/items_proces/new" class="btn btn-primary">Novo Item do Procedimento</a>

@@ -1,13 +1,13 @@
 const express = require('express');
-const usaController = require('../controllers/usaController');
+const itemsProceController = require('../controllers/itemsProceController'); // Altere o nome do controlador se necessário
 const router = express.Router();
 
-router.get('/', usaController.getAllUsas);
-router.get('/new', usaController.renderCreateForm);
-router.post('/', usaController.createUsa);
-router.get('/:id', usaController.getUsaById);
-router.get('/:id/edit', usaController.renderEditForm);
-router.put('/:id', usaController.updateUsa);
-router.delete('/:id', usaController.deleteUsa);
+router.get('/', itemsProceController.getAllItemsProce); // Para obter todos os itens
+router.get('/new', itemsProceController.renderCreateForm); // Para renderizar o formulário de criação
+router.post('/', itemsProceController.createItemProce); // Para criar um novo item
+router.get('/:id', itemsProceController.getItemProceById); // Para obter um item por ID
+router.get('/:id/edit', itemsProceController.renderEditForm); // Para renderizar o formulário de edição
+router.put('/:id', itemsProceController.updateItemProce); // Para atualizar um item
+router.delete('/:id', itemsProceController.deleteItemProce); // Para deletar um item
 
 module.exports = router;

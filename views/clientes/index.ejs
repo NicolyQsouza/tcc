@@ -1,10 +1,11 @@
 <h1>Lista de Clientes</h1>
 
-<form id="searchForm" method="GET" action="/clientes">
+<form id="searchForm" method="GET" action="/clientes" class="mb-3">
     <div class="form-group">
         <label for="search">Buscar Cliente:</label>
-        <input type="text" id="search" name="search" class="form-control" placeholder="Digite o nome do cliente" autocomplete="off">
+        <input type="text" id="search" name="search" class="form-control" placeholder="Digite o nome do cliente" autocomplete="off" required>
     </div>
+    <button type="submit" class="btn btn-primary mt-2">Buscar</button>
 </form>
 
 <table class="table">
@@ -25,10 +26,10 @@
                 <td><%= cliente.fone %></td>
                 <td><%= cliente.email %></td>
                 <td>
-                    <a href="/clientes/<%= cliente.cod %>" class="btn btn-primary">View</a>
-                    <a href="/clientes/<%= cliente.cod %>/edit" class="btn btn-warning">Edit</a>
+                    <a href="/clientes/<%= cliente.cod %>" class="btn btn-primary">Ver</a>
+                    <a href="/clientes/<%= cliente.cod %>/edit" class="btn btn-warning">Editar</a>
                     <form action="/clientes/<%= cliente.cod %>?_method=DELETE" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                 </td>
             </tr>
@@ -54,10 +55,10 @@
                         <td>${cliente.fone}</td>
                         <td>${cliente.email}</td>
                         <td>
-                            <a href="/clientes/${cliente.cod}" class="btn btn-primary">View</a>
-                            <a href="/clientes/${cliente.cod}/edit" class="btn btn-warning">Edit</a>
+                            <a href="/clientes/${cliente.cod}" class="btn btn-primary">Ver</a>
+                            <a href="/clientes/${cliente.cod}/edit" class="btn btn-warning">Editar</a>
                             <form action="/clientes/${cliente.cod}?_method=DELETE" method="POST" style="display: inline;">
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-danger">Excluir</button>
                             </form>
                         </td>
                     `;

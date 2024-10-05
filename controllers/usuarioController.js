@@ -1,98 +1,96 @@
 const User = require('../models/userModel');
 
 const userController = {
-    createUser: (req, res) => {
-        const newUser = {
-            username: req.body.username,
-            password: req.body.password,
-            role: req.body.role,
-        };
+    createUser: async (req, res) => {
+        try {
+            const newUser = {
+                nome: req.body.nome, // Alterado para "nome"
+                senha: req.body.senha, // Alterado para "senha"
+            };
 
-        User.create(newUser, (err, userId) => {
-            if (err) {
-                return res.status(500).json({ error: err });
-            }
+            await User.create(newUser);
             res.redirect('/users');
-        });
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
     },
 
-    getUserById: (req, res) => {
+    getUserById: async (req, res) => {
         const userId = req.params.id;
 
-        User.findById(userId, (err, user) => {
-            if (err) {
-                return res.status(500).json({ error: err });
-            }
+        try {
+            const user = await User.findById(userId);
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
             res.render('users/show', { user });
-        });
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
     },
 
-    getAllUsers: (req, res) => {
-        User.getAll((err, users) => {
-            if (err) {
-                return res.status(500).json({ error: err });
-            }
+    getAllUsers: async (req, res) => {
+        try {
+            const users = await User.getAll();
             res.render('users/index', { users });
-        });
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
     },
 
     renderCreateForm: (req, res) => {
         res.render('users/create');
     },
 
-    renderEditForm: (req, res) => {
+    renderEditForm: async (req, res) => {
         const userId = req.params.id;
 
-        User.findById(userId, (err, user) => {
-            if (err) {
-                return res.status(500).json({ error: err });
-            }
+        try {
+            const user = await User.findById(userId);
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
             res.render('users/edit', { user });
-        });
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
     },
 
-    updateUser: (req, res) => {
+    updateUser: async (req, res) => {
         const userId = req.params.id;
         const updatedUser = {
-            username: req.body.username,
-            password: req.body.password,
-            role: req.body.role,
+            nome: req.body.nome, // Alterado para "nome"
+            senha: req.body.senha, // Alterado para "senha"
         };
 
-        User.update(userId, updatedUser, (err) => {
-            if (err) {
-                return res.status(500).json({ error: err });
-            }
+        try {
+            await User.update(userId, updatedUser);
             res.redirect('/users');
-        });
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
     },
 
-    deleteUser: (req, res) => {
+    deleteUser: async (req, res) => {
         const userId = req.params.id;
 
-        User.delete(userId, (err) => {
-            if (err) {
-                return res.status(500).json({ error: err });
-            }
+        try {
+            await User.delete(userId);
             res.redirect('/users');
-        });
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
     },
 
-    searchUsers: (req, res) => {
+    searchUsers: async (req, res) => {
         const search = req.query.search || '';
 
-        User.searchByName(search, (err, users) => {
-            if (err) {
-                return res.status(500).json({ error: err });
-            }
+        try {
+            const users = await User.searchByName(search);
             res.json({ users });
-        });
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
     },
 };
 

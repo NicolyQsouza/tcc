@@ -2,8 +2,8 @@ const db = require('../config/db');
 
 const Produto = {
     create: (produto, callback) => {
-        const query = 'INSERT INTO produtos (foto, restricao, valor, indicacao, marca, descricao, cod) VALUES (?, ?, ?, ?, ?, ?, ?)';
-        db.query(query, [produto.foto, produto.restricao, produto.valor, produto.indicacao, produto.marca, produto.descricao, produto.cod], (err, results) => {
+        const query = 'INSERT INTO produtos (foto, restricao, valor, indicacao, marca, descricao, cod, items_proce) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        db.query(query, [produto.foto, produto.restricao, produto.valor, produto.indicacao, produto.marca, produto.descricao, produto.cod, produto.items_proce], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -22,8 +22,8 @@ const Produto = {
     },
 
     update: (id, produto, callback) => {
-        const query = 'UPDATE produtos SET foto = ?, restricao = ?, valor = ?, indicacao = ?, marca = ?, descricao = ? WHERE cod = ?';
-        db.query(query, [produto.foto, produto.restricao, produto.valor, produto.indicacao, produto.marca, produto.descricao, id], (err, results) => {
+        const query = 'UPDATE produtos SET foto = ?, restricao = ?, valor = ?, indicacao = ?, marca = ?, descricao = ?, items_proce = ? WHERE cod = ?';
+        db.query(query, [produto.foto, produto.restricao, produto.valor, produto.indicacao, produto.marca, produto.descricao, produto.items_proce, id], (err, results) => {
             if (err) {
                 return callback(err);
             }

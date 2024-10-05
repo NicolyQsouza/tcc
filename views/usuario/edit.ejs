@@ -1,18 +1,19 @@
-<h1>Editar usuário</h1>
-<form action="/users/<%= user.id %>?_method=PUT" method="POST">
+<h1>Editar Usuário</h1>
+<form action="/usuarios/<%= usuario.id %>?_method=PUT" method="POST">
     <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" class="form-control" id="username" name="username" value="<%= user.username %>" required>
+        <label for="nomedsuario">Nome</label>
+        <input type="text" class="form-control" id="nomedsuario" name="nomedsuario" value="<%= usuario.nomedsuario %>" required>
     </div>
     <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" name="password" value="<%= user.password %>" required>
+        <label for="password">Senha</label>
+        <input type="password" class="form-control" id="password" name="password">
+        <small class="form-text text-muted">Deixe em branco para não alterar a senha.</small>
     </div>
     <div class="form-group">
-        <label for="role">Role</label>
+        <label for="role">Regra</label>
         <select class="form-control" id="role" name="role" required>
-            <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
-            <option value="user" <%= user.role === 'user' ? 'selected' : '' %>>User</option>
+            <option value="administrador" <%= usuario.role === 'admin' ? 'selected' : '' %>>Administrador</option>
+            <option value="usuario" <%= usuario.role === 'usuario' ? 'selected' : '' %>>Usuário</option>
         </select>
     </div>
     <button type="submit" class="btn btn-warning">Salvar</button>

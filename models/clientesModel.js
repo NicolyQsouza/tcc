@@ -2,8 +2,19 @@ const db = require('../config/db');
 
 const Cliente = {
     create: (cliente, callback) => {
-        const query = 'INSERT INTO clientes (foto, genero, endereco, cod, nome, fone, email, data_de_nascimento) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-        db.query(query, [cliente.foto, cliente.genero, cliente.endereco, cliente.cod, cliente.nome, cliente.fone, cliente.email, cliente.data_de_nascimento], (err, results) => {
+        const query = 'INSERT INTO clientes (foto, genero, endereco, cod, nome, fone, email, data_de_nascimento, feedback, agenda) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        db.query(query, [
+            cliente.foto, 
+            cliente.genero, 
+            cliente.endereco, 
+            cliente.cod, 
+            cliente.nome, 
+            cliente.fone, 
+            cliente.email, 
+            cliente.data_de_nascimento,
+            cliente.feedback,   // Novo campo
+            cliente.agenda      // Novo campo
+        ], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -22,8 +33,19 @@ const Cliente = {
     },
 
     update: (id, cliente, callback) => {
-        const query = 'UPDATE clientes SET foto = ?, genero = ?, endereco = ?, nome = ?, fone = ?, email = ?, data_de_nascimento = ? WHERE cod = ?';
-        db.query(query, [cliente.foto, cliente.genero, cliente.endereco, cliente.nome, cliente.fone, cliente.email, cliente.data_de_nascimento, id], (err, results) => {
+        const query = 'UPDATE clientes SET foto = ?, genero = ?, endereco = ?, nome = ?, fone = ?, email = ?, data_de_nascimento = ?, feedback = ?, agenda = ? WHERE cod = ?';
+        db.query(query, [
+            cliente.foto, 
+            cliente.genero, 
+            cliente.endereco, 
+            cliente.nome, 
+            cliente.fone, 
+            cliente.email, 
+            cliente.data_de_nascimento, 
+            cliente.feedback,   // Novo campo
+            cliente.agenda,     // Novo campo
+            id
+        ], (err, results) => {
             if (err) {
                 return callback(err);
             }

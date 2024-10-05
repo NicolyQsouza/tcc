@@ -1,8 +1,8 @@
 <!-- views/show.ejs -->
 <h1>Detalhes do Procedimento</h1>
-<p>Código: <%= procedimento.cod %></p>
-<p>Nome: <%= procedimento.nome ? procedimento.nome : 'Desconhecido' %></p>
-<p>Descrição: <%= procedimento.descricao ? procedimento.descricao : 'Desconhecido' %></p>
-<p>Valor: <%= procedimento.valor ? procedimento.valor.toFixed(2) : 'Desconhecido' %></p>
-<p>Duração: <%= procedimento.duracao ? procedimento.duracao : 'Desconhecido' %></p>
+<p><strong>Código:</strong> <%= procedimento.cod %></p>
+<p><strong>Nome:</strong> <%= procedimento.nome || 'Desconhecido' %></p>
+<p><strong>Descrição:</strong> <%= procedimento.descricao || 'Desconhecido' %></p>
+<p><strong>Valor:</strong> <%= procedimento.valor ? procedimento.valor.toFixed(2) : 'Desconhecido' %></p>
+<p><strong>Duração:</strong> <%= procedimento.duracao || 'Desconhecido' %></p>
 <a href="/procedimentos" class="btn btn-primary">Voltar para a Lista</a>
