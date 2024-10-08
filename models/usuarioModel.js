@@ -1,9 +1,9 @@
 const db = require('../config/db');
 
-const usuarios = {
-    create: (usuarios, callback) => {
+const usuario = {
+    create: (usuario, callback) => {
         const query = 'INSERT INTO usuario (nome, senha) VALUES (?, ?)';
-        db.query(query, [usuarios.usuariosname, usuarios.password], (err, results) => {
+        db.query(query, [usuario.usuarioname, usuario.password], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -21,9 +21,9 @@ const usuarios = {
         });
     },
 
-    findByusuariosname: (usuariosname, callback) => {
+    findByusuarioname: (usuarioname, callback) => {
         const query = 'SELECT * FROM usuario WHERE nome = ?';
-        db.query(query, [usuariosname], (err, results) => {
+        db.query(query, [usuarioname], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -31,9 +31,9 @@ const usuarios = {
         });
     },
 
-    update: (id, usuarios, callback) => {
+    update: (id, usuario, callback) => {
         const query = 'UPDATE usuario SET nome = ?, senha = ? WHERE id = ?';
-        db.query(query, [usuarios.usuariosname, usuarios.password, id], (err, results) => {
+        db.query(query, [usuario.usuarioname, usuario.password, id], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -72,4 +72,4 @@ const usuarios = {
     },
 };
 
-module.exports = usuarios;
+module.exports = usuario;

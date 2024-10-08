@@ -1,4 +1,4 @@
-const db = require('../config/database'); // Certifique-se de que o arquivo de configuração do banco de dados está correto
+const db = require('../config/db'); // Certifique-se de que o arquivo de configuração do banco de dados está correto
 
 class Agenda {
     static async create(agenda) {
@@ -7,17 +7,17 @@ class Agenda {
             'INSERT INTO agenda (clientes, procedimentos, profissional, forma_pag, data, hora) VALUES (?, ?, ?, ?, ?, ?)',
             [clientes, procedimentos, profissional, forma_pag, data, hora]
         );
-        return result.insertId;
+        return result.insertId; // Retorna o ID do novo registro
     }
 
     static async getAll() {
         const result = await db.query('SELECT * FROM agenda');
-        return result;
+        return result; // Retorna todos os registros da agenda
     }
 
     static async getById(id) {
         const result = await db.query('SELECT * FROM agenda WHERE id = ?', [id]);
-        return result[0];
+        return result[0]; // Retorna o registro específico ou undefined se não existir
     }
 
     static async update(id, agenda) {
@@ -33,4 +33,8 @@ class Agenda {
     }
 }
 
-module.exports = agenda;
+// Cria uma instância da classe Agenda
+const agendaInstance = new Agenda();
+
+// Exporte a instância
+module.exports = agendaInstance;

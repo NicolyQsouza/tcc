@@ -1,4 +1,4 @@
-const db = require('../config/database'); // Certifique-se de que o arquivo de configuração do banco de dados está correto
+const db = require('../config/db'); // Certifique-se de que o arquivo de configuração do banco de dados está correto
 
 class feedbacks {
     static async create(feedbacks) {

@@ -1,4 +1,4 @@
-const Agenda = require('../models/AgendaModel');
+const Agenda = require('../models/agendaModel');
 
 exports.getAllagenda = async (req, res) => {
     const agenda = await Agenda.getAll();

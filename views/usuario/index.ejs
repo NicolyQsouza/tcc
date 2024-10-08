@@ -1,6 +1,6 @@
 <h1>Lista de Usuários</h1>
 
-<form id="searchForm" method="GET" action="/usuarios">
+<form id="searchForm" method="GET" action="/usuario">
     <div class="form-group">
         <label for="search">Buscar Usuário:</label>
         <input type="text" id="search" name="search" class="form-control" placeholder="Digite o nome do usuário" autocomplete="off">
@@ -17,15 +17,15 @@
         </tr>
     </thead>
     <tbody id="usuarioTableBody">
-        <% usuarios.forEach(usuario => { %>
+        <% usuario.forEach(usuario => { %>
             <tr>
                 <td><%= usuario.id %></td>
                 <td><%= usuario.nomedsuario %></td>
                 <td><%= usuario.role %></td>
                 <td>
-                    <a href="/usuarios/<%= usuario.id %>" class="btn btn-primary">View</a>
-                    <a href="/usuarios/<%= usuario.id %>/edit" class="btn btn-warning">Edit</a>
-                    <form action="/usuarios/<%= usuario.id %>?_method=DELETE" method="POST" style="display: inline;">
+                    <a href="/usuario/<%= usuario.id %>" class="btn btn-primary">View</a>
+                    <a href="/usuario/<%= usuario.id %>/edit" class="btn btn-warning">Edit</a>
+                    <form action="/usuario/<%= usuario.id %>?_method=DELETE" method="POST" style="display: inline;">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </td>
@@ -38,22 +38,22 @@
     document.getElementById('search').addEventListener('input', function() {
         const searchValue = this.value;
 
-        fetch(`/usuarios/search?search=${encodeURIComponent(searchValue)}`)
+        fetch(`/usuario/search?search=${encodeURIComponent(searchValue)}`)
             .then(response => response.json())
             .then(data => {
                 const tbody = document.getElementById('usuarioTableBody');
                 tbody.innerHTML = ''; // Limpa as linhas existentes
 
-                data.usuarios.forEach(usuario => {
+                data.usuario.forEach(usuario => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
                         <td>${usuario.id}</td>
                         <td>${usuario.usuarioname}</td>
                         <td>${usuario.role}</td>
                         <td>
-                            <a href="/usuarios/${usuario.id}" class="btn btn-primary">View</a>
-                            <a href="/usuarios/${usuario.id}/edit" class="btn btn-warning">Edit</a>
-                            <form action="/usuarios/${usuario.id}?_method=DELETE" method="POST" style="display: inline;">
+                            <a href="/usuario/${usuario.id}" class="btn btn-primary">View</a>
+                            <a href="/usuario/${usuario.id}/edit" class="btn btn-warning">Edit</a>
+                            <form action="/usuario/${usuario.id}?_method=DELETE" method="POST" style="display: inline;">
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                         </td>

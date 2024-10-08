@@ -1,97 +1,97 @@
-const usuarios = require('../models/usuariosModel');
+const usuario = require('../models/usuarioModel');
 
-const usuariosController = {
-    createusuarios: async (req, res) => {
+const usuarioController = {
+    createUsuario: async (req, res) => { // Corrigido para "createUsuario"
         try {
-            const newusuarios = {
+            const newUsuario = {
                 nome: req.body.nome, // Alterado para "nome"
                 senha: req.body.senha, // Alterado para "senha"
             };
 
-            await usuarios.create(newusuarios);
-            res.redirect('/usuarios');
+            await usuario.create(newUsuario);
+            res.redirect('/usuarios'); // Corrigido o redirecionamento
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    getusuariosById: async (req, res) => {
-        const usuariosId = req.params.id;
+    getUsuarioById: async (req, res) => { // Corrigido para "getUsuarioById"
+        const usuarioId = req.params.id;
 
         try {
-            const usuarios = await usuarios.findById(usuariosId);
-            if (!usuarios) {
-                return res.status(404).json({ message: 'usuarios not found' });
+            const usuarioEncontrado = await usuario.getById(usuarioId); // Corrigido para "getById"
+            if (!usuarioEncontrado) {
+                return res.status(404).json({ message: 'Usuário não encontrado' });
             }
-            res.render('usuarios/show', { usuarios });
+            res.render('usuario/show', { usuario: usuarioEncontrado }); // Corrigido para usar "usuarioEncontrado"
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    getAllusuarios: async (req, res) => {
+    getAllUsuarios: async (req, res) => { // Corrigido para "getAllUsuarios"
         try {
-            const usuarios = await usuarios.getAll();
-            res.render('usuarios/index', { usuarios });
+            const usuarios = await usuario.getAll(); // Corrigido para usar "getAll"
+            res.render('usuario/index', { usuarios }); // Corrigido para usar "usuarios"
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
     renderCreateForm: (req, res) => {
-        res.render('usuarios/create');
+        res.render('usuario/create');
     },
 
     renderEditForm: async (req, res) => {
-        const usuariosId = req.params.id;
+        const usuarioId = req.params.id;
 
         try {
-            const usuarios = await usuarios.findById(usuariosId);
-            if (!usuarios) {
-                return res.status(404).json({ message: 'usuarios not found' });
+            const usuarioEncontrado = await usuario.getById(usuarioId); // Corrigido para "getById"
+            if (!usuarioEncontrado) {
+                return res.status(404).json({ message: 'Usuário não encontrado' });
             }
-            res.render('usuarios/edit', { usuarios });
+            res.render('usuario/edit', { usuario: usuarioEncontrado }); // Corrigido para usar "usuarioEncontrado"
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    updateusuarios: async (req, res) => {
-        const usuariosId = req.params.id;
-        const updatedusuarios = {
+    updateUsuario: async (req, res) => { // Corrigido para "updateUsuario"
+        const usuarioId = req.params.id;
+        const updatedUsuario = {
             nome: req.body.nome, // Alterado para "nome"
             senha: req.body.senha, // Alterado para "senha"
         };
 
         try {
-            await usuarios.update(usuariosId, updatedusuarios);
-            res.redirect('/usuarios');
+            await usuario.update(usuarioId, updatedUsuario); // Corrigido para "update"
+            res.redirect('/usuarios'); // Corrigido o redirecionamento
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    deleteusuarios: async (req, res) => {
-        const usuariosId = req.params.id;
+    deleteUsuario: async (req, res) => { // Corrigido para "deleteUsuario"
+        const usuarioId = req.params.id;
 
         try {
-            await usuarios.delete(usuariosId);
-            res.redirect('/usuarios');
+            await usuario.delete(usuarioId); // Corrigido para "delete"
+            res.redirect('/usuarios'); // Corrigido o redirecionamento
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 
-    searchusuarios: async (req, res) => {
+    searchUsuario: async (req, res) => { // Corrigido para "searchUsuario"
         const search = req.query.search || '';
 
         try {
-            const usuarios = await usuarios.searchByName(search);
-            res.json({ usuarios });
+            const usuarios = await usuario.searchByName(search); // Corrigido para usar "searchByName"
+            res.json({ usuarios }); // Corrigido para usar "usuarios"
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     },
 };
 
-module.exports = usuariosController;
+module.exports = usuarioController;

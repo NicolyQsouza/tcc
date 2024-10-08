@@ -1,14 +1,13 @@
 const express = require('express');
-const usuarioController = require('../controllers/usuarioController'); // Ajuste o nome do controlador
+const usuarioController = require('../controllers/usuarioController');
 const router = express.Router();
 
-router.get('/', usuarioController.getAllUsuarios); // Ajuste o método
-router.get('/search', usuarioController.searchUsuarios); // Adicione esta rota
+router.get('/', usuarioController.getAllusuario); // Verifique se o nome está correto
 router.get('/new', usuarioController.renderCreateForm);
-router.post('/', usuarioController.createUsuario); // Ajuste o método
-router.get('/:id', usuarioController.getUsuarioById); // Ajuste o método
+router.post('/', usuarioController.createusuario); // Verifique se o nome está correto
+router.get('/:id', usuarioController.getusuarioById); // Verifique se o nome está correto
 router.get('/:id/edit', usuarioController.renderEditForm);
-router.put('/:id', usuarioController.updateUsuario); // Ajuste o método
-router.delete('/:id', usuarioController.deleteUsuario); // Ajuste o método
+router.put('/:id', usuarioController.updateusuario); // Verifique se o nome está correto
+router.delete('/:id', usuarioController.deleteusuario); // Verifique se o nome está correto
 
 module.exports = router;
