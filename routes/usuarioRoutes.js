@@ -2,12 +2,12 @@ const express = require('express');
 const usuarioController = require('../controllers/usuarioController');
 const router = express.Router();
 
-router.get('/', usuarioController.getAllusuario); // Verifique se o nome está correto
+router.get('/', usuarioController.getAllUsuarios); // Corrigido para "getAllUsuarios"
 router.get('/new', usuarioController.renderCreateForm);
-router.post('/', usuarioController.createusuario); // Verifique se o nome está correto
-router.get('/:id', usuarioController.getusuarioById); // Verifique se o nome está correto
+router.post('/', usuarioController.createUsuario); // Corrigido para "createUsuario"
+router.get('/:id', usuarioController.getUsuarioById); // Corrigido para "getUsuarioById"
 router.get('/:id/edit', usuarioController.renderEditForm);
-router.put('/:id', usuarioController.updateusuario); // Verifique se o nome está correto
-router.delete('/:id', usuarioController.deleteusuario); // Verifique se o nome está correto
+router.put('/:id', usuarioController.updateUsuario); // Corrigido para "updateUsuario"
+router.delete('/:id', usuarioController.deleteUsuario); // Corrigido para "deleteUsuario"
 
 module.exports = router;
