@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3000;
 
 // Configurações do EJS
 app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views');
+app.set('views', `${__dirname}/views`);
 app.use(expressLayouts);
 
 // Middleware

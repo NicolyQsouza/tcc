@@ -19,7 +19,7 @@ CREATE TABLE clientes (
     feedbacks INT,
     agenda INT,
     data_de_nascimento DATE,
-    FOREIGN KEY (feedback) REFERENCES feedbacks(cod),
+    FOREIGN KEY (feedbacks) REFERENCES feedbacks(cod),
     FOREIGN KEY (agenda) REFERENCES agenda(cod)
 );
 
@@ -58,6 +58,7 @@ CREATE TABLE feedbacks (
 );
 
 CREATE TABLE agenda (
+    cod INT(4) PRIMARY KEY,  -- Chave primária adicionada
     clientes INT,
     procedimentos INT,
     profissional VARCHAR(50),
@@ -69,6 +70,7 @@ CREATE TABLE agenda (
 );
 
 CREATE TABLE items_proce (
+    cod INT(4) PRIMARY KEY,  -- Chave primária adicionada
     procedimentos INT,
     produtos INT,
     quantidade INT CHECK(quantidade > 0),
