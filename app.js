@@ -2,6 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const expressLayouts = require('express-ejs-layouts');
+const dotenv = require('dotenv');
+
+// Carregar variáveis de ambiente do arquivo .env
+dotenv.config();
 
 // Importação das rotas
 const indexRoutes = require('./routes/indexRoutes');
@@ -33,6 +37,22 @@ app.use('/procedimentos', procedimentosRoutes);
 app.use('/feedbacks', feedbacksRoutes);
 app.use('/agenda', agendaRoutes);
 app.use('/usuario', usuarioRoutes);
+
+// Middleware para tratamento de erros
+app.use((req, res, next) => {
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+// Middleware para erro geral (em produção)
+app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.json({
+        message: err.message,
+        error: process.env.NODE_ENV === 'development' ? err : {}
+    });
+});
 
 // Iniciando o servidor
 app.listen(PORT, () => {

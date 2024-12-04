@@ -3,7 +3,7 @@ const agendaController = require('../controllers/agendaController');
 const router = express.Router();
 
 // Rota para obter todas as agendas
-router.get('/', agendaController.getAllAgendas); // Corrigido o nome do método para plural 'getAllAgendas'
+router.get('/', agendaController.getAllAgenda); // Corrigido o nome do método para getAllAgenda
 
 // Rota para renderizar o formulário de criação
 router.get('/new', agendaController.renderCreateForm);
