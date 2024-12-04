@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const expressLayouts = require('express-ejs-layouts');
+
+// Importação das rotas
 const indexRoutes = require('./routes/indexRoutes');
 const clientesRoutes = require('./routes/clientesRoutes');
 const produtosRoutes = require('./routes/produtosRoutes');

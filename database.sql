@@ -58,7 +58,7 @@ CREATE TABLE feedbacks (
 );
 
 CREATE TABLE agenda (
-    cod INT(4) PRIMARY KEY,  -- Chave primária adicionada
+    cod INT(4) PRIMARY KEY, 
     clientes INT,
     procedimentos INT,
     profissional VARCHAR(50),
@@ -70,7 +70,7 @@ CREATE TABLE agenda (
 );
 
 CREATE TABLE items_proce (
-    cod INT(4) PRIMARY KEY,  -- Chave primária adicionada
+    cod INT(4) PRIMARY KEY, 
     procedimentos INT,
     produtos INT,
     quantidade INT CHECK(quantidade > 0),

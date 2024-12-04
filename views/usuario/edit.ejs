@@ -1,8 +1,8 @@
 <h1>Editar Usuário</h1>
 <form action="/usuario/<%= usuario.id %>?_method=PUT" method="POST">
     <div class="form-group">
-        <label for="nomedsuario">Nome</label>
-        <input type="text" class="form-control" id="nomedsuario" name="nomedsuario" value="<%= usuario.nomedsuario %>" required>
+        <label for="nomedusuario">Nome</label>
+        <input type="text" class="form-control" id="nomedusuario" name="nomedusuario" value="<%= usuario.nomedsuario %>" required>
     </div>
     <div class="form-group">
         <label for="password">Senha</label>
@@ -12,7 +12,7 @@
     <div class="form-group">
         <label for="role">Regra</label>
         <select class="form-control" id="role" name="role" required>
-            <option value="administrador" <%= usuario.role === 'admin' ? 'selected' : '' %>>Administrador</option>
+            <option value="administrador" <%= usuario.role === 'administrador' ? 'selected' : '' %>>Administrador</option>
             <option value="usuario" <%= usuario.role === 'usuario' ? 'selected' : '' %>>Usuário</option>
         </select>
     </div>

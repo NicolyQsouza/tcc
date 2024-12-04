@@ -1,75 +1,81 @@
-const db = require('../config/db');
+const db = require('../config/db'); // Certifique-se de que o arquivo de configuração do banco de dados está correto
 
-const usuario = {
-    create: (usuario, callback) => {
-        const query = 'INSERT INTO usuario (nome, senha) VALUES (?, ?)';
-        db.query(query, [usuario.usuarioname, usuario.password], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results.insertId);
-        });
-    },
+class Usuario {
+    // Criar um novo usuário
+    static async create(usuario) {
+        const { nome, senha } = usuario;
+        try {
+            const result = await db.query(
+                'INSERT INTO usuario (nome, senha) VALUES (?, ?)',
+                [nome, senha]
+            );
+            return result.insertId; // Retorna o ID do novo usuário
+        } catch (err) {
+            throw new Error('Erro ao criar usuário: ' + err.message);
+        }
+    }
 
-    findById: (id, callback) => {
-        const query = 'SELECT * FROM usuario WHERE id = ?';
-        db.query(query, [id], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results[0]);
-        });
-    },
+    // Obter um usuário pelo ID
+    static async findById(id) {
+        try {
+            const result = await db.query('SELECT * FROM usuario WHERE id = ?', [id]);
+            return result[0]; // Retorna o usuário ou undefined se não encontrado
+        } catch (err) {
+            throw new Error('Erro ao obter usuário por ID: ' + err.message);
+        }
+    }
 
-    findByusuarioname: (usuarioname, callback) => {
-        const query = 'SELECT * FROM usuario WHERE nome = ?';
-        db.query(query, [usuarioname], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results[0]);
-        });
-    },
+    // Obter um usuário pelo nome de usuário
+    static async findByUsuarioName(usuarioname) {
+        try {
+            const result = await db.query('SELECT * FROM usuario WHERE nome = ?', [usuarioname]);
+            return result[0]; // Retorna o usuário ou undefined se não encontrado
+        } catch (err) {
+            throw new Error('Erro ao obter usuário por nome: ' + err.message);
+        }
+    }
 
-    update: (id, usuario, callback) => {
-        const query = 'UPDATE usuario SET nome = ?, senha = ? WHERE id = ?';
-        db.query(query, [usuario.usuarioname, usuario.password, id], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results);
-        });
-    },
+    // Atualizar um usuário
+    static async update(id, usuario) {
+        const { nome, senha } = usuario;
+        try {
+            await db.query(
+                'UPDATE usuario SET nome = ?, senha = ? WHERE id = ?',
+                [nome, senha, id]
+            );
+        } catch (err) {
+            throw new Error('Erro ao atualizar usuário: ' + err.message);
+        }
+    }
 
-    delete: (id, callback) => {
-        const query = 'DELETE FROM usuario WHERE id = ?';
-        db.query(query, [id], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results);
-        });
-    },
+    // Deletar um usuário
+    static async delete(id) {
+        try {
+            await db.query('DELETE FROM usuario WHERE id = ?', [id]);
+        } catch (err) {
+            throw new Error('Erro ao deletar usuário: ' + err.message);
+        }
+    }
 
-    getAll: (callback) => {
-        const query = 'SELECT * FROM usuario';
-        db.query(query, (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results);
-        });
-    },
+    // Obter todos os usuários
+    static async getAll() {
+        try {
+            const result = await db.query('SELECT * FROM usuario');
+            return result;
+        } catch (err) {
+            throw new Error('Erro ao obter usuários: ' + err.message);
+        }
+    }
 
-    searchByName: (name, callback) => {
-        const query = 'SELECT * FROM usuario WHERE nome LIKE ?';
-        db.query(query, [`%${name}%`], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results);
-        });
-    },
-};
+    // Pesquisar usuários pelo nome
+    static async searchByName(name) {
+        try {
+            const result = await db.query('SELECT * FROM usuario WHERE nome LIKE ?', [`%${name}%`]);
+            return result;
+        } catch (err) {
+            throw new Error('Erro ao pesquisar usuários por nome: ' + err.message);
+        }
+    }
+}
 
-module.exports = usuario;
+module.exports = Usuario;

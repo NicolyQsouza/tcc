@@ -11,18 +11,18 @@
     <tbody>
         <% if (feedbacks.length === 0) { %>
             <tr>
-                <td colspan="4" class="text-center">Nenhum feedbacks encontrado.</td>
+                <td colspan="4" class="text-center">Nenhum feedback encontrado.</td>
             </tr>
         <% } else { %>
-            <% feedbacks.forEach(feedbacks => { %>
+            <% feedbacks.forEach(feedback => { %>
                 <tr>
-                    <td><%= feedbacks.cod %></td>
-                    <td><%= feedbacks.comentario.length > 50 ? feedbacks.comentario.substring(0, 50) + '...' : feedbacks.comentario %></td>
-                    <td><%= feedbacks.avaliacao %></td>
+                    <td><%= feedback.cod %></td>
+                    <td><%= feedback.comentario.length > 50 ? feedback.comentario.substring(0, 50) + '...' : feedback.comentario %></td>
+                    <td><%= feedback.avaliacao %></td>
                     <td>
-                        <a href="/feedbacks/<%= feedbacks.cod %>" class="btn btn-primary">Detalhes</a>
-                        <a href="/feedbacks/<%= feedbacks.cod %>/edit" class="btn btn-warning">Editar</a>
-                        <form action="/feedbacks/<%= feedbacks.cod %>?_method=DELETE" method="POST" style="display: inline;">
+                        <a href="/feedbacks/<%= feedback.cod %>" class="btn btn-primary">Detalhes</a>
+                        <a href="/feedbacks/<%= feedback.cod %>/edit" class="btn btn-warning">Editar</a>
+                        <form action="/feedbacks/<%= feedback.cod %>?_method=DELETE" method="POST" style="display: inline;">
                             <button type="submit" class="btn btn-danger">Excluir</button>
                         </form>
                     </td>
@@ -31,4 +31,4 @@
         <% } %>
     </tbody>
 </table>
-<a href="/feedbacks/new" class="btn btn-primary">Novo feedbacks</a>
+<a href="/feedbacks/new" class="btn btn-primary">Novo Feedback</a>

@@ -1,4 +1,3 @@
-<!-- views/index.ejs -->
 <h1>Listagem de Procedimentos</h1>
 <table class="table">
     <thead>
@@ -12,17 +11,17 @@
         </tr>
     </thead>
     <tbody>
-        <% procedimentos.forEach(procedimentos => { %>
+        <% procedimentos.forEach(procedimento => { %>
             <tr>
-                <td><%= procedimentos.cod %></td>
-                <td><%= procedimentos.nome || 'Desconhecido' %></td>
-                <td><%= procedimentos.descricao || 'Desconhecido' %></td>
-                <td><%= procedimentos.valor ? procedimentos.valor.toFixed(2) : 'Desconhecido' %></td>
-                <td><%= procedimentos.duracao || 'Desconhecido' %></td>
+                <td><%= procedimento.cod %></td>
+                <td><%= procedimento.nome || 'Desconhecido' %></td>
+                <td><%= procedimento.descricao || 'Desconhecido' %></td>
+                <td><%= procedimento.valor ? procedimento.valor.toFixed(2) : 'Desconhecido' %></td>
+                <td><%= procedimento.duracao || 'Desconhecido' %></td>
                 <td>
-                    <a href="/procedimentos/<%= procedimentos.cod %>" class="btn btn-primary">Detalhes</a>
-                    <a href="/procedimentos/<%= procedimentos.cod %>/edit" class="btn btn-warning">Editar</a>
-                    <form action="/procedimentos/<%= procedimentos.cod %>?_method=DELETE" method="POST" style="display: inline;">
+                    <a href="/procedimentos/<%= procedimento.cod %>" class="btn btn-primary">Detalhes</a>
+                    <a href="/procedimentos/<%= procedimento.cod %>/edit" class="btn btn-warning">Editar</a>
+                    <form action="/procedimentos/<%= procedimento.cod %>?_method=DELETE" method="POST" style="display: inline;">
                         <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                 </td>
@@ -30,4 +29,4 @@
         <% }) %>
     </tbody>
 </table>
-<a href="/procedimentos/new" class="btn btn-primary">Novo Procedimentos</a>
+<a href="/procedimentos/new" class="btn btn-primary">Novo Procedimento</a>

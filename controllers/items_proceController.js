@@ -1,77 +1,97 @@
-const items_proce = require('../models/items_proceModel'); // Altere o caminho para o modelo correto
+const itemsProceModel = require('../models/items_proceModel'); // Ajuste o caminho conforme necessário
 
-exports.getAllitems_proce = async (req, res) => {
+exports.getAllItemsProce = async (req, res) => {
     try {
-        const items_proce = await items_proce.getAll();
-        res.render('items_proce/index', { items_proce });
+        const itemsProce = await itemsProceModel.getAll();
+        res.render('items_proce/index', { itemsProce });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Erro ao buscar itens_proce:', err);
+        res.status(500).json({ error: 'Erro ao buscar os itens_proce.' });
     }
 };
 
 exports.renderCreateForm = async (req, res) => {
     try {
-        const procedimentos = await items_proce.getProcedimentos();
-        const produtos = await items_proce.getProdutos();
+        const procedimentos = await itemsProceModel.getProcedimentos();
+        const produtos = await itemsProceModel.getProdutos();
         res.render('items_proce/create', { procedimentos, produtos });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Erro ao carregar o formulário de criação:', err);
+        res.status(500).json({ error: 'Erro ao carregar o formulário de criação.' });
     }
 };
 
-exports.createitems_proce = async (req, res) => {
+exports.createItemProce = async (req, res) => {
     try {
         const { procedimentos, produtos, quantidade } = req.body;
-        const items_proce = { procedimentos, produtos, quantidade };
-        await items_proce.create(items_proce);
+
+        // Validação de entrada
+        if (!procedimentos || !produtos || !quantidade || quantidade <= 0) {
+            return res.status(400).json({ error: 'Todos os campos são obrigatórios e quantidade deve ser maior que zero.' });
+        }
+
+        const newItemProce = { procedimentos, produtos, quantidade };
+        await itemsProceModel.create(newItemProce);
         res.redirect('/items_proce');
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Erro ao criar item_proce:', err);
+        res.status(500).json({ error: 'Erro ao criar item_proce.' });
     }
 };
 
-exports.getitems_proceById = async (req, res) => {
+exports.getItemProceById = async (req, res) => {
     try {
-        const items_proce = await items_proce.getById(req.params.id);
-        if (!items_proce) {
-            return res.status(404).json({ message: 'Item não encontrado' });
+        const itemProce = await itemsProceModel.getById(req.params.id);
+        if (!itemProce) {
+            return res.status(404).json({ message: 'Item_proce não encontrado.' });
         }
-        res.render('items_proce/show', { items_proce });
+        res.render('items_proce/show', { itemProce });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Erro ao buscar item_proce por ID:', err);
+        res.status(500).json({ error: 'Erro ao buscar item_proce.' });
     }
 };
 
 exports.renderEditForm = async (req, res) => {
     try {
-        const items_proce = await items_proce.getById(req.params.id);
-        if (!items_proce) {
-            return res.status(404).json({ message: 'Item não encontrado' });
+        const itemProce = await itemsProceModel.getById(req.params.id);
+        if (!itemProce) {
+            return res.status(404).json({ message: 'Item_proce não encontrado.' });
         }
-        const procedimentos = await items_proce.getProcedimentos();
-        const produtos = await items_proce.getProdutos();
-        res.render('items_proce/edit', { items_proce, procedimentos, produtos });
+
+        const procedimentos = await itemsProceModel.getProcedimentos();
+        const produtos = await itemsProceModel.getProdutos();
+        res.render('items_proce/edit', { itemProce, procedimentos, produtos });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Erro ao carregar o formulário de edição:', err);
+        res.status(500).json({ error: 'Erro ao carregar o formulário de edição.' });
     }
 };
 
-exports.updateitems_proce = async (req, res) => {
+exports.updateItemProce = async (req, res) => {
     try {
         const { procedimentos, produtos, quantidade } = req.body;
-        const updateditems_proce = { procedimentos, produtos, quantidade };
-        await items_proce.update(req.params.id, updateditems_proce);
+
+        // Validação de entrada
+        if (!procedimentos || !produtos || !quantidade || quantidade <= 0) {
+            return res.status(400).json({ error: 'Todos os campos são obrigatórios e quantidade deve ser maior que zero.' });
+        }
+
+        const updatedItemProce = { procedimentos, produtos, quantidade };
+        await itemsProceModel.update(req.params.id, updatedItemProce);
         res.redirect('/items_proce');
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Erro ao atualizar item_proce:', err);
+        res.status(500).json({ error: 'Erro ao atualizar item_proce.' });
     }
 };
 
-exports.deleteitems_proce = async (req, res) => {
+exports.deleteItemProce = async (req, res) => {
     try {
-        await items_proce.delete(req.params.id);
+        await itemsProceModel.delete(req.params.id);
         res.redirect('/items_proce');
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Erro ao deletar item_proce:', err);
+        res.status(500).json({ error: 'Erro ao deletar item_proce.' });
     }
 };

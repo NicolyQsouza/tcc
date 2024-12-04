@@ -1,9 +1,9 @@
-<h1>Lista de clientes</h1>
+<h1>Lista de Clientes</h1>
 
 <form id="searchForm" method="GET" action="/clientes" class="mb-3">
     <div class="form-group">
-        <label for="search">Buscar clientes:</label>
-        <input type="text" id="search" name="search" class="form-control" placeholder="Digite o nome do clientes" autocomplete="off" required>
+        <label for="search">Buscar Clientes:</label>
+        <input type="text" id="search" name="search" class="form-control" placeholder="Digite o nome do cliente" autocomplete="off" required>
     </div>
     <button type="submit" class="btn btn-primary mt-2">Buscar</button>
 </form>
@@ -28,7 +28,7 @@
                 <td>
                     <a href="/clientes/<%= clientes.cod %>" class="btn btn-primary">Ver</a>
                     <a href="/clientes/<%= clientes.cod %>/edit" class="btn btn-warning">Editar</a>
-                    <form action="/clientes/<%= clientes.cod %>?_method=DELETE" method="POST" style="display: inline;">
+                    <form action="/clientes/<%= clientes.cod %>?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
                         <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                 </td>

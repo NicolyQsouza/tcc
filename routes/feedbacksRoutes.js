@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Rota para renderizar o formulário de criação de feedbacks
+// Rota para renderizar o formulário de criação de feedback
 router.get('/new', (req, res) => {
     res.render('feedbacks/new'); // Ajuste o caminho da view conforme necessário
 });
@@ -41,7 +41,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Rota para renderizar o formulário de edição de feedbacks
+// Rota para renderizar o formulário de edição de feedback
 router.get('/:id/edit', async (req, res) => {
     try {
         const feedback = await feedbacksController.getById(req.params.id);
@@ -74,7 +74,5 @@ router.delete('/:id', async (req, res) => {
         res.status(500).send('Erro ao deletar feedback');
     }
 });
-
-console.log(feedbacksController); // Para verificar se as funções estão disponíveis
 
 module.exports = router;

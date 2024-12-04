@@ -17,16 +17,16 @@
         </tr>
     </thead>
     <tbody id="usuarioTableBody">
-        <% usuario.forEach(usuario => { %>
+        <% usuarios.forEach(usuario => { %>
             <tr>
                 <td><%= usuario.id %></td>
                 <td><%= usuario.nomedsuario %></td>
                 <td><%= usuario.role %></td>
                 <td>
-                    <a href="/usuario/<%= usuario.id %>" class="btn btn-primary">View</a>
-                    <a href="/usuario/<%= usuario.id %>/edit" class="btn btn-warning">Edit</a>
+                    <a href="/usuario/<%= usuario.id %>" class="btn btn-primary">Ver</a>
+                    <a href="/usuario/<%= usuario.id %>/edit" class="btn btn-warning">Editar</a>
                     <form action="/usuario/<%= usuario.id %>?_method=DELETE" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                 </td>
             </tr>
@@ -44,17 +44,17 @@
                 const tbody = document.getElementById('usuarioTableBody');
                 tbody.innerHTML = ''; // Limpa as linhas existentes
 
-                data.usuario.forEach(usuario => {
+                data.usuarios.forEach(usuario => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
                         <td>${usuario.id}</td>
-                        <td>${usuario.usuarioname}</td>
+                        <td>${usuario.nomedsuario}</td>
                         <td>${usuario.role}</td>
                         <td>
-                            <a href="/usuario/${usuario.id}" class="btn btn-primary">View</a>
-                            <a href="/usuario/${usuario.id}/edit" class="btn btn-warning">Edit</a>
+                            <a href="/usuario/${usuario.id}" class="btn btn-primary">Ver</a>
+                            <a href="/usuario/${usuario.id}/edit" class="btn btn-warning">Editar</a>
                             <form action="/usuario/${usuario.id}?_method=DELETE" method="POST" style="display: inline;">
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-danger">Excluir</button>
                             </form>
                         </td>
                     `;

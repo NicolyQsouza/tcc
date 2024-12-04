@@ -1,17 +1,21 @@
-<h1>Cadastrar Nova Agenda</h1>
+<h1>Cadastrar Nova Agenda</h1> 
 <form action="/agenda" method="POST">
     <div class="form-group">
-        <label for="clientes">clientes</label>
+        <label for="clientes">Clientes</label>
         <select class="form-control" id="clientes" name="clientes" required>
-            <option value="">Selecione um clientes</option>
-            <!-- Opções de clientes devem ser geradas dinamicamente -->
+            <option value="">Selecione um cliente</option>
+            <% clientes.forEach(cliente => { %>
+                <option value="<%= cliente.cod %>"><%= cliente.nome %></option>
+            <% }); %>
         </select>
     </div>
     <div class="form-group">
-        <label for="procedimentos">procedimentos</label>
+        <label for="procedimentos">Procedimentos</label>
         <select class="form-control" id="procedimentos" name="procedimentos" required>
-            <option value="">Selecione um procedimentos</option>
-            <!-- Opções de procedimentos devem ser geradas dinamicamente -->
+            <option value="">Selecione um procedimento</option>
+            <% procedimentos.forEach(procedimento => { %>
+                <option value="<%= procedimento.cod %>"><%= procedimento.nome %></option>
+            <% }); %>
         </select>
     </div>
     <div class="form-group">

@@ -13,13 +13,17 @@ const pool = mysql.createPool({
 // Promisify para usar async/await
 const promisePool = pool.promise();
 
-pool.getConnection((err, connection) => {
-    if (err) {
+// Função assíncrona para testar a conexão com a base de dados
+async function testConnection() {
+    try {
+        const connection = await promisePool.getConnection();
+        console.log('Connected to the MySQL database.');
+        connection.release(); // Libera a conexão de volta ao pool
+    } catch (err) {
         console.error('Error connecting to the database:', err);
-        return;
     }
-    console.log('Connected to the MySQL database.');
-    connection.release(); // Libera a conexão de volta ao pool
-});
+}
+
+testConnection();
 
 module.exports = promisePool; // Exporta o pool de conexões

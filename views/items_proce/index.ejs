@@ -1,10 +1,10 @@
-<h1>Listagem de Itens do procedimentos</h1>
+<h1>Listagem de Itens do Procedimento</h1>
 <table class="table">
     <thead>
         <tr>
             <th>ID</th>
-            <th>procedimentos</th>
-            <th>produtos</th>
+            <th>Procedimento</th>
+            <th>Produto</th>
             <th>Quantidade</th>
             <th>Ação</th>
         </tr>
@@ -12,7 +12,7 @@
     <tbody>
         <% items_proces.forEach(items_proce => { %>
             <tr>
-                <td><%= items_proce.cod %></td> <!-- Use cod se for o campo correto -->
+                <td><%= items_proce.cod %></td>
                 <td><%= items_proce.procedimentos %></td>
                 <td><%= items_proce.produtos %></td>
                 <td><%= items_proce.quantidade %></td>
@@ -27,4 +27,4 @@
         <% }) %>
     </tbody>
 </table>
-<a href="/items_proces/new" class="btn btn-primary">Novo Item do procedimentos</a>
+<a href="/items_proces/new" class="btn btn-primary">Novo Item do Procedimento</a>

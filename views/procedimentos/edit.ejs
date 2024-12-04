@@ -1,26 +1,25 @@
-<!-- views/edit.ejs -->
-<h1>Editar procedimentos</h1>
+<h1>Editar Procedimento</h1>
 
 <form action="/procedimentos/<%= procedimentos.cod %>?_method=PUT" method="POST">
     <div class="form-group">
         <label for="nome">Nome</label>
-        <input type="text" class="form-control" id="nome" name="nome" value="<%= procedimentos.nome %>" required>
+        <input type="text" class="form-control" id="nome" name="nome" value="<%= procedimentos.nome %>" required placeholder="Nome do Procedimento">
     </div>
     <div class="form-group">
         <label for="descricao">Descrição</label>
-        <textarea class="form-control" id="descricao" name="descricao" required><%= procedimentos.descricao %></textarea>
+        <textarea class="form-control" id="descricao" name="descricao" required placeholder="Descrição do Procedimento"><%= procedimentos.descricao %></textarea>
     </div>
     <div class="form-group">
         <label for="valor">Valor</label>
-        <input type="number" class="form-control" id="valor" name="valor" value="<%= procedimentos.valor %>" required step="0.01">
+        <input type="number" class="form-control" id="valor" name="valor" value="<%= procedimentos.valor %>" required step="0.01" placeholder="Valor do Procedimento">
     </div>
     <div class="form-group">
         <label for="duracao">Duração</label>
-        <input type="text" class="form-control" id="duracao" name="duracao" value="<%= procedimentos.duracao %>" required>
+        <input type="text" class="form-control" id="duracao" name="duracao" value="<%= procedimentos.duracao %>" required placeholder="Duração do Procedimento">
     </div>
     <div class="form-group">
         <label for="restricao">Restrições</label>
-        <input type="text" class="form-control" id="restricao" name="restricao" value="<%= procedimentos.restricao %>">
+        <input type="text" class="form-control" id="restricao" name="restricao" value="<%= procedimentos.restricao %>" placeholder="Restrições do Procedimento">
     </div>
     <div class="form-group">
         <label for="agenda">Agenda</label>
