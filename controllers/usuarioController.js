@@ -1,6 +1,6 @@
-const usuario = require('../models/usuariosModel');
+const Usuarios = require('../models/usuariosModel');
 
-const usuarioController = {
+const usuariosController = {
     // Criar um novo usuário
     createUsuario: async (req, res) => {
         try {
@@ -12,7 +12,7 @@ const usuarioController = {
             }
 
             const newUsuario = { nome, senha };
-            await usuario.create(newUsuario);
+            await Usuarios.create(newUsuario);
             res.redirect('/usuarios');
         } catch (err) {
             console.error('Erro ao criar usuário:', err);
@@ -21,11 +21,11 @@ const usuarioController = {
     },
 
     // Buscar usuário por ID
-    getUsuarioById: async (req, res) => {
+    getUsuariosById: async (req, res) => {
         const usuarioId = req.params.id;
 
         try {
-            const usuarioEncontrado = await usuario.getById(usuarioId);
+            const usuarioEncontrado = await Usuarios.getById(usuarioId);
             if (!usuarioEncontrado) {
                 return res.status(404).json({ message: 'Usuário não encontrado' });
             }
@@ -39,7 +39,7 @@ const usuarioController = {
     // Obter todos os usuários
     getAllUsuarios: async (req, res) => {
         try {
-            const usuarios = await Usuario.getAll();
+            const usuarios = await Usuarios.getAll();
             res.render('usuario/index', { usuarios });
         } catch (err) {
             console.error('Erro ao buscar usuários:', err);
@@ -57,7 +57,7 @@ const usuarioController = {
         const usuarioId = req.params.id;
 
         try {
-            const usuarioEncontrado = await usuario.getById(usuarioId);
+            const usuarioEncontrado = await Usuarios.getById(usuarioId);
             if (!usuarioEncontrado) {
                 return res.status(404).json({ message: 'Usuário não encontrado' });
             }
@@ -69,7 +69,7 @@ const usuarioController = {
     },
 
     // Atualizar um usuário
-    updateUsuario: async (req, res) => {
+    updateUsuarios: async (req, res) => {
         const usuarioId = req.params.id;
         const { nome, senha } = req.body;
 
@@ -81,7 +81,7 @@ const usuarioController = {
         const updatedUsuario = { nome, senha };
 
         try {
-            await usuario.update(usuarioId, updatedUsuario);
+            await Usuarios.update(usuarioId, updatedUsuario);
             res.redirect('/usuarios');
         } catch (err) {
             console.error('Erro ao atualizar usuário:', err);
@@ -90,11 +90,11 @@ const usuarioController = {
     },
 
     // Deletar um usuário
-    deleteUsuario: async (req, res) => {
+    deleteUsuarios: async (req, res) => {
         const usuarioId = req.params.id;
 
         try {
-            await usuario.delete(usuarioId);
+            await Usuarios.delete(usuarioId);
             res.redirect('/usuarios');
         } catch (err) {
             console.error('Erro ao deletar usuário:', err);
@@ -107,7 +107,7 @@ const usuarioController = {
         const search = req.query.search || '';
 
         try {
-            const usuarios = await usuario.searchByName(search);
+            const usuarios = await Usuarios.searchByName(search);
             res.json({ usuarios });
         } catch (err) {
             console.error('Erro ao pesquisar usuários:', err);
