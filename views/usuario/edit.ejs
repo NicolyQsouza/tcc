@@ -9,12 +9,6 @@
         <input type="password" class="form-control" id="password" name="password">
         <small class="form-text text-muted">Deixe em branco para não alterar a senha.</small>
     </div>
-    <div class="form-group">
-        <label for="role">Regra</label>
-        <select class="form-control" id="role" name="role" required>
-            <option value="administrador" <%= usuario.role === 'administrador' ? 'selected' : '' %>>Administrador</option>
-            <option value="usuario" <%= usuario.role === 'usuario' ? 'selected' : '' %>>Usuário</option>
-        </select>
-    </div>
+    
     <button type="submit" class="btn btn-warning">Salvar</button>
 </form>

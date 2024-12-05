@@ -1,4 +1,4 @@
-const usuario = require('../models/usuarioModel');
+const usuario = require('../models/usuariosModel');
 
 const usuarioController = {
     // Criar um novo usuário
@@ -39,7 +39,7 @@ const usuarioController = {
     // Obter todos os usuários
     getAllUsuarios: async (req, res) => {
         try {
-            const usuarios = await usuario.getAll();
+            const usuarios = await Usuario.getAll();
             res.render('usuario/index', { usuarios });
         } catch (err) {
             console.error('Erro ao buscar usuários:', err);
