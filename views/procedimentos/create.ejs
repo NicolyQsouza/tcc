@@ -1,34 +1,20 @@
-<h1>Editar Procedimento</h1>
+<h1>Cadastrar Novo Procedimento</h1>
 
-<form action="/procedimentos/<%= procedimentos.cod %>?_method=PUT" method="POST">
+<form action="/procedimentos" method="POST">
     <div class="form-group">
         <label for="nome">Nome</label>
-        <input type="text" class="form-control" id="nome" name="nome" value="<%= procedimentos.nome %>" required placeholder="Nome do Procedimento">
+        <input type="text" class="form-control" id="nome" name="nome" required placeholder="Nome do Procedimento">
     </div>
     <div class="form-group">
         <label for="descricao">Descrição</label>
-        <textarea class="form-control" id="descricao" name="descricao" required placeholder="Descrição do Procedimento"><%= procedimentos.descricao %></textarea>
+        <textarea class="form-control" id="descricao" name="descricao" required placeholder="Descrição do Procedimento"></textarea>
     </div>
     <div class="form-group">
         <label for="valor">Valor</label>
-        <input type="number" class="form-control" id="valor" name="valor" value="<%= procedimentos.valor %>" required step="0.01" placeholder="Valor do Procedimento">
+        <input type="number" class="form-control" id="valor" name="valor" required step="0.01" placeholder="Valor do Procedimento">
     </div>
-    <div class="form-group">
-        <label for="duracao">Duração</label>
-        <input type="text" class="form-control" id="duracao" name="duracao" value="<%= procedimentos.duracao %>" required placeholder="Duração do Procedimento">
-    </div>
-    <div class="form-group">
-        <label for="restricao">Restrições</label>
-        <input type="text" class="form-control" id="restricao" name="restricao" value="<%= procedimentos.restricao %>" placeholder="Restrições do Procedimento">
-    </div>
-    <div class="form-group">
-        <label for="agenda">Agenda</label>
-        <select class="form-control" id="agenda" name="agenda" required>
-            <% agenda.forEach(agenda => { %>
-                <option value="<%= agenda.cod %>" <%= procedimentos.agenda === agenda.cod ? 'selected' : '' %>><%= agenda.nome %></option>
-            <% }) %>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-warning">Salvar</button>
+
+    <button type="submit" class="btn btn-success">Cadastrar</button>
 </form>
+
 <a href="/procedimentos" class="btn btn-primary">Voltar para a Lista</a>

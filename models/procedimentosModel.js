@@ -1,13 +1,12 @@
-const db = require('../config/db'); // Certifique-se de que o arquivo de configuração do banco de dados está correto
+const db = require('../config/db');
 
 class Procedimentos {
     // Criar um novo procedimento
-    static async create(procedimento) {
-        const { duracao, restricao, descricao, cod, nome, valor, agenda, items_proce } = procedimento;
+    static async create (procedimento)  {
+        const {nome, descricao, valor} = procedimento;
         try {
-            const result = await db.query(
-                'INSERT INTO procedimentos (duracao, restricao, descricao, cod, nome, valor, agenda, items_proce) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                [duracao, restricao, descricao, cod, nome, valor, agenda, items_proce]
+            const result = await db.query ('INSERT INTO procedimentos( nome, descricao, valor) VALUES (?, ?, ?)',
+                [nome, descricao, valor]
             );
             return result.insertId; // Retorna o ID do novo procedimento
         } catch (err) {
@@ -37,11 +36,11 @@ class Procedimentos {
 
     // Atualizar um procedimento existente
     static async update(cod, procedimento) {
-        const { duracao, restricao, descricao, nome, valor, agenda, items_proce } = procedimento;
+        const { descricao, nome, valor,} = procedimento;
         try {
             await db.query(
-                'UPDATE procedimentos SET duracao = ?, restricao = ?, descricao = ?, nome = ?, valor = ?, agenda = ?, items_proce = ? WHERE cod = ?',
-                [duracao, restricao, descricao, nome, valor, agenda, items_proce, cod]
+                'UPDATE procedimento SET  nome = ?, descricao = ?, valor = ? WHERE cod = ?',
+                [ nome, descricao, valor]
             );
         } catch (err) {
             throw new Error('Erro ao atualizar procedimento: ' + err.message);
@@ -57,5 +56,4 @@ class Procedimentos {
         }
     }
 }
-
 module.exports = Procedimentos;

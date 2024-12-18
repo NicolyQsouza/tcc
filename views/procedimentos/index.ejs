@@ -6,8 +6,7 @@
             <th>Nome</th>
             <th>Descrição</th>
             <th>Valor</th>
-            <th>Duração</th>
-            <th>Ação</th>
+
         </tr>
     </thead>
     <tbody>
@@ -17,7 +16,6 @@
                 <td><%= procedimento.nome || 'Desconhecido' %></td>
                 <td><%= procedimento.descricao || 'Desconhecido' %></td>
                 <td><%= procedimento.valor ? procedimento.valor.toFixed(2) : 'Desconhecido' %></td>
-                <td><%= procedimento.duracao || 'Desconhecido' %></td>
                 <td>
                     <a href="/procedimentos/<%= procedimento.cod %>" class="btn btn-primary">Detalhes</a>
                     <a href="/procedimentos/<%= procedimento.cod %>/edit" class="btn btn-warning">Editar</a>

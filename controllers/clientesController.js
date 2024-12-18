@@ -1,17 +1,16 @@
 const Clientes = require('../models/clientesModel');
 
-const clientesController = {
+const clienteController = {
     // Cria um novo cliente
     createCliente: async (req, res) => {
         try {
-            const { foto, genero, endereco, cod, nome, fone, email, feedbacks, agenda, data_de_nascimento } = req.body;
-
+            const { nome, genero, endereco, fone, email, data_de_nascimento } = req.body;
             // Validação básica dos campos
-            if (!cod || !nome || !fone || !email) {
-                return res.status(400).json({ error: 'Os campos cod, nome, fone e email são obrigatórios.' });
+            if ( !nome || !fone || !email) {
+                return res.status(400).json({ error: 'Os campos  nome, fone e email são obrigatórios.' });
             }
 
-            const newCliente = { foto, genero, endereco, cod, nome, fone, email, feedbacks, agenda, data_de_nascimento };
+            const newCliente = {  nome, genero, endereco, fone, email, data_de_nascimento };
             await Clientes.create(newCliente);
 
             res.redirect('/clientes');
@@ -75,14 +74,14 @@ const clientesController = {
     updateCliente: async (req, res) => {
         try {
             const clienteId = req.params.cod;
-            const { foto, genero, endereco, nome, fone, email, feedbacks, agenda, data_de_nascimento } = req.body;
+            const {  nome, genero, endereco, fone, email, data_de_nascimento } = req.body;
 
             // Validação básica dos campos
             if (!nome || !fone || !email) {
                 return res.status(400).json({ error: 'Os campos nome, fone e email são obrigatórios.' });
             }
 
-            const updatedCliente = { foto, genero, endereco, nome, fone, email, feedbacks, agenda, data_de_nascimento };
+            const updatedCliente = {  nome, genero, endereco, fone, email, data_de_nascimento};
             const updated = await Clientes.update(clienteId, updatedCliente);
 
             if (!updated) {
@@ -127,4 +126,4 @@ const clientesController = {
     },
 };
 
-module.exports = clientesController;
+module.exports = clienteController;

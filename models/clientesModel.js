@@ -1,93 +1,59 @@
 const db = require('../config/db');
 
-const clientes = {
+class Clientes {
     // Criar um novo cliente
-    create: (clientes, callback) => {
-        const query = 'INSERT INTO clientes (foto, genero, endereco, cod, nome, fone, email, data_de_nascimento, feedbacks, agenda) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        db.query(query, [
-            clientes.foto,
-            clientes.genero,
-            clientes.endereco,
-            clientes.cod,
-            clientes.nome,
-            clientes.fone,
-            clientes.email,
-            clientes.data_de_nascimento,
-            clientes.feedbacks,   // Referencia ao código de feedback
-            clientes.agenda       // Referencia ao código de agenda
-        ], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results.insertId);  // Retorna o ID gerado para o cliente
-        });
-    },
-
-    // Buscar cliente por ID (cod)
-    findById: (id, callback) => {
-        const query = 'SELECT * FROM clientes WHERE cod = ?';
-        db.query(query, [id], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results[0]);  // Retorna o cliente encontrado
-        });
-    },
-
-    // Atualizar um cliente
-    update: (id, clientes, callback) => {
-        const query = 'UPDATE clientes SET foto = ?, genero = ?, endereco = ?, nome = ?, fone = ?, email = ?, data_de_nascimento = ?, feedbacks = ?, agenda = ? WHERE cod = ?';
-        db.query(query, [
-            clientes.foto,
-            clientes.genero,
-            clientes.endereco,
-            clientes.nome,
-            clientes.fone,
-            clientes.email,
-            clientes.data_de_nascimento,
-            clientes.feedbacks,   // Atualiza a referência do feedback
-            clientes.agenda,      // Atualiza a referência da agenda
-            id
-        ], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results);  // Retorna os resultados da atualização
-        });
-    },
-
-    // Deletar um cliente
-    delete: (id, callback) => {
-        const query = 'DELETE FROM clientes WHERE cod = ?';
-        db.query(query, [id], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results);  // Retorna os resultados da exclusão
-        });
-    },
+    static async create (cliente)  {
+        const {nome, genero, endereco, fone, email, data_de_nascimento } = cliente;
+        try {
+            const result = await db.query ('INSERT INTO clientes(nome, genero, endereco, fone, email, data_de_nascimento) VALUES (?, ?, ?, ?, ?, ?)',
+            [nome, genero, endereco, fone, email, data_de_nascimento]
+            );
+            return result.insertId; // Retorna o ID do novo cliente
+        } catch (err) {
+            throw new Error('Erro ao criar cliente: ' + err.message);
+        }
+    }
 
     // Obter todos os clientes
-    getAll: (callback) => {
-        const query = 'SELECT * FROM clientes';
-        db.query(query, (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results);  // Retorna todos os clientes
-        });
-    },
+    static async getAll() {
+        try {
+            const result = await db.query('SELECT * FROM clientes');
+            return result;
+        } catch (err) {
+            throw new Error('Erro ao obter clientes: ' + err.message);
+        }
+    }
 
-    // Buscar clientes por nome
-    searchByName: (name, callback) => {
-        const query = 'SELECT * FROM clientes WHERE nome LIKE ?';
-        db.query(query, [`%${name}%`], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results);  // Retorna clientes encontrados pelo nome
-        });
-    },
-};
+    // Obter um cliente pelo código
+    static async getById(cod) {
+        try {
+            const result = await db.query('SELECT * FROM clientes WHERE cod = ?', [cod]);
+            return result[0]; // Retorna o cliente ou undefined se não encontrado
+        } catch (err) {
+            throw new Error('Erro ao obter cliente por código: ' + err.message);
+        }
+    }
 
-module.exports = clientes;
+    // Atualizar um cliente existente
+    static async update(cod, cliente) {
+        const { nome, genero, endereco, fone, email, data_de_nascimento} = cliente;
+        try {
+            await db.query(
+                'UPDATE cliente SET nome = ?, genero = ?, endereco = ?, fone = ?, email = ?, data_de_nascimento = ? WHERE cod = ?',
+                [nome, genero, endereco, fone, email, data_de_nascimento, cod]
+            );
+        } catch (err) {
+            throw new Error('Erro ao atualizar cliente: ' + err.message);
+        }
+    }
+
+    // Deletar um cliente
+    static async delete(cod) {
+        try {
+            await db.query('DELETE FROM clientes WHERE cod = ?', [cod]);
+        } catch (err) {
+            throw new Error('Erro ao deletar cliente: ' + err.message);
+        }
+    }
+}
+module.exports = Clientes;

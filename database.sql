@@ -3,62 +3,57 @@ CREATE DATABASE CRUD;
 USE CRUD;
 
 CREATE TABLE usuario (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    cod INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     senha VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE clientes (
-    foto BLOB NULL,
+   
+    cod INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50),
     genero VARCHAR(10),
     endereco VARCHAR(100),
-    cod INT(4) PRIMARY KEY,
-    nome VARCHAR(50),
     fone VARCHAR(15),
     email VARCHAR(255),
-    feedbacks INT,
-    agenda INT,
-    data_de_nascimento DATE,
-    FOREIGN KEY (feedbacks) REFERENCES feedbacks(cod),
-    FOREIGN KEY (agenda) REFERENCES agenda(cod)
+    data_de_nascimento DATE
 );
 
+ 
+
 CREATE TABLE procedimentos (
-    duracao VARCHAR(15),
-    restricao VARCHAR(100),
-    descricao VARCHAR(100),
-    cod INT(4) PRIMARY KEY,
+
+    cod INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(50),
-    valor DECIMAL(10, 2),
-    agenda INT,
-    items_proce INT,
-    FOREIGN KEY (agenda) REFERENCES agenda(cod),
-    FOREIGN KEY (items_proce) REFERENCES items_proce(cod)
+    descricao VARCHAR(100),
+    valor DECIMAL(10, 2)
 );
 
 CREATE TABLE produtos (
-    foto BLOB,
+
+    cod INT PRIMARY KEY AUTO_INCREMENT,
+    foto VARCHAR(200),
     restricao VARCHAR(100),
     valor DECIMAL(10, 2),
     indicacao VARCHAR(50),
     marca VARCHAR(50),
     descricao VARCHAR(100),
-    cod INT(4) PRIMARY KEY,
-    items_proce INT,
-    FOREIGN KEY (items_proce) REFERENCES items_proce(cod)
+    items_proce INT
 );
 
 CREATE TABLE feedbacks (
-    foto BLOB,
+
+    cod INT PRIMARY KEY AUTO_INCREMENT,
+    foto VARCHAR(200),
     comentario VARCHAR(200),
-    cod INT(4) PRIMARY KEY,
-    avaliacao INT CHECK(avaliacao BETWEEN 1 AND 5),
+    avaliacao INT,  -- Removido o CHECK aqui
     clientes INT,
     FOREIGN KEY (clientes) REFERENCES clientes(cod)
 );
 
 CREATE TABLE agenda (
-    cod INT(4) PRIMARY KEY, 
+
+    cod INT PRIMARY KEY AUTO_INCREMENT, 
     clientes INT,
     procedimentos INT,
     profissional VARCHAR(50),
@@ -70,10 +65,11 @@ CREATE TABLE agenda (
 );
 
 CREATE TABLE items_proce (
-    cod INT(4) PRIMARY KEY, 
+
+    cod INT PRIMARY KEY AUTO_INCREMENT, 
     procedimentos INT,
     produtos INT,
-    quantidade INT CHECK(quantidade > 0),
+    quantidade INT,  -- Removido o CHECK aqui
     FOREIGN KEY (procedimentos) REFERENCES procedimentos(cod),
     FOREIGN KEY (produtos) REFERENCES produtos(cod)
 );

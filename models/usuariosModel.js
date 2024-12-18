@@ -3,11 +3,11 @@ const db = require('../config/db'); // Certifique-se de que o arquivo de configu
 class Usuarios {
     // Criar um novo usuario
     static async create(usuario) {
-        const { foto, restricao, valor, indicacao, marca, descricao, cod, items_proce } = usuario;
+        const {nome, senha } = usuario;
         try {
             const result = await db.query(
-                'INSERT INTO usuarios (foto, restricao, valor, indicacao, marca, descricao, cod, items_proce) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                [foto, restricao, valor, indicacao, marca, descricao, cod, items_proce]
+                'INSERT INTO usuario (nome, senha) VALUES ( ?, ?)',
+                [nome, senha]
             );
             return result.insertId; // Retorna o ID do novo usuario
         } catch (err) {
@@ -28,7 +28,7 @@ class Usuarios {
     // Obter um usuario pelo código
     static async getById(cod) {
         try {
-            const result = await db.query('SELECT * FROM usuarios WHERE cod = ?', [cod]);
+            const result = await db.query('SELECT * FROM usuario WHERE cod = ?', [cod]);
             return result[0]; // Retorna o usuario ou undefined se não encontrado
         } catch (err) {
             throw new Error('Erro ao obter usuario por código: ' + err.message);
@@ -37,11 +37,11 @@ class Usuarios {
 
     // Atualizar um usuario existente
     static async update(cod, usuario) {
-        const { foto, restricao, valor, indicacao, marca, descricao, items_proce } = usuario;
+        const { nome, senha } = usuario;
         try {
             await db.query(
-                'UPDATE usuarios SET foto = ?, restricao = ?, valor = ?, indicacao = ?, marca = ?, descricao = ?, items_proce = ? WHERE cod = ?',
-                [foto, restricao, valor, indicacao, marca, descricao, items_proce, cod]
+                'UPDATE usuario SET nome = ?, senha = ? WHERE cod = ?',
+                [nome, senha, cod]
             );
         } catch (err) {
             throw new Error('Erro ao atualizar usuario: ' + err.message);

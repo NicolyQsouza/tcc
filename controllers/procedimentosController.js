@@ -1,24 +1,27 @@
 const Procedimentos = require('../models/procedimentosModel');
 
-const procedimentosController = {
+const procedimentoController = {
+    // Cria um novo procedimento
     createProcedimento: async (req, res) => {
         try {
-            const { duracao, restricao, descricao, cod, nome, valor, agenda, items_proce } = req.body;
-
-            // Validação de entrada
-            if (!nome || !duracao || !valor || !cod) {
-                return res.status(400).json({ error: 'Campos obrigatórios estão ausentes.' });
+            const {  nome, descricao, valor } = req.body;
+            console.log(nome);
+            // Validação básica dos campos
+            if ( !nome || !descricao || !valor) {
+                return res.status(400).json({ error: 'Os campos  nome, fone e email são obrigatórios.' });
             }
 
-            const newProcedimento = { duracao, restricao, descricao, cod, nome, valor, agenda, items_proce };
+            const newProcedimento = {  nome, descricao, valor };
             await Procedimentos.create(newProcedimento);
+
             res.redirect('/procedimentos');
-        } catch (err) {
-            console.error('Erro ao criar procedimento:', err);
+        } catch (error) {
+            console.error('Erro ao criar procedimento:', error);
             res.status(500).json({ error: 'Erro ao criar procedimento.' });
         }
     },
 
+    // Busca um procedimento pelo ID (cod)
     getProcedimentoById: async (req, res) => {
         try {
             const procedimentoId = req.params.cod;
@@ -29,33 +32,29 @@ const procedimentosController = {
             }
 
             res.render('procedimentos/show', { procedimento });
-        } catch (err) {
-            console.error('Erro ao buscar procedimento por ID:', err);
+        } catch (error) {
+            console.error('Erro ao buscar procedimento:', error);
             res.status(500).json({ error: 'Erro ao buscar procedimento.' });
         }
     },
 
+    // Busca todos os procedimentos
     getAllProcedimentos: async (req, res) => {
         try {
             const procedimentos = await Procedimentos.getAll();
             res.render('procedimentos/index', { procedimentos });
-        } catch (err) {
-            console.error('Erro ao buscar procedimentos:', err);
+        } catch (error) {
+            console.error('Erro ao buscar procedimentos:', error);
             res.status(500).json({ error: 'Erro ao buscar procedimentos.' });
         }
     },
 
-    renderCreateForm: async (req, res) => {
-        try {
-            const agenda = await Procedimentos.getAgenda();
-            const items_proce = await Procedimentos.getItemsProce();
-            res.render('procedimentos/create', { agenda, items_proce });
-        } catch (err) {
-            console.error('Erro ao carregar formulário de criação:', err);
-            res.status(500).json({ error: 'Erro ao carregar formulário de criação.' });
-        }
+    // Renderiza o formulário de criação
+    renderCreateForm: (req, res) => {
+        res.render('procedimentos/create');
     },
 
+    // Renderiza o formulário de edição
     renderEditForm: async (req, res) => {
         try {
             const procedimentoId = req.params.cod;
@@ -65,54 +64,67 @@ const procedimentosController = {
                 return res.status(404).json({ message: 'Procedimento não encontrado.' });
             }
 
-            const agenda = await Procedimentos.getAgenda();
-            const items_proce = await Procedimentos.getItemsProce();
-            res.render('procedimentos/edit', { procedimento, agenda, items_proce });
-        } catch (err) {
-            console.error('Erro ao carregar formulário de edição:', err);
+            res.render('procedimentos/edit', { procedimento });
+        } catch (error) {
+            console.error('Erro ao carregar formulário de edição:', error);
             res.status(500).json({ error: 'Erro ao carregar formulário de edição.' });
         }
     },
 
+    // Atualiza um procedimento
     updateProcedimento: async (req, res) => {
         try {
             const procedimentoId = req.params.cod;
-            const { duracao, restricao, descricao, nome, valor, agenda, items_proce } = req.body;
+            const {  descricao, nome, valor, } = req.body;
 
-            if (!nome || !duracao || !valor) {
-                return res.status(400).json({ error: 'Campos obrigatórios estão ausentes.' });
+            // Validação básica dos campos
+            if (!nome || !fone || !email) {
+                return res.status(400).json({ error: 'Os campos nome, fone e email são obrigatórios.' });
             }
 
-            const updatedProcedimento = { duracao, restricao, descricao, nome, valor, agenda, items_proce };
-            await Procedimentos.update(procedimentoId, updatedProcedimento);
+            const updatedProcedimento = { descricao, nome, valor,};
+            const updated = await Procedimentos.update(procedimentoId, updatedProcedimento);
+
+            if (!updated) {
+                return res.status(404).json({ message: 'Procedimento não encontrado para atualização.' });
+            }
+
             res.redirect('/procedimentos');
-        } catch (err) {
-            console.error('Erro ao atualizar procedimento:', err);
+        } catch (error) {
+            console.error('Erro ao atualizar procedimento:', error);
             res.status(500).json({ error: 'Erro ao atualizar procedimento.' });
         }
     },
 
+    // Exclui um procedimento
     deleteProcedimento: async (req, res) => {
         try {
             const procedimentoId = req.params.cod;
-            await Procedimentos.delete(procedimentoId);
+            const deleted = await Procedimentos.delete(procedimentoId);
+
+            if (!deleted) {
+                return res.status(404).json({ message: 'Procedimento não encontrado para exclusão.' });
+            }
+
             res.redirect('/procedimentos');
-        } catch (err) {
-            console.error('Erro ao deletar procedimento:', err);
-            res.status(500).json({ error: 'Erro ao deletar procedimento.' });
+        } catch (error) {
+            console.error('Erro ao excluir procedimento:', error);
+            res.status(500).json({ error: 'Erro ao excluir procedimento.' });
         }
     },
 
+    // Busca procedimentos pelo nome
     searchProcedimentos: async (req, res) => {
         try {
             const search = req.query.search || '';
             const procedimentos = await Procedimentos.searchByName(search);
+
             res.json({ procedimentos });
-        } catch (err) {
-            console.error('Erro ao buscar procedimentos:', err);
+        } catch (error) {
+            console.error('Erro ao buscar procedimentos:', error);
             res.status(500).json({ error: 'Erro ao buscar procedimentos.' });
         }
     },
 };
 
-module.exports = procedimentosController;
+module.exports = procedimentoController;

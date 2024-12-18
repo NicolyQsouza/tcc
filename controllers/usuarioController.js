@@ -1,6 +1,6 @@
 const Usuarios = require('../models/usuariosModel');
 
-const usuariosController = {
+const usuarioController = {
     // Criar um novo usuário
     createUsuario: async (req, res) => {
         try {
@@ -13,7 +13,7 @@ const usuariosController = {
 
             const newUsuario = { nome, senha };
             await Usuarios.create(newUsuario);
-            res.redirect('/usuarios');
+            res.redirect('/usuario');
         } catch (err) {
             console.error('Erro ao criar usuário:', err);
             res.status(500).json({ error: 'Erro ao criar usuário.' });
@@ -41,6 +41,7 @@ const usuariosController = {
         try {
             const usuarios = await Usuarios.getAll();
             res.render('usuario/index', { usuarios });
+            console.log ('usuarios localizados no BD'+usuarios);
         } catch (err) {
             console.error('Erro ao buscar usuários:', err);
             res.status(500).json({ error: 'Erro ao buscar usuários.' });
