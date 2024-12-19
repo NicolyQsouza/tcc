@@ -1,61 +1,68 @@
-const db = require('../config/db'); // Certifique-se de que o arquivo de configuração do banco de dados está correto
+const db = require('../config/db');
 
-class ItemsProce {
-    // Criar um novo item de procedimento
-    static async create(itemProce) {
-        const { procedimentos, produtos, quantidade } = itemProce;
-        try {
-            const result = await db.query(
-                'INSERT INTO items_proce (procedimentos, produtos, quantidade) VALUES (?, ?, ?)',
-                [procedimentos, produtos, quantidade]
-            );
-            return result.insertId; // Retorna o ID do novo item de procedimento
-        } catch (err) {
-            throw new Error('Erro ao criar item de procedimento: ' + err.message);
-        }
-    }
-
-    // Obter todos os itens de procedimento
+class ItemsProceModel {
     static async getAll() {
         try {
             const result = await db.query('SELECT * FROM items_proce');
-            return result;
+            return result.rows;
         } catch (err) {
-            throw new Error('Erro ao obter itens de procedimento: ' + err.message);
+            throw new Error('Erro ao obter items_proce: ' + err.message);
         }
     }
 
-    // Obter um item de procedimento pelo ID (chave primária)
-    static async getById(cod) {
+    static async getProcedimentos() {
         try {
-            const result = await db.query('SELECT * FROM items_proce WHERE cod = ?', [cod]);
-            return result[0]; // Retorna o item de procedimento ou undefined se não encontrado
+            const result = await db.query('SELECT * FROM procedimentos');
+            return result.rows;
         } catch (err) {
-            throw new Error('Erro ao obter item de procedimento por ID: ' + err.message);
+            throw new Error('Erro ao obter procedimentos: ' + err.message);
         }
     }
 
-    // Atualizar um item de procedimento
-    static async update(cod, itemProce) {
+    static async getProdutos() {
+        try {
+            const result = await db.query('SELECT * FROM produtos');
+            return result.rows;
+        } catch (err) {
+            throw new Error('Erro ao obter produtos: ' + err.message);
+        }
+    }
+
+    static async create(itemProce) {
         const { procedimentos, produtos, quantidade } = itemProce;
         try {
-            await db.query(
-                'UPDATE items_proce SET procedimentos = ?, produtos = ?, quantidade = ? WHERE cod = ?',
-                [procedimentos, produtos, quantidade, cod]
-            );
+            const result = await db.query('INSERT INTO items_proce (procedimentos, produtos, quantidade) VALUES ($1, $2, $3) RETURNING id', [procedimentos, produtos, quantidade]);
+            return result.rows[0].id;
         } catch (err) {
-            throw new Error('Erro ao atualizar item de procedimento: ' + err.message);
+            throw new Error('Erro ao criar item_proce: ' + err.message);
         }
     }
 
-    // Deletar um item de procedimento
-    static async delete(cod) {
+    static async getById(id) {
         try {
-            await db.query('DELETE FROM items_proce WHERE cod = ?', [cod]);
+            const result = await db.query('SELECT * FROM items_proce WHERE id = $1', [id]);
+            return result.rows[0];
         } catch (err) {
-            throw new Error('Erro ao deletar item de procedimento: ' + err.message);
+            throw new Error('Erro ao obter item_proce por ID: ' + err.message);
+        }
+    }
+
+    static async update(id, itemProce) {
+        const { procedimentos, produtos, quantidade } = itemProce;
+        try {
+            await db.query('UPDATE items_proce SET procedimentos = $1, produtos = $2, quantidade = $3 WHERE id = $4', [procedimentos, produtos, quantidade, id]);
+        } catch (err) {
+            throw new Error('Erro ao atualizar item_proce: ' + err.message);
+        }
+    }
+
+    static async delete(id) {
+        try {
+            await db.query('DELETE FROM items_proce WHERE id = $1', [id]);
+        } catch (err) {
+            throw new Error('Erro ao deletar item_proce: ' + err.message);
         }
     }
 }
 
-module.exports = ItemsProce;
+module.exports = ItemsProceModel;

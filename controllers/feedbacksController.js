@@ -1,100 +1,109 @@
-const feedbacksModel = require('../models/feedbacksModel');
+const Feedback = require('../models/feedbacksModel');
+const Cliente = require('../models/clientesModel');
 
-const feedbacksController = {
-    // Criar um novo feedback
-    createFeedback: async (req, res) => {
-        try {
-            const { foto, comentario, avaliacao, clientes } = req.body;
+const feedbackController = {
 
-            // Validação básica
-            if (!comentario || !avaliacao || !clientes) {
-                return res.status(400).json({ error: 'Os campos comentario, avaliacao e clientes são obrigatórios.' });
+    create: (req, res) => {
+
+        const newFeedback = {
+            cliente: req.body.cliente,
+            foto: req.body.foto,
+            comentario: req.body.comentario,
+            avaliacao: req.body.avaliacao
+            
+        };
+
+        Feedback.create(newFeedback, (err, feedbackId) => {
+            if (err) {
+                return res.status(500).json({ error: err });
             }
-
-            if (avaliacao < 1 || avaliacao > 5) {
-                return res.status(400).json({ error: 'A avaliação deve estar entre 1 e 5.' });
-            }
-
-            const newFeedback = { foto, comentario, avaliacao, clientes };
-            const feedbackId = await feedbacksModel.create(newFeedback);
-
-            res.status(201).json({ message: 'Feedback criado com sucesso', feedbackId });
-        } catch (err) {
-            console.error('Erro ao criar feedback:', err);
-            res.status(500).json({ error: 'Erro ao criar feedback.' });
-        }
+            res.redirect('/feedbacks');
+        });
     },
 
-    // Obter todos os feedbacks
-    getAllFeedbacks: async (req, res) => {
-        try {
-            const feedbacks = await feedbacksModel.getAll();
-            res.status(200).json(feedbacks);
-        } catch (err) {
-            console.error('Erro ao buscar feedbacks:', err);
-            res.status(500).json({ error: 'Erro ao buscar feedbacks.' });
-        }
-    },
-
-    // Obter um feedback específico pelo ID
-    getFeedbackById: async (req, res) => {
+    getById: (req, res) => {
         const feedbackId = req.params.id;
 
-        try {
-            const feedback = await feedbacksModel.getById(feedbackId);
-            if (!feedback) {
-                return res.status(404).json({ message: 'Feedback não encontrado.' });
+        Feedback.findById(feedbackId, (err, feedback) => {
+            if (err) {
+                return res.status(500).json({ error: err });
             }
-
-            res.status(200).json(feedback);
+            if (!feedback) {
+                return res.status(404).json({ message: 'Feedback not found' });
+            }
+            res.render('/feedbacks/show', { feedback });
+        });
+    },
+    
+    // Obter todos os feedback
+    getAll: async (req, res) => {
+        try {
+            const feedback = await Feedback.getAll();
+            res.render('feedback/index', { feedback });
+            console.log ('feedback localizados no BD'+feedback[0].nome);
         } catch (err) {
             console.error('Erro ao buscar feedback:', err);
             res.status(500).json({ error: 'Erro ao buscar feedback.' });
         }
     },
 
-    // Atualizar um feedback
-    updateFeedback: async (req, res) => {
-        const feedbackId = req.params.id;
-        const { foto, comentario, avaliacao, clientes } = req.body;
-
-        try {
-            // Validação básica
-            if (avaliacao && (avaliacao < 1 || avaliacao > 5)) {
-                return res.status(400).json({ error: 'A avaliação deve estar entre 1 e 5.' });
+    renderCreateForm: (req, res) => {
+        Cliente.getAll((err, clientes) => {
+            if (err) {
+                return res.status(500).json({ error: err });
             }
-
-            const updatedFeedback = { foto, comentario, avaliacao, clientes };
-            const result = await feedbacksModel.update(feedbackId, updatedFeedback);
-
-            if (!result) {
-                return res.status(404).json({ message: 'Feedback não encontrado para atualização.' });
-            }
-
-            res.status(200).json({ message: 'Feedback atualizado com sucesso.' });
-        } catch (err) {
-            console.error('Erro ao atualizar feedback:', err);
-            res.status(500).json({ error: 'Erro ao atualizar feedback.' });
-        }
+            res.render('/feedbacks/create', { clientes });
+        });
     },
 
-    // Deletar um feedback
-    deleteFeedback: async (req, res) => {
+    renderEditForm: (req, res) => {
         const feedbackId = req.params.id;
 
-        try {
-            const result = await feedbacksModel.delete(feedbackId);
-
-            if (!result) {
-                return res.status(404).json({ message: 'Feedback não encontrado para exclusão.' });
+        Feedback.findById(feedbackId, (err, feedback) => {
+            if (err) {
+                return res.status(500).json({ error: err });
+            }
+            if (!feedback) {
+                return res.status(404).json({ message: 'Feedback not found' });
             }
 
-            res.status(200).json({ message: 'Feedback deletado com sucesso.' });
-        } catch (err) {
-            console.error('Erro ao deletar feedback:', err);
-            res.status(500).json({ error: 'Erro ao deletar feedback.' });
-        }
+            Cliente.getAll((err, clientes) => {
+                if (err) {
+                    return res.status(500).json({ error: err });
+                }
+                res.render('/feedbacks/edit', { feedback, clientes });
+            });
+        });
     },
+
+    update: (req, res) => {
+        const feedbackId = req.params.id;
+        
+        const updatedFeedback = {
+            cliente: req.body.cliente,
+            foto: req.body.foto,
+            comentario: req.body.comentario,
+            avaliacao: req.body.avaliacao
+        };
+
+        Feedback.update(feedbackId, updatedFeedback, (err) => {
+            if (err) {
+                return res.status(500).json({ error: err });
+            }
+            res.redirect('/feedbacks');
+        });
+    },
+
+    delete: (req, res) => {
+        const feedbackId = req.params.id;
+
+        Feedback.delete(feedbackId, (err) => {
+            if (err) {
+                return res.status(500).json({ error: err });
+            }
+            res.redirect('/feedbacks');
+        });
+    }
 };
 
-module.exports = feedbacksController;
+module.exports = feedbackController;

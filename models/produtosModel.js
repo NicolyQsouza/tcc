@@ -14,7 +14,7 @@ class Produtos {
             throw new Error('Erro ao criar produto: ' + err.message);
         }
     }
-
+   
     // Obter todos os produtos
     static async getAll() {
         try {

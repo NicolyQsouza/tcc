@@ -17,7 +17,7 @@
             <% feedbacks.forEach(feedback => { %>
                 <tr>
                     <td><%= feedback.cod %></td>
-                    <td><%= feedback.comentario.length > 50 ? feedback.comentario.substring(0, 50) + '...' : feedback.comentario %></td>
+                    <td><%= feedback.comentario %></td>
                     <td><%= feedback.avaliacao %></td>
                     <td>
                         <a href="/feedbacks/<%= feedback.cod %>" class="btn btn-primary">Detalhes</a>

@@ -40,10 +40,10 @@ CREATE TABLE produtos (
 CREATE TABLE feedbacks (
 
     cod INT PRIMARY KEY AUTO_INCREMENT,
+    clientes INT,
     foto VARCHAR(200),
     comentario VARCHAR(200),
-    avaliacao INT,  -- Removido o CHECK aqui
-    clientes INT,
+    avaliacao INT, 
     FOREIGN KEY (clientes) REFERENCES clientes(cod)
 );
 

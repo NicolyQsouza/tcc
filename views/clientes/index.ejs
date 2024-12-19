@@ -19,21 +19,27 @@
         </tr>
     </thead>
     <tbody id="clientTableBody">
-        <% clientes.forEach(clientes => { %>
+        <% if (clientes.length === 0) { %>
             <tr>
-                <td><%= clientes.cod %></td>
-                <td><%= clientes.nome %></td>
-                <td><%= clientes.fone %></td>
-                <td><%= clientes.email %></td>
-                <td>
-                    <a href="/clientes/<%= clientes.cod %>" class="btn btn-primary">Ver</a>
-                    <a href="/clientes/<%= clientes.cod %>/edit" class="btn btn-warning">Editar</a>
-                    <form action="/clientes/<%= clientes.cod %>?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
-                        <button type="submit" class="btn btn-danger">Excluir</button>
-                    </form>
-                </td>
+                <td colspan="5" class="text-center">Nenhum cliente encontrado.</td>
             </tr>
-        <% }) %>
+        <% } else { %>
+            <% clientes.forEach(cliente => { %>
+                <tr>
+                    <td><%= cliente.cod %></td>
+                    <td><%= cliente.nome %></td>
+                    <td><%= cliente.fone %></td>
+                    <td><%= cliente.email %></td>
+                    <td>
+                        <a href="/clientes/<%= cliente.cod %>" class="btn btn-primary">Ver</a>
+                        <a href="/clientes/<%= cliente.cod %>/edit" class="btn btn-warning">Editar</a>
+                        <form action="/clientes/<%= cliente.cod %>?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        <% } %>
     </tbody>
 </table>
 
@@ -57,7 +63,7 @@
                         <td>
                             <a href="/clientes/${cliente.cod}" class="btn btn-primary">Ver</a>
                             <a href="/clientes/${cliente.cod}/edit" class="btn btn-warning">Editar</a>
-                            <form action="/clientes/${cliente.cod}?_method=DELETE" method="POST" style="display: inline;">
+                            <form action="/clientes/${cliente.cod}?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
                                 <button type="submit" class="btn btn-danger">Excluir</button>
                             </form>
                         </td>
@@ -65,6 +71,6 @@
                     tbody.appendChild(tr);
                 });
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => console.error('Erro:', error));
     });
 </script>

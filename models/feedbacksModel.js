@@ -1,47 +1,38 @@
-const db = require('../config/db'); // Certifique-se de que o arquivo de configuração do banco de dados está correto
+const db = require('../config/db');
 
-class Feedbacks {
+class Feedback {
     // Criar um novo feedback
     static async create(feedback) {
-        const { foto, comentario, avaliacao, clientes } = feedback;
+        const { clientes, foto, comentario, avaliacao } = feedback;
         try {
             const result = await db.query(
-                'INSERT INTO feedbacks (foto, comentario, avaliacao, clientes) VALUES (?, ?, ?, ?)',
-                [foto, comentario, avaliacao, clientes]
+                'INSERT INTO feedbacks ( clientes, foto, comentario, avaliacao) VALUES ( ?, ?, ?, ?)',
+                [clientes, foto, comentario, avaliacao]
             );
-            return result.insertId; // Retorna o ID do novo feedback
+            // return result.insertId; // Retorna o ID do novo feedback
         } catch (err) {
             throw new Error('Erro ao criar feedback: ' + err.message);
         }
     }
 
-    // Obter todos os feedbacks
-    static async getAll() {
+    // Obter feedback por ID
+    static async findById(id) {
+        const query = 'SELECT feedbacks.*, clientes.nome AS cliente_nome FROM feedbacks JOIN clientes ON feedbacks.cliente = clientes.id WHERE feedbacks.id = ?';
         try {
-            const result = await db.query('SELECT * FROM feedbacks');
-            return result;
+            const result = await db.query(query, [id]);
+            return result[0]; // Retorna o feedback ou undefined se não encontrado
         } catch (err) {
-            throw new Error('Erro ao obter feedbacks: ' + err.message);
+            throw new Error('Erro ao buscar feedback por ID: ' + err.message);
         }
     }
 
-    // Obter feedback pelo ID
-    static async getById(cod) {
-        try {
-            const result = await db.query('SELECT * FROM feedbacks WHERE cod = ?', [cod]);
-            return result[0]; // Retorna o feedback encontrado ou undefined
-        } catch (err) {
-            throw new Error('Erro ao obter feedback por ID: ' + err.message);
-        }
-    }
-
-    // Atualizar um feedback
+    // Atualizar um feedback existente
     static async update(cod, feedback) {
-        const { foto, comentario, avaliacao, clientes } = feedback;
+        const { clientes, foto, comentario, avaliacao, } = feedback;
         try {
             await db.query(
-                'UPDATE feedbacks SET foto = ?, comentario = ?, avaliacao = ?, clientes = ? WHERE cod = ?',
-                [foto, comentario, avaliacao, clientes, cod]
+                'UPDATE feedbacks SET clientes = ?, foto = ?, comentario = ?, avaliacao = ? WHERE cod = ?',
+                [clientes, foto, comentario, avaliacao, cod]
             );
         } catch (err) {
             throw new Error('Erro ao atualizar feedback: ' + err.message);
@@ -49,13 +40,30 @@ class Feedbacks {
     }
 
     // Deletar um feedback
-    static async delete(cod) {
+    static async delete(id) {
+        const query = 'DELETE FROM feedbacks WHERE cod = ?';
         try {
-            await db.query('DELETE FROM feedbacks WHERE cod = ?', [cod]);
+            await db.query(query, [id]);
         } catch (err) {
             throw new Error('Erro ao deletar feedback: ' + err.message);
         }
     }
+
+    // Obter todos os feedbacks, com filtro opcional por cliente
+    static async getAll(cliente) {
+        let query = 'SELECT feedbacks.cod, feedbacks.clientes, feedbacks.foto, feedbacks.comentario, feedbacks.avaliacao, clientes.nome AS cliente_nome FROM feedbacks JOIN clientes ON feedbacks.clientes = clientes.cod';
+
+        if (cliente) {
+            query += ' WHERE feedbacks.clientes = ?';
+        }
+
+        try {
+            const results = await db.query(query, [cliente]);
+            return results; // Retorna os feedbacks encontrados
+        } catch (err) {
+            throw new Error('Erro ao obter feedbacks: ' + err.message);
+        }
+    }
 }
 
-module.exports = Feedbacks;
+module.exports = Feedback;

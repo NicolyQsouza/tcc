@@ -1,22 +1,25 @@
 const Clientes = require('../models/clientesModel');
 
-const clienteController = {
-    // Cria um novo cliente
-    createCliente: async (req, res) => {
+const clientesController = {
+    // Busca todos os clientes (sem render)
+    fetchAllClientes: async () => {
         try {
-            const { nome, genero, endereco, fone, email, data_de_nascimento } = req.body;
-            // Validação básica dos campos
-            if ( !nome || !fone || !email) {
-                return res.status(400).json({ error: 'Os campos  nome, fone e email são obrigatórios.' });
-            }
+            const clientes = await Clientes.getAll();
+            return clientes;
+        } catch (err) {
+            console.error('Erro ao buscar clientes:', err);
+            throw err;
+        }
+    },
 
-            const newCliente = {  nome, genero, endereco, fone, email, data_de_nascimento };
-            await Clientes.create(newCliente);
-
-            res.redirect('/clientes');
+    // Busca todos os clientes e renderiza a view
+    getAllClientes: async (req, res) => {
+        try {
+            const clientes = await Clientes.getAll();
+            res.render('clientes/index', { clientes });
         } catch (error) {
-            console.error('Erro ao criar cliente:', error);
-            res.status(500).json({ error: 'Erro ao criar cliente.' });
+            console.error('Erro ao buscar clientes:', error);
+            res.status(500).json({ error: 'Erro ao buscar clientes.' });
         }
     },
 
@@ -24,7 +27,7 @@ const clienteController = {
     getClienteById: async (req, res) => {
         try {
             const clienteId = req.params.cod;
-            const cliente = await Clientes.findById(clienteId);
+            const cliente = await Clientes.getById(clienteId);
 
             if (!cliente) {
                 return res.status(404).json({ message: 'Cliente não encontrado.' });
@@ -37,17 +40,6 @@ const clienteController = {
         }
     },
 
-    // Busca todos os clientes
-    getAllClientes: async (req, res) => {
-        try {
-            const clientes = await Clientes.getAll();
-            res.render('clientes/index', { clientes });
-        } catch (error) {
-            console.error('Erro ao buscar clientes:', error);
-            res.status(500).json({ error: 'Erro ao buscar clientes.' });
-        }
-    },
-
     // Renderiza o formulário de criação
     renderCreateForm: (req, res) => {
         res.render('clientes/create');
@@ -57,7 +49,7 @@ const clienteController = {
     renderEditForm: async (req, res) => {
         try {
             const clienteId = req.params.cod;
-            const cliente = await Clientes.findById(clienteId);
+            const cliente = await Clientes.getById(clienteId);
 
             if (!cliente) {
                 return res.status(404).json({ message: 'Cliente não encontrado.' });
@@ -70,18 +62,36 @@ const clienteController = {
         }
     },
 
-    // Atualiza um cliente
-    updateCliente: async (req, res) => {
+    // Cria um novo cliente
+    createCliente: async (req, res) => {
         try {
-            const clienteId = req.params.cod;
-            const {  nome, genero, endereco, fone, email, data_de_nascimento } = req.body;
+            const { nome, genero, endereco, fone, email, data_de_nascimento } = req.body;
 
-            // Validação básica dos campos
             if (!nome || !fone || !email) {
                 return res.status(400).json({ error: 'Os campos nome, fone e email são obrigatórios.' });
             }
 
-            const updatedCliente = {  nome, genero, endereco, fone, email, data_de_nascimento};
+            const newCliente = { nome, genero, endereco, fone, email, data_de_nascimento };
+            await Clientes.create(newCliente);
+
+            res.redirect('/clientes');
+        } catch (error) {
+            console.error('Erro ao criar cliente:', error);
+            res.status(500).json({ error: 'Erro ao criar cliente.' });
+        }
+    },
+
+    // Atualiza um cliente
+    updateCliente: async (req, res) => {
+        try {
+            const clienteId = req.params.cod;
+            const { nome, genero, endereco, fone, email, data_de_nascimento } = req.body;
+
+            if (!nome || !fone || !email) {
+                return res.status(400).json({ error: 'Os campos nome, fone e email são obrigatórios.' });
+            }
+
+            const updatedCliente = { nome, genero, endereco, fone, email, data_de_nascimento };
             const updated = await Clientes.update(clienteId, updatedCliente);
 
             if (!updated) {
@@ -126,4 +136,4 @@ const clienteController = {
     },
 };
 
-module.exports = clienteController;
+module.exports = clientesController;

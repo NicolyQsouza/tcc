@@ -9,19 +9,24 @@
         </tr>
     </thead>
     <tbody>
-        <% usuarios.forEach(usuario => { %>
+        <% if (usuarios && usuarios.length > 0) { %>
+            <% usuarios.forEach(usuario => { %>
+                <tr>
+                    <td><%= usuario.cod %></td>
+                    <td><%= usuario.nome %></td>
+                    <td>
+                        <a href="/usuario/<%= usuario.cod %>" class="btn btn-primary">Ver</a>
+                        <a href="/usuario/<%= usuario.cod %>/edit" class="btn btn-warning">Editar</a>
+                        <form action="/usuario/<%= usuario.cod %>?_method=DELETE" method="POST" style="display: inline;">
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        <% } else { %>
             <tr>
-                <td><%= usuario.cod %></td>
-                <td><%= usuario.nome %></td>
-              
-                <td>
-                    <a href="/usuario/<%= usuario.cod %>" class="btn btn-primary">Ver</a>
-                    <a href="/usuario/<%= usuario.cod %>/edit" class="btn btn-warning">Editar</a>
-                    <form action="/usuario/<%= usuario.cod %>?_method=DELETE" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-danger">Excluir</button>
-                    </form>
-                </td>
+                <td colspan="3" class="text-center">Nenhum usuário encontrado.</td>
             </tr>
-        <% }) %>
+        <% } %>
     </tbody>
 </table>
