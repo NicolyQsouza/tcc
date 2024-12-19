@@ -19,8 +19,6 @@ CREATE TABLE clientes (
     data_de_nascimento DATE
 );
 
- 
-
 CREATE TABLE procedimentos (
 
     cod INT PRIMARY KEY AUTO_INCREMENT,
@@ -29,23 +27,13 @@ CREATE TABLE procedimentos (
     valor DECIMAL(10, 2)
 );
 
-CREATE TABLE categorias (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL
-    
-
-);
 CREATE TABLE produtos (
 
     cod INT PRIMARY KEY AUTO_INCREMENT,
     foto VARCHAR(200),
-    restricao VARCHAR(100),
     valor DECIMAL(10, 2),
-    indicacao VARCHAR(50),
     marca VARCHAR(50),
-    descricao VARCHAR(100),
-    items_proce INT
-    FOREIGN KEY (categoria) REFERENCES categorias(id)
+    descricao VARCHAR(100)
 );
 
 CREATE TABLE feedbacks (
