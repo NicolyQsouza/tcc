@@ -25,7 +25,7 @@ const procedimentoController = {
     getProcedimentoById: async (req, res) => {
         try {
             const procedimentoId = req.params.cod;
-            const procedimento = await Procedimentos.findById(procedimentoId);
+            const procedimento = await Procedimentos.getById(procedimentoId);
 
             if (!procedimento) {
                 return res.status(404).json({ message: 'Procedimento não encontrado.' });

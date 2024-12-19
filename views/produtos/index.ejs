@@ -1,42 +1,26 @@
 <h1>Lista de Produtos</h1>
 
-<!-- Formulário de filtro por uso -->
-<form method="GET" action="/produtos">
-    <div class="form-group">
-        <label for="items_proce">Filtrar por Uso:</label>
-        <select id="items_proce" name="items_proce" class="form-control">
-            <option value="">Todos os Usos</option>
-            <% usos.forEach(uso => { %>
-                <option value="<%= uso.cod %>" <%= usoSelecionado == uso.cod ? 'selected' : '' %>><%= uso.nome %></option>
-            <% }) %>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Filtrar</button>
-</form>
-
 <table class="table">
     <thead>
         <tr>
             <th>Código</th>
             <th>Nome</th>
-            <th>Descrição</th>
             <th>Valor</th>
-            <th>Restrição</th>
-            <th>Indicação</th>
             <th>Marca</th>
-            <th>Ações</th>
+            <th>Descrição</th>
+            <th>Foto</th>
+           
         </tr>
     </thead>
     <tbody>
         <% produtos.forEach(produto => { %>
             <tr>
                 <td><%= produto.cod %></td>
-                <td><%= produto.nome || 'Desconhecido' %></td>
-                <td><%= produto.descricao || 'Desconhecido' %></td>
-                <td><%= produto.valor ? produto.valor.toFixed(2) : 'Desconhecido' %></td>
-                <td><%= produto.restricao || 'N/A' %></td>
-                <td><%= produto.indicacao || 'N/A' %></td>
-                <td><%= produto.marca || 'N/A' %></td>
+                <td><%= produto.nome %></td>
+                <td><%= produto.valor %></td>
+                <td><%= produto.marca %></td>
+                <td><%= produto.descricao %></td>
+                <td><%= produto.foto %></td>
                 <td>
                     <a href="/produtos/<%= produto.cod %>" class="btn btn-primary">Ver</a>
                     <a href="/produtos/<%= produto.cod %>/edit" class="btn btn-warning">Editar</a>

@@ -1,9 +1,8 @@
 <h1>Detalhes do Produto</h1>
 <p><strong>Código:</strong> <%= produtos.cod %></p>
-<p><strong>Nome:</strong> <%= produtos.nome || 'Desconhecido' %></p>
-<p><strong>Descrição:</strong> <%= produtos.descricao || 'Desconhecida' %></p>
-<p><strong>Valor:</strong> <%= produtos.valor ? produtos.valor.toFixed(2) : 'Desconhecido' %></p>
-<p><strong>Restrição:</strong> <%= produtos.restricao || 'N/A' %></p>
-<p><strong>Indicação:</strong> <%= produtos.indicacao || 'N/A' %></p>
-<p><strong>Marca:</strong> <%= produtos.marca || 'N/A' %></p>
+<p><strong>Nome:</strong> <%= produtos.nome  %></p>
+<p><strong>Valor:</strong> <%= produtos.valor  %></p>
+<p><strong>Marca:</strong> <%= produtos.marca  %></p>
+<p><strong>Descrição:</strong> <%= produtos.descricao  %></p>
+<p><strong>Foto:</strong> <%= produtos.foto  %></p>
 <a href="/produtos" class="btn btn-primary">Voltar à Lista</a>

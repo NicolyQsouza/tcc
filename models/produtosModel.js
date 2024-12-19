@@ -3,11 +3,11 @@ const db = require('../config/db'); // Certifique-se de que o arquivo de configu
 class Produtos {
     // Criar um novo produto
     static async create(produto) {
-        const { foto, restricao, valor, indicacao, marca, descricao, cod, items_proce } = produto;
+        const {nome, valor, marca, descricao, foto} = produto;
         try {
             const result = await db.query(
-                'INSERT INTO produtos (foto, restricao, valor, indicacao, marca, descricao, cod, items_proce) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                [foto, restricao, valor, indicacao, marca, descricao, cod, items_proce]
+                'INSERT INTO produtos (nome, valor, marca, descricao, foto) VALUES ( ?, ?, ?, ?, ? )',
+                [nome, valor, marca, descricao, foto]
             );
             return result.insertId; // Retorna o ID do novo produto
         } catch (err) {
@@ -37,11 +37,11 @@ class Produtos {
 
     // Atualizar um produto existente
     static async update(cod, produto) {
-        const { foto, restricao, valor, indicacao, marca, descricao, items_proce } = produto;
+        const { nome, valor, marca, descricao, foto} = produto;
         try {
             await db.query(
-                'UPDATE produtos SET foto = ?, restricao = ?, valor = ?, indicacao = ?, marca = ?, descricao = ?, items_proce = ? WHERE cod = ?',
-                [foto, restricao, valor, indicacao, marca, descricao, items_proce, cod]
+                'UPDATE produtos SET nome = ?, valor = ?, marca = ?, descricao = ?, foto = ? WHERE cod = ?',
+                [nome, valor, marca, descricao, foto, cod]
             );
         } catch (err) {
             throw new Error('Erro ao atualizar produto: ' + err.message);

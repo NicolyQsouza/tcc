@@ -41,7 +41,7 @@ const usuarioController = {
         try {
             const usuarios = await Usuarios.getAll();
             res.render('usuario/index', { usuarios });
-            console.log ('usuarios localizados no BD'+usuarios);
+            console.log ('usuarios localizados no BD'+usuarios[0].nome);
         } catch (err) {
             console.error('Erro ao buscar usuários:', err);
             res.status(500).json({ error: 'Erro ao buscar usuários.' });

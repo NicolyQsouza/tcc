@@ -1,17 +1,17 @@
 const Produtos = require('../models/produtosModel');
 
-const produtosController = {
+const produtoController = {
     // Criar um novo produto
-    createProdutos: async (req, res) => {
+    createProduto: async (req, res) => {
         try {
-            const { foto, restricao, valor, indicacao, marca, descricao, cod, items_proce } = req.body;
+            const { nome, valor, marca, descricao, foto} = req.body;
 
             // Validação de campos obrigatórios
-            if (!cod || !valor || !marca || !descricao) {
-                return res.status(400).json({ error: 'Campos obrigatórios estão ausentes.' });
+            if (!nome || !valor  ) {
+                return res.status(400).json({ error: 'Nome e valor são obrigatórios.' });
             }
 
-            const newProduto = { foto, restricao, valor, indicacao, marca, descricao, cod, items_proce };
+            const newProduto = { nome, valor, marca, descricao, foto};
             await Produtos.create(newProduto);
             res.redirect('/produtos');
         } catch (err) {
@@ -22,14 +22,14 @@ const produtosController = {
 
     // Buscar produto por ID
     getProdutosById: async (req, res) => {
-        const produtoId = req.params.cod;
+        const produtoId = req.params.id;
 
         try {
-            const produto = await Produtos.findById(produtoId);
-            if (!produto) {
-                return res.status(404).json({ message: 'Produto não encontrado.' });
+            const produtoEncontrado = await Produtos.getById(produtoId);
+            if (!produtoEncontrado) {
+                return res.status(404).json({ message: 'Produto não encontrado' });
             }
-            res.render('produtos/show', { produto });
+            res.render('produtos/show', { produto: produtoEncontrado });
         } catch (err) {
             console.error('Erro ao buscar produto por ID:', err);
             res.status(500).json({ error: 'Erro ao buscar produto.' });
@@ -41,27 +41,28 @@ const produtosController = {
         try {
             const produtos = await Produtos.getAll();
             res.render('produtos/index', { produtos });
+            console.log ('produtos localizados no BD'+produtos[0].nome);
         } catch (err) {
             console.error('Erro ao buscar produtos:', err);
             res.status(500).json({ error: 'Erro ao buscar produtos.' });
         }
     },
 
-    // Renderizar formulário de criação
+    // Renderizar o formulário de criação
     renderCreateForm: (req, res) => {
         res.render('produtos/create');
     },
 
-    // Renderizar formulário de edição
+    // Renderizar o formulário de edição
     renderEditForm: async (req, res) => {
-        const produtoId = req.params.cod;
+        const produtoId = req.params.id;
 
         try {
-            const produto = await Produtos.findById(produtoId);
-            if (!produto) {
-                return res.status(404).json({ message: 'Produto não encontrado.' });
+            const produtoEncontrado = await Produtos.getById(produtoId);
+            if (!produtoEncontrado) {
+                return res.status(404).json({ message: 'Produto não encontrado' });
             }
-            res.render('produtos/edit', { produto });
+            res.render('produtos/edit', { produto: produtoEncontrado });
         } catch (err) {
             console.error('Erro ao carregar formulário de edição:', err);
             res.status(500).json({ error: 'Erro ao carregar formulário de edição.' });
@@ -70,14 +71,15 @@ const produtosController = {
 
     // Atualizar um produto
     updateProdutos: async (req, res) => {
-        const produtoId = req.params.cod;
-        const { foto, restricao, valor, indicacao, marca, descricao, items_proce } = req.body;
+        const produtoId = req.params.id;
+        const { nome, valor, marca, descricao, foto } = req.body;
 
-        if (!valor || !marca || !descricao) {
-            return res.status(400).json({ error: 'Campos obrigatórios estão ausentes.' });
+        // Validação de campos obrigatórios
+        if (!nome || !senha) {
+            return res.status(400).json({ error: 'Nome e valor são obrigatórios.' });
         }
 
-        const updatedProduto = { foto, restricao, valor, indicacao, marca, descricao, items_proce };
+        const updatedProduto = { nome, valor, marca, descricao, foto };
 
         try {
             await Produtos.update(produtoId, updatedProduto);
@@ -90,7 +92,7 @@ const produtosController = {
 
     // Deletar um produto
     deleteProdutos: async (req, res) => {
-        const produtoId = req.params.cod;
+        const produtoId = req.params.id;
 
         try {
             await Produtos.delete(produtoId);
@@ -99,7 +101,20 @@ const produtosController = {
             console.error('Erro ao deletar produto:', err);
             res.status(500).json({ error: 'Erro ao deletar produto.' });
         }
-    }
+    },
+
+    // Buscar produtos por nome (pesquisa)
+    searchProduto: async (req, res) => {
+        const search = req.query.search || '';
+
+        try {
+            const produtos = await Produtos.searchByName(search);
+            res.json({ produtos });
+        } catch (err) {
+            console.error('Erro ao pesquisar produtos:', err);
+            res.status(500).json({ error: 'Erro ao pesquisar produtos.' });
+        }
+    },
 };
 
-module.exports = produtosController;
+module.exports = produtoController;

@@ -30,10 +30,11 @@ CREATE TABLE procedimentos (
 CREATE TABLE produtos (
 
     cod INT PRIMARY KEY AUTO_INCREMENT,
-    foto VARCHAR(200),
+    nome VARCHAR(50),
     valor DECIMAL(10, 2),
     marca VARCHAR(50),
-    descricao VARCHAR(100)
+    descricao VARCHAR(100),
+    foto VARCHAR(200)
 );
 
 CREATE TABLE feedbacks (

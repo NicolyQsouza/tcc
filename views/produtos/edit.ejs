@@ -1,41 +1,31 @@
 <h1>Editar Produto</h1>
 
 <form action="/produtos/<%= produtos.cod %>?_method=PUT" method="POST" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="foto">Foto do Produto:</label>
-        <input type="file" class="form-control" id="foto" name="foto">
-    </div>
+  
     <div class="form-group">
         <label for="nome">Nome</label>
         <input type="text" class="form-control" id="nome" name="nome" value="<%= produtos.nome %>" required placeholder="Nome do Produto">
     </div>
-    <div class="form-group">
-        <label for="descricao">Descrição</label>
-        <input type="text" class="form-control" id="descricao" name="descricao" value="<%= produtos.descricao %>" required placeholder="Descrição do Produto">
-    </div>
+
     <div class="form-group">
         <label for="valor">Valor</label>
         <input type="number" step="0.01" class="form-control" id="valor" name="valor" value="<%= produtos.valor %>" required placeholder="Valor do Produto">
     </div>
-    <div class="form-group">
-        <label for="restricao">Restrição</label>
-        <input type="text" class="form-control" id="restricao" name="restricao" value="<%= produtos.restricao %>" placeholder="Restrições do Produto">
-    </div>
-    <div class="form-group">
-        <label for="indicacao">Indicação</label>
-        <input type="text" class="form-control" id="indicacao" name="indicacao" value="<%= produtos.indicacao %>" placeholder="Indicação do Produto">
-    </div>
+ 
     <div class="form-group">
         <label for="marca">Marca</label>
         <input type="text" class="form-control" id="marca" name="marca" value="<%= produtos.marca %>" placeholder="Marca do Produto">
     </div>
-    <div class="form-group">
-        <label for="items_proce">Referência de Uso:</label>
-        <select class="form-control" id="items_proce" name="items_proce" required>
-            <% usos.forEach(function(uso) { %>
-                <option value="<%= uso.cod %>" <%= produtos.items_proce == uso.cod ? 'selected' : '' %>><%= uso.nome %></option>
-            <% }); %>
-        </select>
+
+     <div class="form-group">
+        <label for="descricao">Descrição</label>
+        <input type="text" class="form-control" id="descricao" name="descricao" value="<%= produtos.descricao %>" required placeholder="Descrição do Produto">
     </div>
+
+     <div class="form-group">
+        <label for="foto">Foto do Produto:</label>
+        <input type="file" class="form-control" id="foto" name="foto">
+    </div>
+
     <button type="submit" class="btn btn-warning">Salvar</button>
 </form>

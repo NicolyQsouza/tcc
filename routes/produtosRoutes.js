@@ -2,25 +2,25 @@ const express = require('express');
 const produtosController = require('../controllers/produtosController');
 const router = express.Router();
 
-// Rota para listar todos os produtos
-router.get('/', produtosController.getAllProdutos);
+// Rota para listar todos os usuários
+router.get('/', produtosController.getAllProdutos); // Função para obter todos os usuários
 
-// Rota para mostrar o formulário de criação de um novo produto
-router.get('/new', produtosController.renderCreateForm);
+// Rota para mostrar o formulário de criação de um novo usuário
+router.get('/new', produtosController.renderCreateForm); // Função para renderizar o formulário de criação
 
-// Rota para criar um novo produto
-router.post('/', produtosController.createProdutos); // Alterado para 'createProdutos'
+// Rota para criar um novo usuário
+router.post('/', produtosController.createProduto); // Função para criar um novo usuário (corrigido para "createProduto")
 
-// Rota para mostrar detalhes de um produto específico
-router.get('/:cod', produtosController.getProdutosById); // Alterado para 'getProdutosById'
+// Rota para mostrar detalhes de um usuário específico
+router.get('/:id', produtosController.getProdutosById); // Função para obter um usuário por ID (corrigido para "getProdutoById")
 
-// Rota para mostrar o formulário de edição de um produto específico
-router.get('/:cod/edit', produtosController.renderEditForm);
+// Rota para mostrar o formulário de edição de um usuário específico
+router.get('/:id/edit', produtosController.renderEditForm); // Função para renderizar o formulário de edição
 
-// Rota para atualizar um produto específico
-router.put('/:cod', produtosController.updateProdutos); // Alterado para 'updateProdutos'
+// Rota para atualizar um usuário específico
+router.put('/:id', produtosController.updateProdutos); // Função para atualizar um usuário (corrigido para "updateProduto")
 
-// Rota para deletar um produto específico
-router.delete('/:cod', produtosController.deleteProdutos); // Alterado para 'deleteProdutos'
+// Rota para deletar um usuário específico
+router.delete('/:id', produtosController.deleteProdutos); // Função para deletar um usuário (corrigido para "deleteProduto")
 
 module.exports = router;
