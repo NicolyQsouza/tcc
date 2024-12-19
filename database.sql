@@ -29,6 +29,12 @@ CREATE TABLE procedimentos (
     valor DECIMAL(10, 2)
 );
 
+CREATE TABLE categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL
+    
+
+);
 CREATE TABLE produtos (
 
     cod INT PRIMARY KEY AUTO_INCREMENT,
@@ -39,6 +45,7 @@ CREATE TABLE produtos (
     marca VARCHAR(50),
     descricao VARCHAR(100),
     items_proce INT
+    FOREIGN KEY (categoria) REFERENCES categorias(id)
 );
 
 CREATE TABLE feedbacks (
