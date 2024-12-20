@@ -1,7 +1,7 @@
 const Clientes = require('../models/clientesModel');
 
 const clientesController = {
-
+    // Criar um novo cliente
     createCliente: (req, res) => {
         const newCliente = {
             nome: req.body.nome,
@@ -17,6 +17,7 @@ const clientesController = {
             return res.status(400).json({ error: 'Os campos nome, fone e email são obrigatórios.' });
         }
 
+        // Usando o modelo para salvar o novo cliente
         Clientes.create(newCliente, (err, clienteId) => {
             if (err) {
                 return res.status(500).json({ error: err });
@@ -25,6 +26,7 @@ const clientesController = {
         });
     },
 
+    // Obter todos os clientes
     getAllClientes: (req, res) => {
         Clientes.getAll((err, clientes) => {
             if (err) {
@@ -34,6 +36,7 @@ const clientesController = {
         });
     },
 
+    // Obter um cliente específico pelo código
     getClienteById: (req, res) => {
         const clienteId = req.params.cod;
 
@@ -48,10 +51,12 @@ const clientesController = {
         });
     },
 
+    // Renderizar o formulário de criação
     renderCreateForm: (req, res) => {
         res.render('clientes/create');
     },
 
+    // Renderizar o formulário de edição
     renderEditForm: (req, res) => {
         const clienteId = req.params.cod;
 
@@ -66,6 +71,7 @@ const clientesController = {
         });
     },
 
+    // Atualizar um cliente
     updateCliente: (req, res) => {
         const clienteId = req.params.cod;
 
@@ -78,7 +84,7 @@ const clientesController = {
             data_de_nascimento: req.body.data_de_nascimento
         };
 
-        // Validação básica dos campos
+        // Validação básica
         if (!updatedCliente.nome || !updatedCliente.fone || !updatedCliente.email) {
             return res.status(400).json({ error: 'Os campos nome, fone e email são obrigatórios.' });
         }
@@ -91,6 +97,7 @@ const clientesController = {
         });
     },
 
+    // Deletar um cliente
     deleteCliente: (req, res) => {
         const clienteId = req.params.cod;
 
@@ -102,16 +109,20 @@ const clientesController = {
         });
     },
 
+    // Buscar clientes pelo nome
     searchClientes: (req, res) => {
-        const search = req.query.search || '';
+    const search = req.query.search || ''; // Captura o valor da busca ou uma string vazia caso não haja pesquisa
 
-        Clientes.searchByName(search, (err, clientes) => {
-            if (err) {
-                return res.status(500).json({ error: err });
-            }
-            res.json({ clientes });
-        });
-    }
+    // Faz a busca no banco de dados
+    Clientes.searchByName(search, (err, clientes) => {
+        if (err) {
+            return res.status(500).json({ error: err });
+        }
+        // Passa os resultados para a view, incluindo o valor da busca
+        res.render('clientes/index', { clientes, search });
+    });
+}
+
 };
 
 module.exports = clientesController;

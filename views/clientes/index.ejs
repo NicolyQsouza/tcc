@@ -1,13 +1,5 @@
 <h1>Lista de Clientes</h1>
 
-<form id="searchForm" method="GET" action="/clientes" class="mb-3">
-    <div class="form-group">
-        <label for="search">Buscar Clientes:</label>
-        <input type="text" id="search" name="search" class="form-control" placeholder="Digite o nome do cliente" autocomplete="off" required>
-    </div>
-    <button type="submit" class="btn btn-primary mt-2">Buscar</button>
-</form>
-
 <table class="table">
     <thead>
         <tr>
@@ -18,12 +10,8 @@
             <th>Ação</th>
         </tr>
     </thead>
-    <tbody id="clientTableBody">
-        <% if (clientes.length === 0) { %>
-            <tr>
-                <td colspan="5" class="text-center">Nenhum cliente encontrado.</td>
-            </tr>
-        <% } else { %>
+    <tbody>
+        <% if (clientes && clientes.length > 0) { %>
             <% clientes.forEach(cliente => { %>
                 <tr>
                     <td><%= cliente.cod %></td>
@@ -31,6 +19,7 @@
                     <td><%= cliente.fone %></td>
                     <td><%= cliente.email %></td>
                     <td>
+                        <!-- Botões para visualização, edição e exclusão -->
                         <a href="/clientes/<%= cliente.cod %>" class="btn btn-primary">Ver</a>
                         <a href="/clientes/<%= cliente.cod %>/edit" class="btn btn-warning">Editar</a>
                         <form action="/clientes/<%= cliente.cod %>?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
@@ -39,38 +28,10 @@
                     </td>
                 </tr>
             <% }) %>
+        <% } else { %>
+            <tr>
+                <td colspan="5" class="text-center">Nenhum cliente encontrado.</td>
+            </tr>
         <% } %>
     </tbody>
 </table>
-
-<script>
-    document.getElementById('search').addEventListener('input', function() {
-        const searchValue = this.value;
-
-        fetch(`/clientes/search?search=${encodeURIComponent(searchValue)}`)
-            .then(response => response.json())
-            .then(data => {
-                const tbody = document.getElementById('clientTableBody');
-                tbody.innerHTML = ''; // Limpa as linhas existentes
-
-                data.clientes.forEach(cliente => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${cliente.cod}</td>
-                        <td>${cliente.nome}</td>
-                        <td>${cliente.fone}</td>
-                        <td>${cliente.email}</td>
-                        <td>
-                            <a href="/clientes/${cliente.cod}" class="btn btn-primary">Ver</a>
-                            <a href="/clientes/${cliente.cod}/edit" class="btn btn-warning">Editar</a>
-                            <form action="/clientes/${cliente.cod}?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
-                                <button type="submit" class="btn btn-danger">Excluir</button>
-                            </form>
-                        </td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            })
-            .catch(error => console.error('Erro:', error));
-    });
-</script>

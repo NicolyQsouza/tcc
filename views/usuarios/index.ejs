@@ -15,9 +15,9 @@
                     <td><%= usuario.cod %></td>
                     <td><%= usuario.nome %></td>
                     <td>
-                        <a href="/usuario/<%= usuario.cod %>" class="btn btn-primary">Ver</a>
-                        <a href="/usuario/<%= usuario.cod %>/edit" class="btn btn-warning">Editar</a>
-                        <form action="/usuario/<%= usuario.cod %>?_method=DELETE" method="POST" style="display: inline;">
+                        <a href="/usuarios/<%= usuario.cod %>" class="btn btn-primary">Ver</a>
+                        <a href="/usuarios/<%= usuario.cod %>/edit" class="btn btn-warning">Editar</a>
+                        <form action="/usuarios/<%= usuario.cod %>?_method=DELETE" method="POST" style="display: inline;">
                             <button type="submit" class="btn btn-danger">Excluir</button>
                         </form>
                     </td>

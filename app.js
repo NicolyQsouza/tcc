@@ -14,7 +14,7 @@ const produtosRoutes = require('./routes/produtosRoutes');
 const procedimentosRoutes = require('./routes/procedimentosRoutes');
 const feedbacksRoutes = require('./routes/feedbacksRoutes');
 const agendaRoutes = require('./routes/agendaRoutes');
-const usuarioRoutes = require('./routes/usuarioRoutes');
+const usuariosRoutes = require('./routes/usuariosRoutes');  // Corrigido para "/usuarios" para consistência nas rotas
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,13 +30,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 // Rotas
-app.use('/', indexRoutes);
+app.use('/', indexRoutes);  // Rota principal
 app.use('/clientes', clientesRoutes);
 app.use('/produtos', produtosRoutes);
 app.use('/procedimentos', procedimentosRoutes);
 app.use('/feedbacks', feedbacksRoutes);
 app.use('/agenda', agendaRoutes);
-app.use('/usuario', usuarioRoutes); // Corrigido para "/usuarios" para manter consistência nas rotas
+app.use('/usuarios', usuariosRoutes);
 
 // Middleware para tratamento de erros (404 - Not Found)
 app.use((req, res, next) => {

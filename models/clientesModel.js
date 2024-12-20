@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require('../config/db');  // Configuração do banco de dados com pg
 
 const Clientes = {
     // Criar um novo cliente
