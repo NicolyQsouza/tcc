@@ -1,139 +1,117 @@
 const Clientes = require('../models/clientesModel');
 
 const clientesController = {
-    // Busca todos os clientes (sem render)
-    fetchAllClientes: async () => {
-        try {
-            const clientes = await Clientes.getAll();
-            return clientes;
-        } catch (err) {
-            console.error('Erro ao buscar clientes:', err);
-            throw err;
+
+    createCliente: (req, res) => {
+        const newCliente = {
+            nome: req.body.nome,
+            genero: req.body.genero,
+            endereco: req.body.endereco,
+            fone: req.body.fone,
+            email: req.body.email,
+            data_de_nascimento: req.body.data_de_nascimento
+        };
+
+        // Validação básica dos campos
+        if (!newCliente.nome || !newCliente.fone || !newCliente.email) {
+            return res.status(400).json({ error: 'Os campos nome, fone e email são obrigatórios.' });
         }
-    },
 
-    // Busca todos os clientes e renderiza a view
-    getAllClientes: async (req, res) => {
-        try {
-            const clientes = await Clientes.getAll();
-            res.render('clientes/index', { clientes });
-        } catch (error) {
-            console.error('Erro ao buscar clientes:', error);
-            res.status(500).json({ error: 'Erro ao buscar clientes.' });
-        }
-    },
-
-    // Busca um cliente pelo ID (cod)
-    getClienteById: async (req, res) => {
-        try {
-            const clienteId = req.params.cod;
-            const cliente = await Clientes.getById(clienteId);
-
-            if (!cliente) {
-                return res.status(404).json({ message: 'Cliente não encontrado.' });
+        Clientes.create(newCliente, (err, clienteId) => {
+            if (err) {
+                return res.status(500).json({ error: err });
             }
-
-            res.render('clientes/show', { cliente });
-        } catch (error) {
-            console.error('Erro ao buscar cliente:', error);
-            res.status(500).json({ error: 'Erro ao buscar cliente.' });
-        }
+            res.redirect('/clientes');
+        });
     },
 
-    // Renderiza o formulário de criação
+    getAllClientes: (req, res) => {
+        Clientes.getAll((err, clientes) => {
+            if (err) {
+                return res.status(500).json({ error: err });
+            }
+            res.render('clientes/index', { clientes });
+        });
+    },
+
+    getClienteById: (req, res) => {
+        const clienteId = req.params.cod;
+
+        Clientes.getById(clienteId, (err, cliente) => {
+            if (err) {
+                return res.status(500).json({ error: err });
+            }
+            if (!cliente) {
+                return res.status(404).json({ message: 'Cliente não encontrado' });
+            }
+            res.render('clientes/show', { cliente });
+        });
+    },
+
     renderCreateForm: (req, res) => {
         res.render('clientes/create');
     },
 
-    // Renderiza o formulário de edição
-    renderEditForm: async (req, res) => {
-        try {
-            const clienteId = req.params.cod;
-            const cliente = await Clientes.getById(clienteId);
+    renderEditForm: (req, res) => {
+        const clienteId = req.params.cod;
 
+        Clientes.getById(clienteId, (err, cliente) => {
+            if (err) {
+                return res.status(500).json({ error: err });
+            }
             if (!cliente) {
-                return res.status(404).json({ message: 'Cliente não encontrado.' });
+                return res.status(404).json({ message: 'Cliente não encontrado' });
             }
-
             res.render('clientes/edit', { cliente });
-        } catch (error) {
-            console.error('Erro ao carregar formulário de edição:', error);
-            res.status(500).json({ error: 'Erro ao carregar formulário de edição.' });
-        }
+        });
     },
 
-    // Cria um novo cliente
-    createCliente: async (req, res) => {
-        try {
-            const { nome, genero, endereco, fone, email, data_de_nascimento } = req.body;
+    updateCliente: (req, res) => {
+        const clienteId = req.params.cod;
 
-            if (!nome || !fone || !email) {
-                return res.status(400).json({ error: 'Os campos nome, fone e email são obrigatórios.' });
+        const updatedCliente = {
+            nome: req.body.nome,
+            genero: req.body.genero,
+            endereco: req.body.endereco,
+            fone: req.body.fone,
+            email: req.body.email,
+            data_de_nascimento: req.body.data_de_nascimento
+        };
+
+        // Validação básica dos campos
+        if (!updatedCliente.nome || !updatedCliente.fone || !updatedCliente.email) {
+            return res.status(400).json({ error: 'Os campos nome, fone e email são obrigatórios.' });
+        }
+
+        Clientes.update(clienteId, updatedCliente, (err) => {
+            if (err) {
+                return res.status(500).json({ error: err });
             }
-
-            const newCliente = { nome, genero, endereco, fone, email, data_de_nascimento };
-            await Clientes.create(newCliente);
-
             res.redirect('/clientes');
-        } catch (error) {
-            console.error('Erro ao criar cliente:', error);
-            res.status(500).json({ error: 'Erro ao criar cliente.' });
-        }
+        });
     },
 
-    // Atualiza um cliente
-    updateCliente: async (req, res) => {
-        try {
-            const clienteId = req.params.cod;
-            const { nome, genero, endereco, fone, email, data_de_nascimento } = req.body;
+    deleteCliente: (req, res) => {
+        const clienteId = req.params.cod;
 
-            if (!nome || !fone || !email) {
-                return res.status(400).json({ error: 'Os campos nome, fone e email são obrigatórios.' });
+        Clientes.delete(clienteId, (err) => {
+            if (err) {
+                return res.status(500).json({ error: err });
             }
-
-            const updatedCliente = { nome, genero, endereco, fone, email, data_de_nascimento };
-            const updated = await Clientes.update(clienteId, updatedCliente);
-
-            if (!updated) {
-                return res.status(404).json({ message: 'Cliente não encontrado para atualização.' });
-            }
-
             res.redirect('/clientes');
-        } catch (error) {
-            console.error('Erro ao atualizar cliente:', error);
-            res.status(500).json({ error: 'Erro ao atualizar cliente.' });
-        }
+        });
     },
 
-    // Exclui um cliente
-    deleteCliente: async (req, res) => {
-        try {
-            const clienteId = req.params.cod;
-            const deleted = await Clientes.delete(clienteId);
+    searchClientes: (req, res) => {
+        const search = req.query.search || '';
 
-            if (!deleted) {
-                return res.status(404).json({ message: 'Cliente não encontrado para exclusão.' });
+        Clientes.searchByName(search, (err, clientes) => {
+            if (err) {
+                return res.status(500).json({ error: err });
             }
-
-            res.redirect('/clientes');
-        } catch (error) {
-            console.error('Erro ao excluir cliente:', error);
-            res.status(500).json({ error: 'Erro ao excluir cliente.' });
-        }
-    },
-
-    // Busca clientes pelo nome
-    searchClientes: async (req, res) => {
-        try {
-            const search = req.query.search || '';
-            const clientes = await Clientes.searchByName(search);
-
             res.json({ clientes });
-        } catch (error) {
-            console.error('Erro ao buscar clientes:', error);
-            res.status(500).json({ error: 'Erro ao buscar clientes.' });
-        }
-    },
+        });
+    }
 };
 
 module.exports = clientesController;

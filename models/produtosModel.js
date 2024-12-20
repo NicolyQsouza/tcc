@@ -1,61 +1,62 @@
 const db = require('../config/db'); // Certifique-se de que o arquivo de configuração do banco de dados está correto
 
-class Produtos {
+const Produtos = {
     // Criar um novo produto
-    static async create(produto) {
-        const {nome, valor, marca, descricao, foto} = produto;
-        try {
-            const result = await db.query(
-                'INSERT INTO produtos (nome, valor, marca, descricao, foto) VALUES ( ?, ?, ?, ?, ? )',
-                [nome, valor, marca, descricao, foto]
-            );
-            return result.insertId; // Retorna o ID do novo produto
-        } catch (err) {
-            throw new Error('Erro ao criar produto: ' + err.message);
-        }
-    }
-   
+    create: (produto, callback) => {
+        const { nome, valor, marca, descricao, foto } = produto;
+        const query = 'INSERT INTO produtos (nome, valor, marca, descricao, foto) VALUES (?, ?, ?, ?, ?)';
+        db.query(query, [nome, valor, marca, descricao, foto], (err, result) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, result.insertId); // Retorna o ID do novo produto
+        });
+    },
+
     // Obter todos os produtos
-    static async getAll() {
-        try {
-            const result = await db.query('SELECT * FROM produtos');
-            return result;
-        } catch (err) {
-            throw new Error('Erro ao obter produtos: ' + err.message);
-        }
-    }
+    getAll: (callback) => {
+        const query = 'SELECT * FROM produtos';
+        db.query(query, (err, result) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, result); // Retorna os produtos encontrados
+        });
+    },
 
     // Obter um produto pelo código
-    static async getById(cod) {
-        try {
-            const result = await db.query('SELECT * FROM produtos WHERE cod = ?', [cod]);
-            return result[0]; // Retorna o produto ou undefined se não encontrado
-        } catch (err) {
-            throw new Error('Erro ao obter produto por código: ' + err.message);
-        }
-    }
+    getById: (cod, callback) => {
+        const query = 'SELECT * FROM produtos WHERE cod = ?';
+        db.query(query, [cod], (err, result) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, result[0]); // Retorna o produto ou undefined se não encontrado
+        });
+    },
 
     // Atualizar um produto existente
-    static async update(cod, produto) {
-        const { nome, valor, marca, descricao, foto} = produto;
-        try {
-            await db.query(
-                'UPDATE produtos SET nome = ?, valor = ?, marca = ?, descricao = ?, foto = ? WHERE cod = ?',
-                [nome, valor, marca, descricao, foto, cod]
-            );
-        } catch (err) {
-            throw new Error('Erro ao atualizar produto: ' + err.message);
-        }
-    }
+    update: (cod, produto, callback) => {
+        const { nome, valor, marca, descricao, foto } = produto;
+        const query = 'UPDATE produtos SET nome = ?, valor = ?, marca = ?, descricao = ?, foto = ? WHERE cod = ?';
+        db.query(query, [nome, valor, marca, descricao, foto, cod], (err, result) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, result); // Indica sucesso na atualização
+        });
+    },
 
     // Deletar um produto
-    static async delete(cod) {
-        try {
-            await db.query('DELETE FROM produtos WHERE cod = ?', [cod]);
-        } catch (err) {
-            throw new Error('Erro ao deletar produto: ' + err.message);
-        }
+    delete: (cod, callback) => {
+        const query = 'DELETE FROM produtos WHERE cod = ?';
+        db.query(query, [cod], (err, result) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, result); // Indica sucesso na exclusão
+        });
     }
-}
+};
 
 module.exports = Produtos;
