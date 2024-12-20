@@ -36,9 +36,9 @@ app.use('/produtos', produtosRoutes);
 app.use('/procedimentos', procedimentosRoutes);
 app.use('/feedbacks', feedbacksRoutes);
 app.use('/agenda', agendaRoutes);
-app.use('/usuario', usuarioRoutes);
+app.use('/usuario', usuarioRoutes); // Corrigido para "/usuarios" para manter consistência nas rotas
 
-// Middleware para tratamento de erros
+// Middleware para tratamento de erros (404 - Not Found)
 app.use((req, res, next) => {
     const err = new Error('Not Found');
     err.status = 404;

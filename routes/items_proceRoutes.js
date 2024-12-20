@@ -5,16 +5,16 @@ const router = express.Router();
 // Rota para obter todos os itens de procedimento
 router.get('/', itemsProceController.getAllItemsProce);
 
-// Rota para renderizar o formulário de criação de item
+// Rota para renderizar o formulário de criação de item de procedimento
 router.get('/new', itemsProceController.renderCreateForm);
 
 // Rota para criar um novo item de procedimento
 router.post('/', itemsProceController.createItemProce);
 
-// Rota para obter um item específico por ID
+// Rota para obter um item de procedimento específico por ID
 router.get('/:id', itemsProceController.getItemProceById);
 
-// Rota para renderizar o formulário de edição de um item
+// Rota para renderizar o formulário de edição de um item de procedimento
 router.get('/:id/edit', itemsProceController.renderEditForm);
 
 // Rota para atualizar um item de procedimento específico

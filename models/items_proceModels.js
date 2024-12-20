@@ -1,68 +1,77 @@
 const db = require('../config/db');
 
-class ItemsProceModel {
-    static async getAll() {
-        try {
-            const result = await db.query('SELECT * FROM items_proce');
-            return result.rows;
-        } catch (err) {
-            throw new Error('Erro ao obter items_proce: ' + err.message);
-        }
-    }
+const ItemsProce = {
+    getAll: (callback) => {
+        const query = 'SELECT * FROM items_proce';
+        db.query(query, (err, results) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, results);
+        });
+    },
 
-    static async getProcedimentos() {
-        try {
-            const result = await db.query('SELECT * FROM procedimentos');
-            return result.rows;
-        } catch (err) {
-            throw new Error('Erro ao obter procedimentos: ' + err.message);
-        }
-    }
+    getProcedimentos: (callback) => {
+        const query = 'SELECT * FROM procedimentos';
+        db.query(query, (err, results) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, results);
+        });
+    },
 
-    static async getProdutos() {
-        try {
-            const result = await db.query('SELECT * FROM produtos');
-            return result.rows;
-        } catch (err) {
-            throw new Error('Erro ao obter produtos: ' + err.message);
-        }
-    }
+    getProdutos: (callback) => {
+        const query = 'SELECT * FROM produtos';
+        db.query(query, (err, results) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, results);
+        });
+    },
 
-    static async create(itemProce) {
+    create: (itemProce, callback) => {
+        const query = 'INSERT INTO items_proce (procedimentos, produtos, quantidade) VALUES (?, ?, ?)';
         const { procedimentos, produtos, quantidade } = itemProce;
-        try {
-            const result = await db.query('INSERT INTO items_proce (procedimentos, produtos, quantidade) VALUES ($1, $2, $3) RETURNING id', [procedimentos, produtos, quantidade]);
-            return result.rows[0].id;
-        } catch (err) {
-            throw new Error('Erro ao criar item_proce: ' + err.message);
-        }
-    }
+        db.query(query, [procedimentos, produtos, quantidade], (err, results) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, results.insertId);
+        });
+    },
 
-    static async getById(id) {
-        try {
-            const result = await db.query('SELECT * FROM items_proce WHERE id = $1', [id]);
-            return result.rows[0];
-        } catch (err) {
-            throw new Error('Erro ao obter item_proce por ID: ' + err.message);
-        }
-    }
+    getById: (id, callback) => {
+        const query = 'SELECT * FROM items_proce WHERE id = ?';
+        db.query(query, [id], (err, results) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, results[0]);
+        });
+    },
 
-    static async update(id, itemProce) {
+    update: (id, itemProce, callback) => {
+        const query = 'UPDATE items_proce SET procedimentos = ?, produtos = ?, quantidade = ? WHERE id = ?';
         const { procedimentos, produtos, quantidade } = itemProce;
-        try {
-            await db.query('UPDATE items_proce SET procedimentos = $1, produtos = $2, quantidade = $3 WHERE id = $4', [procedimentos, produtos, quantidade, id]);
-        } catch (err) {
-            throw new Error('Erro ao atualizar item_proce: ' + err.message);
-        }
-    }
+        db.query(query, [procedimentos, produtos, quantidade, id], (err, results) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, results);
+        });
+    },
 
-    static async delete(id) {
-        try {
-            await db.query('DELETE FROM items_proce WHERE id = $1', [id]);
-        } catch (err) {
-            throw new Error('Erro ao deletar item_proce: ' + err.message);
-        }
+    delete: (id, callback) => {
+        const query = 'DELETE FROM items_proce WHERE id = ?';
+        db.query(query, [id], (err, results) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, results);
+        });
     }
-}
+};
 
-module.exports = ItemsProceModel;
+module.exports = ItemsProce;

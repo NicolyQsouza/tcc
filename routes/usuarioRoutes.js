@@ -3,24 +3,24 @@ const usuarioController = require('../controllers/usuarioController');
 const router = express.Router();
 
 // Rota para listar todos os usuários
-router.get('/', usuarioController.getAllUsuarios); // Função para obter todos os usuários
+router.get('/', usuarioController.getAllUsuarios);
 
 // Rota para mostrar o formulário de criação de um novo usuário
-router.get('/new', usuarioController.renderCreateForm); // Função para renderizar o formulário de criação
+router.get('/new', usuarioController.renderCreateForm);
 
 // Rota para criar um novo usuário
-router.post('/', usuarioController.createUsuario); // Função para criar um novo usuário (corrigido para "createUsuario")
+router.post('/', usuarioController.createUsuario);
 
 // Rota para mostrar detalhes de um usuário específico
-router.get('/:cod', usuarioController.getUsuariosById); // Função para obter um usuário por ID (corrigido para "getUsuarioById")
+router.get('/:cod', usuarioController.getUsuarioById);  // Corrigido para :cod
 
 // Rota para mostrar o formulário de edição de um usuário específico
-router.get('/:cod/edit', usuarioController.renderEditForm); // Função para renderizar o formulário de edição
+router.get('/:cod/edit', usuarioController.renderEditForm); // Corrigido para :cod
 
 // Rota para atualizar um usuário específico
-router.put('/:cod', usuarioController.updateUsuarios); // Função para atualizar um usuário (corrigido para "updateUsuario")
+router.put('/:cod', usuarioController.updateUsuario); // Corrigido para :cod
 
 // Rota para deletar um usuário específico
-router.delete('/:cod', usuarioController.deleteUsuarios); // Função para deletar um usuário (corrigido para "deleteUsuario")
+router.delete('/:cod', usuarioController.deleteUsuario); // Corrigido para :cod
 
 module.exports = router;

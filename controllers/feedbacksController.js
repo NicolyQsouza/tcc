@@ -4,13 +4,11 @@ const Cliente = require('../models/clientesModel');
 const feedbackController = {
 
     create: (req, res) => {
-
         const newFeedback = {
             cliente: req.body.cliente,
             foto: req.body.foto,
             comentario: req.body.comentario,
             avaliacao: req.body.avaliacao
-            
         };
 
         Feedback.create(newFeedback, (err, feedbackId) => {
@@ -31,20 +29,17 @@ const feedbackController = {
             if (!feedback) {
                 return res.status(404).json({ message: 'Feedback not found' });
             }
-            res.render('/feedbacks/show', { feedback });
+            res.render('feedbacks/show', { feedback });
         });
     },
-    
-    // Obter todos os feedback
-    getAll: async (req, res) => {
-        try {
-            const feedback = await Feedback.getAll();
-            res.render('feedback/index', { feedback });
-            console.log ('feedback localizados no BD'+feedback[0].nome);
-        } catch (err) {
-            console.error('Erro ao buscar feedback:', err);
-            res.status(500).json({ error: 'Erro ao buscar feedback.' });
-        }
+
+    getAll: (req, res) => {
+        Feedback.getAll((err, feedbacks) => {
+            if (err) {
+                return res.status(500).json({ error: err });
+            }
+            res.render('feedbacks/index', { feedbacks });
+        });
     },
 
     renderCreateForm: (req, res) => {
@@ -52,7 +47,7 @@ const feedbackController = {
             if (err) {
                 return res.status(500).json({ error: err });
             }
-            res.render('/feedbacks/create', { clientes });
+            res.render('feedbacks/create', { clientes });
         });
     },
 
@@ -71,14 +66,14 @@ const feedbackController = {
                 if (err) {
                     return res.status(500).json({ error: err });
                 }
-                res.render('/feedbacks/edit', { feedback, clientes });
+                res.render('feedbacks/edit', { feedback, clientes });
             });
         });
     },
 
     update: (req, res) => {
         const feedbackId = req.params.id;
-        
+
         const updatedFeedback = {
             cliente: req.body.cliente,
             foto: req.body.foto,
