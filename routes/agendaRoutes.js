@@ -1,26 +1,26 @@
 const express = require('express');
-const agendaController = require('../controllers/agendaController');
 const router = express.Router();
+const agendaController = require('../controllers/agendaController');
 
-// Rota para obter todas as agendas
+// Rota para a lista de todas as agendas
 router.get('/', agendaController.getAll);
 
-// Rota para renderizar o formulário de criação
-router.get('/new', agendaController.renderCreateForm);
+// Rota para renderizar o formulário de criação de agenda
+router.get('/create', agendaController.renderCreateForm);
 
 // Rota para criar uma nova agenda
 router.post('/', agendaController.create);
 
-// Rota para obter uma agenda específica pelo ID
-router.get('/:id', agendaController.getById);
+// Rota para mostrar os detalhes de uma agenda
+router.get('/:cod', agendaController.getById);
 
-// Rota para renderizar o formulário de edição
-router.get('/:id/edit', agendaController.renderEditForm);
+// Rota para renderizar o formulário de edição de agenda
+router.get('/:cod/edit', agendaController.renderEditForm);
 
-// Rota para atualizar uma agenda específica
-router.put('/:id', agendaController.update);
+// Rota para atualizar a agenda
+router.post('/:cod', agendaController.update);
 
-// Rota para deletar uma agenda específica
-router.delete('/:id', agendaController.delete);
+// Rota para deletar uma agenda
+router.get('/:cod/delete', agendaController.delete);
 
 module.exports = router;

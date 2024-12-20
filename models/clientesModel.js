@@ -1,71 +1,85 @@
-const db = require('../config/db');  // Configuração do banco de dados com pg
+const db = require('../config/db');  // Importa a conexão com o banco
 
 const Clientes = {
-    // Criar um novo cliente
-    create: (cliente, callback) => {
-        const { nome, genero, endereco, fone, email, data_de_nascimento } = cliente;
-        const query = 'INSERT INTO clientes (nome, genero, endereco, fone, email, data_de_nascimento) VALUES ($1, $2, $3, $4, $5, $6) RETURNING cod';
-        db.query(query, [nome, genero, endereco, fone, email, data_de_nascimento], (err, result) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, result.rows[0].cod); // Retorna o ID do novo cliente
-        });
-    },
-
-    // Obter todos os clientes
+    // Função para obter todos os clientes
     getAll: (callback) => {
-        const query = 'SELECT * FROM clientes';
-        db.query(query, (err, result) => {
+        db.query('SELECT * FROM clientes', callback);
+    },
+
+    // Função para obter um cliente por ID (Usando 'cod' como chave primária)
+    getById: (id, callback) => {
+        const query = 'SELECT * FROM clientes WHERE cod = ?';
+        db.query(query, [id], (err, results) => {
             if (err) {
-                return callback(err);
+                return callback(err);  // Retorna o erro se houver
             }
-            callback(null, result.rows); // Retorna as linhas resultantes da consulta
+            callback(null, results[0] || null); // Retorna o cliente ou null se não encontrado
         });
     },
 
-    // Obter um cliente pelo código
-    getById: (cod, callback) => {
-        const query = 'SELECT * FROM clientes WHERE cod = $1';
-        db.query(query, [cod], (err, result) => {
+    // Função para obter um cliente por código
+    getByCod: (clienteCod, callback) => {
+        const query = 'SELECT * FROM clientes WHERE cod = ?';
+        db.query(query, [clienteCod], (err, results) => {
             if (err) {
-                return callback(err);
+                return callback(err);  // Retorna erro se houver
             }
-            callback(null, result.rows[0]); // Retorna o cliente ou undefined se não encontrado
+            callback(null, results[0]);  // Retorna o cliente encontrado
         });
     },
 
-    // Atualizar um cliente existente
-    update: (cod, cliente, callback) => {
-        const { nome, genero, endereco, fone, email, data_de_nascimento } = cliente;
-        const query = 'UPDATE clientes SET nome = $1, genero = $2, endereco = $3, fone = $4, email = $5, data_de_nascimento = $6 WHERE cod = $7';
-        db.query(query, [nome, genero, endereco, fone, email, data_de_nascimento, cod], (err) => {
+    // Criar um novo cliente
+    create: (clienteData, callback) => {
+        const query = `
+            INSERT INTO clientes (nome, genero, endereco, fone, email, data_de_nascimento)
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
+        db.query(query, [
+            clienteData.nome,
+            clienteData.genero,
+            clienteData.endereco,
+            clienteData.fone,
+            clienteData.email,
+            clienteData.data_de_nascimento
+        ], (err, result) => {
             if (err) {
-                return callback(err);
+                return callback(err);  // Retorna o erro se houver
             }
-            callback(null); // Indica sucesso na atualização
+            callback(null, result.insertId);  // Retorna o ID do cliente inserido
+        });
+    },
+
+    // Atualizar cliente
+    update: (clienteCod, clienteData, callback) => {
+        const query = `
+            UPDATE clientes
+            SET nome = ?, genero = ?, endereco = ?, fone = ?, email = ?, data_de_nascimento = ?
+            WHERE cod = ?
+        `;
+        db.query(query, [
+            clienteData.nome,
+            clienteData.genero,
+            clienteData.endereco,
+            clienteData.fone,
+            clienteData.email,
+            clienteData.data_de_nascimento,
+            clienteCod
+        ], (err, result) => {
+            if (err) {
+                return callback(err);  // Retorna erro se houver
+            }
+            callback(null);  // Sucesso na atualização
         });
     },
 
     // Deletar um cliente
-    delete: (cod, callback) => {
-        const query = 'DELETE FROM clientes WHERE cod = $1';
-        db.query(query, [cod], (err) => {
+    delete: (clienteCod, callback) => {
+        const query = 'DELETE FROM clientes WHERE cod = ?';
+        db.query(query, [clienteCod], (err, result) => {
             if (err) {
-                return callback(err);
+                return callback(err);  // Retorna erro se houver
             }
-            callback(null); // Indica sucesso na exclusão
-        });
-    },
-
-    // Buscar clientes pelo nome
-    searchByName: (name, callback) => {
-        const query = 'SELECT * FROM clientes WHERE nome ILIKE $1';
-        db.query(query, [`%${name}%`], (err, result) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, result.rows); // Retorna os clientes encontrados
+            callback(null);  // Sucesso na exclusão
         });
     }
 };

@@ -13,11 +13,11 @@
         </tr>
     </thead>
     <tbody>
-        <% agenda.forEach(agenda => { %>
+        <% agendas.forEach(agenda => { %>
             <tr>
                 <td><%= agenda.cod %></td>
-                <td><%= agenda.clientesNome %></td> <!-- Supondo que você tenha esse campo -->
-                <td><%= agenda.procedimentosNome %></td> <!-- Supondo que você tenha esse campo -->
+                <td><%= agenda.clientesNome %></td> <!-- Nome do cliente -->
+                <td><%= agenda.procedimentosNome %></td> <!-- Nome do procedimento -->
                 <td><%= agenda.profissional %></td>
                 <td><%= agenda.forma_pag %></td>
                 <td><%= new Date(agenda.data).toLocaleDateString('pt-BR') %></td>
@@ -33,4 +33,4 @@
         <% }) %>
     </tbody>
 </table>
-<a href="/agenda/new" class="btn btn-primary">Nova Agenda</a>
+<a href="/agenda/create" class="btn btn-primary">Nova Agenda</a>

@@ -1,4 +1,4 @@
-const Clientes = require('../models/clientesModel');
+const Clientes = require('../models/clientesModel');  // Importando o modelo de clientes
 
 const clientesController = {
     // Criar um novo cliente
@@ -20,9 +20,10 @@ const clientesController = {
         // Usando o modelo para salvar o novo cliente
         Clientes.create(newCliente, (err, clienteId) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                console.error('Erro ao criar cliente:', err);
+                return res.status(500).json({ error: 'Erro ao criar cliente: ' + err.message });
             }
-            res.redirect('/clientes');
+            res.redirect('/clientes');  // Redireciona para a página de listagem de clientes
         });
     },
 
@@ -30,51 +31,54 @@ const clientesController = {
     getAllClientes: (req, res) => {
         Clientes.getAll((err, clientes) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                console.error('Erro ao obter clientes:', err);
+                return res.status(500).json({ error: 'Erro ao obter clientes: ' + err.message });
             }
-            res.render('clientes/index', { clientes });
+            res.render('clientes/index', { clientes });  // Renderiza a lista de clientes
         });
     },
 
     // Obter um cliente específico pelo código
     getClienteById: (req, res) => {
-        const clienteId = req.params.cod;
+        const clienteCod = req.params.cod;  // Usando o 'cod' ao invés de 'id'
 
-        Clientes.getById(clienteId, (err, cliente) => {
+        Clientes.getByCod(clienteCod, (err, cliente) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                console.error('Erro ao buscar cliente:', err);
+                return res.status(500).json({ error: 'Erro ao buscar cliente: ' + err.message });
             }
             if (!cliente) {
                 return res.status(404).json({ message: 'Cliente não encontrado' });
             }
-            res.render('clientes/show', { cliente });
+            res.render('clientes/show', { cliente });  // Renderiza os detalhes do cliente
         });
     },
 
     // Renderizar o formulário de criação
     renderCreateForm: (req, res) => {
-        res.render('clientes/create');
+        res.render('clientes/create');  // Renderiza o formulário de criação de cliente
     },
 
     // Renderizar o formulário de edição
     renderEditForm: (req, res) => {
-        const clienteId = req.params.cod;
+        const clienteCod = req.params.cod;
 
-        Clientes.getById(clienteId, (err, cliente) => {
+        // Recuperar cliente para edição
+        Clientes.getByCod(clienteCod, (err, cliente) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                console.error('Erro ao buscar cliente para edição:', err);
+                return res.status(500).json({ error: 'Erro ao buscar cliente para edição: ' + err.message });
             }
             if (!cliente) {
                 return res.status(404).json({ message: 'Cliente não encontrado' });
             }
-            res.render('clientes/edit', { cliente });
+            res.render('clientes/edit', { cliente });  // Renderiza o formulário de edição do cliente
         });
     },
 
     // Atualizar um cliente
     updateCliente: (req, res) => {
-        const clienteId = req.params.cod;
-
+        const clienteCod = req.params.cod;
         const updatedCliente = {
             nome: req.body.nome,
             genero: req.body.genero,
@@ -89,40 +93,28 @@ const clientesController = {
             return res.status(400).json({ error: 'Os campos nome, fone e email são obrigatórios.' });
         }
 
-        Clientes.update(clienteId, updatedCliente, (err) => {
+        // Atualizar no banco de dados
+        Clientes.update(clienteCod, updatedCliente, (err) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                console.error('Erro ao atualizar cliente:', err);
+                return res.status(500).json({ error: 'Erro ao atualizar cliente: ' + err.message });
             }
-            res.redirect('/clientes');
+            res.redirect('/clientes');  // Redireciona para a página de listagem de clientes
         });
     },
 
     // Deletar um cliente
     deleteCliente: (req, res) => {
-        const clienteId = req.params.cod;
+        const clienteCod = req.params.cod;
 
-        Clientes.delete(clienteId, (err) => {
+        Clientes.delete(clienteCod, (err) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                console.error('Erro ao deletar cliente:', err);
+                return res.status(500).json({ error: 'Erro ao deletar cliente: ' + err.message });
             }
-            res.redirect('/clientes');
+            res.redirect('/clientes');  // Redireciona para a página de listagem de clientes
         });
-    },
-
-    // Buscar clientes pelo nome
-    searchClientes: (req, res) => {
-    const search = req.query.search || ''; // Captura o valor da busca ou uma string vazia caso não haja pesquisa
-
-    // Faz a busca no banco de dados
-    Clientes.searchByName(search, (err, clientes) => {
-        if (err) {
-            return res.status(500).json({ error: err });
-        }
-        // Passa os resultados para a view, incluindo o valor da busca
-        res.render('clientes/index', { clientes, search });
-    });
-}
-
+    }
 };
 
-module.exports = clientesController;
+module.exports = clientesController;  // Exporta o controlador

@@ -4,7 +4,7 @@
         <label for="clientes">Clientes</label>
         <select class="form-control" id="clientes" name="clientes" required>
             <option value="">Selecione um cliente</option>
-            <% clientes.forEach(cliente => { %>
+            <% clients.forEach(cliente => { %>
                 <option value="<%= cliente.cod %>"><%= cliente.nome %></option>
             <% }); %>
         </select>
@@ -13,7 +13,7 @@
         <label for="procedimentos">Procedimentos</label>
         <select class="form-control" id="procedimentos" name="procedimentos" required>
             <option value="">Selecione um procedimento</option>
-            <% procedimentos.forEach(procedimento => { %>
+            <% procedures.forEach(procedimento => { %>
                 <option value="<%= procedimento.cod %>"><%= procedimento.nome %></option>
             <% }); %>
         </select>

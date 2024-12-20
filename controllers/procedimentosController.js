@@ -3,14 +3,18 @@ const Procedimentos = require('../models/procedimentosModel');
 const procedimentoController = {
 
     createProcedimento: (req, res) => {
-        const newProcedimento = {
-            nome: req.body.nome,
-            descricao: req.body.descricao,
-            valor: req.body.valor
-        };
+        let { nome, descricao, valor } = req.body;
+        
+        // Certificando-se de que o valor seja numérico, caso contrário atribui 0
+        valor = parseFloat(valor);
+        if (isNaN(valor)) {
+            valor = 0;
+        }
+
+        const newProcedimento = { nome, descricao, valor };
 
         // Validação básica dos campos
-        if (!newProcedimento.nome || !newProcedimento.descricao || !newProcedimento.valor) {
+        if (!newProcedimento.nome || !newProcedimento.descricao || isNaN(newProcedimento.valor)) {
             return res.status(400).json({ error: 'Os campos nome, descrição e valor são obrigatórios.' });
         }
 
@@ -65,15 +69,18 @@ const procedimentoController = {
 
     updateProcedimento: (req, res) => {
         const procedimentoId = req.params.id;
+        let { nome, descricao, valor } = req.body;
 
-        const updatedProcedimento = {
-            nome: req.body.nome,
-            descricao: req.body.descricao,
-            valor: req.body.valor
-        };
+        // Certificando-se de que o valor seja numérico, caso contrário atribui 0
+        valor = parseFloat(valor);
+        if (isNaN(valor)) {
+            valor = 0;
+        }
+
+        const updatedProcedimento = { nome, descricao, valor };
 
         // Validação básica dos campos
-        if (!updatedProcedimento.nome || !updatedProcedimento.descricao || !updatedProcedimento.valor) {
+        if (!updatedProcedimento.nome || !updatedProcedimento.descricao || isNaN(updatedProcedimento.valor)) {
             return res.status(400).json({ error: 'Os campos nome, descrição e valor são obrigatórios.' });
         }
 

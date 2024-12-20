@@ -1,4 +1,4 @@
-const db = require('../config/db'); // Certifique-se de que o arquivo de configuração do banco de dados está correto
+const db = require('../config/db');  // Conexão com o banco de dados
 
 class Agenda {
     // Criar um novo registro de agenda
@@ -26,7 +26,7 @@ class Agenda {
         });
     }
 
-    // Obter um registro de agenda por ID
+    // Obter um registro de agenda por código (cod)
     static getById(cod, callback) {
         db.query('SELECT * FROM agenda WHERE cod = ?', [cod], (err, result) => {
             if (err) {
@@ -58,6 +58,27 @@ class Agenda {
                 return callback(err);
             }
             callback(null, result.affectedRows > 0); // Retorna true se a exclusão foi bem-sucedida
+        });
+    }
+
+    // Obter procedimentos (todos os procedimentos)
+    static getProcedures(callback) {
+        db.query('SELECT * FROM procedimentos', (err, result) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, result); // Retorna todos os procedimentos
+        });
+    }
+
+    // Obter um procedimento pelo ID
+    static getProcedureById(id, callback) {
+        const query = 'SELECT * FROM procedimentos WHERE id = ?';
+        db.query(query, [id], (err, results) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, results[0] || null); // Retorna o procedimento ou null se não encontrado
         });
     }
 }

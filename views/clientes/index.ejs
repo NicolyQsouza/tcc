@@ -1,37 +1,32 @@
 <h1>Lista de Clientes</h1>
 
-<table class="table">
+<a href="/clientes/create" class="btn btn-primary">Cadastrar Novo Cliente</a>
+
+<table class="table mt-3">
     <thead>
         <tr>
-            <th>ID</th>
             <th>Nome</th>
+            <th>Gênero</th>
+            <th>Endereço</th>
             <th>Telefone</th>
             <th>Email</th>
-            <th>Ação</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
-        <% if (clientes && clientes.length > 0) { %>
-            <% clientes.forEach(cliente => { %>
-                <tr>
-                    <td><%= cliente.cod %></td>
-                    <td><%= cliente.nome %></td>
-                    <td><%= cliente.fone %></td>
-                    <td><%= cliente.email %></td>
-                    <td>
-                        <!-- Botões para visualização, edição e exclusão -->
-                        <a href="/clientes/<%= cliente.cod %>" class="btn btn-primary">Ver</a>
-                        <a href="/clientes/<%= cliente.cod %>/edit" class="btn btn-warning">Editar</a>
-                        <form action="/clientes/<%= cliente.cod %>?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
-                            <button type="submit" class="btn btn-danger">Excluir</button>
-                        </form>
-                    </td>
-                </tr>
-            <% }) %>
-        <% } else { %>
+        <% clientes.forEach(cliente => { %>
             <tr>
-                <td colspan="5" class="text-center">Nenhum cliente encontrado.</td>
+                <td><%= cliente.nome %></td>
+                <td><%= cliente.genero %></td>
+                <td><%= cliente.endereco %></td>
+                <td><%= cliente.fone %></td>
+                <td><%= cliente.email %></td>
+                <td>
+                    <a href="/clientes/<%= cliente.cod %>" class="btn btn-info">Ver</a>
+                    <a href="/clientes/<%= cliente.cod %>/edit" class="btn btn-warning">Editar</a>
+                    <a href="/clientes/<%= cliente.cod %>/delete" class="btn btn-danger">Excluir</a>
+                </td>
             </tr>
-        <% } %>
+        <% }) %>
     </tbody>
 </table>

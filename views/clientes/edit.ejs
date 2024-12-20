@@ -1,34 +1,39 @@
 <h1>Editar Cliente</h1>
-<form action="/clientes/<%= clientes.cod %>?_method=PUT" method="POST" enctype="multipart/form-data">
-    
+<form action="/clientes/<%= cliente.cod %>?_method=PUT" method="POST" enctype="multipart/form-data">
     <div class="form-group">
         <label for="nome">Nome</label>
-        <input type="text" class="form-control" id="nome" name="nome" value="<%= clientes.nome %>" required autocomplete="off">
+        <input type="text" class="form-control" id="nome" name="nome" value="<%= cliente.nome %>" required autocomplete="off">
     </div>
+
     <div class="form-group">
         <label for="genero">Gênero</label>
         <select class="form-control" id="genero" name="genero">
             <option value="">Selecione</option>
-            <option value="masculino" <%= clientes.genero === 'masculino' ? 'selected' : '' %>>Masculino</option>
-            <option value="feminino" <%= clientes.genero === 'feminino' ? 'selected' : '' %>>Feminino</option>
-            <option value="outro" <%= clientes.genero === 'outro' ? 'selected' : '' %>>Outro</option>
+            <option value="masculino" <%= cliente.genero === 'masculino' ? 'selected' : '' %>>Masculino</option>
+            <option value="feminino" <%= cliente.genero === 'feminino' ? 'selected' : '' %>>Feminino</option>
+            <option value="outro" <%= cliente.genero === 'outro' ? 'selected' : '' %>>Outro</option>
         </select>
     </div>
+
     <div class="form-group">
         <label for="endereco">Endereço</label>
-        <input type="text" class="form-control" id="endereco" name="endereco" value="<%= clientes.endereco %>" required autocomplete="off">
+        <input type="text" class="form-control" id="endereco" name="endereco" value="<%= cliente.endereco %>" required autocomplete="off">
     </div>
+
     <div class="form-group">
         <label for="fone">Telefone</label>
-        <input type="tel" class="form-control" id="fone" name="fone" value="<%= clientes.fone %>" required autocomplete="off">
+        <input type="tel" class="form-control" id="fone" name="fone" value="<%= cliente.fone %>" required autocomplete="off">
     </div>
+
     <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" name="email" value="<%= clientes.email %>" required>
+        <input type="email" class="form-control" id="email" name="email" value="<%= cliente.email %>" required>
     </div>
+
     <div class="form-group">
         <label for="data_de_nascimento">Data de Nascimento</label>
-        <input type="date" class="form-control" id="data_de_nascimento" name="data_de_nascimento" value="<%= clientes.data_de_nascimento %>" required>
+        <input type="date" class="form-control" id="data_de_nascimento" name="data_de_nascimento" value="<%= cliente.data_de_nascimento %>" required>
     </div>
+
     <button type="submit" class="btn btn-warning">Salvar</button>
 </form>
