@@ -2,18 +2,14 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>Código</th>
             <th>Comentário</th>
             <th>Avaliação</th>
             <th>Ação</th>
         </tr>
     </thead>
     <tbody>
-        <% if (feedbacks.length === 0) { %>
-            <tr>
-                <td colspan="4" class="text-center">Nenhum feedback encontrado.</td>
-            </tr>
-        <% } else { %>
+        <% if (feedbacks && feedbacks.length > 0) { %>
             <% feedbacks.forEach(feedback => { %>
                 <tr>
                     <td><%= feedback.cod %></td>
@@ -28,6 +24,10 @@
                     </td>
                 </tr>
             <% }) %>
+        <% } else { %>
+            <tr>
+                <td colspan="4" class="text-center">Nenhum feedback encontrado.</td>
+            </tr>
         <% } %>
     </tbody>
 </table>

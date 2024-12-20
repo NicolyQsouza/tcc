@@ -1,6 +1,6 @@
 const db = require('../config/db');
 
-const ItemsProce = {
+const Items_proce = {
     getAll: (callback) => {
         const query = 'SELECT * FROM items_proce';
         db.query(query, (err, results) => {
@@ -53,7 +53,7 @@ const ItemsProce = {
     },
 
     update: (id, itemProce, callback) => {
-        const query = 'UPDATE items_proce SET procedimentos = ?, produtos = ?, quantidade = ? WHERE id = ?';
+        const query = 'UPDATE items_proce SET procedimentos = ?, produtos = ?, quantidade = ? WHERE cod = ?';
         const { procedimentos, produtos, quantidade } = itemProce;
         db.query(query, [procedimentos, produtos, quantidade, id], (err, results) => {
             if (err) {
@@ -63,9 +63,9 @@ const ItemsProce = {
         });
     },
 
-    delete: (id, callback) => {
-        const query = 'DELETE FROM items_proce WHERE id = ?';
-        db.query(query, [id], (err, results) => {
+    delete: (cod, callback) => {
+        const query = 'DELETE FROM items_proce WHERE cod = ?';
+        db.query(query, [cod], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -74,4 +74,4 @@ const ItemsProce = {
     }
 };
 
-module.exports = ItemsProce;
+module.exports = Items_proce;

@@ -27,9 +27,9 @@ const procedimentoController = {
     },
 
     getProcedimentoById: (req, res) => {
-        const procedimentoId = req.params.id;
+        const procedimentoId = req.params.cod;
 
-        Procedimentos.findById(procedimentoId, (err, procedimento) => {
+        Procedimentos.getById(procedimentoId, (err, procedimento) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -54,9 +54,9 @@ const procedimentoController = {
     },
 
     renderEditForm: (req, res) => {
-        const procedimentoId = req.params.id;
-
-        Procedimentos.findById(procedimentoId, (err, procedimento) => {
+        const procedimentocod = req.params.cod;
+        
+        Procedimentos.getById(procedimentocod, (err, procedimento) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -67,24 +67,17 @@ const procedimentoController = {
         });
     },
 
+    // Função para atualizar um usuário específico
     updateProcedimento: (req, res) => {
-        const procedimentoId = req.params.id;
-        let { nome, descricao, valor } = req.body;
+        const procedimentocod = req.params.cod;
+        const procedimentoAtualizado = {
+            nome: req.body.nome,
+            descricao: req.body.descricao,
+            valor: req.body.valor
 
-        // Certificando-se de que o valor seja numérico, caso contrário atribui 0
-        valor = parseFloat(valor);
-        if (isNaN(valor)) {
-            valor = 0;
-        }
+        };
 
-        const updatedProcedimento = { nome, descricao, valor };
-
-        // Validação básica dos campos
-        if (!updatedProcedimento.nome || !updatedProcedimento.descricao || isNaN(updatedProcedimento.valor)) {
-            return res.status(400).json({ error: 'Os campos nome, descrição e valor são obrigatórios.' });
-        }
-
-        Procedimentos.update(procedimentoId, updatedProcedimento, (err) => {
+        Procedimentos.update(procedimentocod, procedimentoAtualizado, (err) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -93,7 +86,7 @@ const procedimentoController = {
     },
 
     deleteProcedimento: (req, res) => {
-        const procedimentoId = req.params.id;
+        const procedimentoId = req.params.cod;
 
         Procedimentos.delete(procedimentoId, (err) => {
             if (err) {

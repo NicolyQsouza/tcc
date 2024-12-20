@@ -1,7 +1,6 @@
 <h1>Detalhes do Procedimento</h1>
-<p><strong>Código:</strong> <%= procedimentos.cod %></p>
-<p><strong>Nome:</strong> <%= procedimentos.nome || 'Desconhecido' %></p>
-<p><strong>Descrição:</strong> <%= procedimentos.descricao || 'Desconhecido' %></p>
-<p><strong>Valor:</strong> <%= procedimentos.valor ? procedimentos.valor.toFixed(2) : 'Desconhecido' %></p>
-<p><strong>Duração:</strong> <%= procedimentos.duracao || 'Desconhecido' %></p>
+<p><strong>Código:</strong> <%= procedimento.cod %></p>
+<p><strong>Nome:</strong> <%= procedimento.nome  %></p>
+<p><strong>Descrição:</strong> <%= procedimento.descricao  %></p>
+<p><strong>Valor:</strong> <%= procedimento.valor  %></p>
 <a href="/procedimentos" class="btn btn-primary">Voltar para a Lista</a>

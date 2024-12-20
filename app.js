@@ -14,7 +14,9 @@ const produtosRoutes = require('./routes/produtosRoutes');
 const procedimentosRoutes = require('./routes/procedimentosRoutes');
 const feedbacksRoutes = require('./routes/feedbacksRoutes');
 const agendaRoutes = require('./routes/agendaRoutes');
-const usuariosRoutes = require('./routes/usuariosRoutes');  // Corrigido para "/usuarios" para consistência nas rotas
+const usuariosRoutes = require('./routes/usuariosRoutes'); 
+const items_proceRoutes = require('./routes/items_proceRoutes'); 
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -37,6 +39,7 @@ app.use('/procedimentos', procedimentosRoutes);
 app.use('/feedbacks', feedbacksRoutes);
 app.use('/agenda', agendaRoutes);
 app.use('/usuarios', usuariosRoutes);
+app.use('/items_proce', items_proceRoutes);
 
 // Middleware para tratamento de erros (404 - Not Found)
 app.use((req, res, next) => {

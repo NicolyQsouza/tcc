@@ -1,17 +1,17 @@
 <h1>Editar Procedimento</h1>
 
-<form action="/procedimentos/<%= procedimentos.cod %>?_method=PUT" method="POST">
+<form action="/procedimentos/<%= procedimento.cod %>?_method=PUT" method="POST">
     <div class="form-group">
         <label for="nome">Nome</label>
-        <input type="text" class="form-control" id="nome" name="nome" value="<%= procedimentos.nome %>" required placeholder="Nome do Procedimento">
+        <input type="text" class="form-control" id="nome" name="nome" value="<%= procedimento.nome %>" required placeholder="Nome do Procedimento">
     </div>
     <div class="form-group">
         <label for="descricao">Descrição</label>
-        <textarea class="form-control" id="descricao" name="descricao" required placeholder="Descrição do Procedimento"><%= procedimentos.descricao %></textarea>
+        <textarea class="form-control" id="descricao" name="descricao" required placeholder="Descrição do Procedimento"><%= procedimento.descricao %></textarea>
     </div>
     <div class="form-group">
         <label for="valor">Valor</label>
-        <input type="number" class="form-control" id="valor" name="valor" value="<%= procedimentos.valor %>" required step="0.01" placeholder="Valor do Procedimento">
+        <input type="number" class="form-control" id="valor" name="valor" value="<%= procedimento.valor %>" required step="0.01" placeholder="Valor do Procedimento">
     </div>
 
     <button type="submit" class="btn btn-warning">Salvar</button>

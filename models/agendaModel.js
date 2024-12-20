@@ -18,7 +18,8 @@ class Agenda {
 
     // Obter todos os registros de agenda
     static getAll(callback) {
-        db.query('SELECT * FROM agenda', (err, result) => {
+        let query="SELECT agenda.cod AS agenda_cod, clientes.nome AS cliente_nome, procedimentos.nome AS procedimento_nome, agenda.profissional, agenda.forma_pag, agenda.data, agenda.hora FROM agenda JOIN clientes ON agenda.clientes = clientes.cod JOIN procedimentos ON agenda.procedimentos = procedimentos.cod;";
+        db.query(query, (err, result) => {
             if (err) {
                 return callback(err);
             }
@@ -72,9 +73,9 @@ class Agenda {
     }
 
     // Obter um procedimento pelo ID
-    static getProcedureById(id, callback) {
-        const query = 'SELECT * FROM procedimentos WHERE id = ?';
-        db.query(query, [id], (err, results) => {
+    static getProcedureById(cod, callback) {
+        const query = 'SELECT * FROM procedimentos WHERE cod = ?';
+        db.query(query, [cod], (err, results) => {
             if (err) {
                 return callback(err);
             }

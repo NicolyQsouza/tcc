@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', itemsProceController.getAllItemsProce);
 
 // Rota para renderizar o formulário de criação de item de procedimento
-router.get('/new', itemsProceController.renderCreateForm);
+router.get('/create', itemsProceController.renderCreateForm);
 
 // Rota para criar um novo item de procedimento
 router.post('/', itemsProceController.createItemProce);
