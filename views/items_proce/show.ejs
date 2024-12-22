@@ -1,12 +1,12 @@
 <h1>Detalhes do Item do Procedimento</h1>
-<p><strong>ID:</strong> <%= items_proce.cod %></p>
-<p><strong>Procedimento:</strong> <%= items_proce.procedimentos %></p>
-<p><strong>Produto:</strong> <%= items_proce.produtos %></p>
-<p><strong>Quantidade:</strong> <%= items_proce.quantidade %></p>
+<p><strong>ID:</strong> <%= itemProce.cod %></p>
+<p><strong>Procedimento:</strong> <%= itemProce.procedimentos %></p>
+<p><strong>Produto:</strong> <%= itemProce.produtos %></p>
+<p><strong>Quantidade:</strong> <%= itemProce.quantidade %></p>
 
-<a href="/items_proces" class="btn btn-primary">Voltar à Lista</a>
-<a href="/items_proces/<%= items_proce.cod %>/edit" class="btn btn-warning">Editar</a>
+<a href="/items_proce" class="btn btn-primary">Voltar à Lista</a>
+<a href="/items_proce/<%= itemProce.cod %>/edit" class="btn btn-warning">Editar</a>
 
-<form action="/items_proces/<%= items_proce.cod %>?_method=DELETE" method="POST" style="display: inline;">
+<form action="/items_proce/<%= itemProce.cod %>?_method=DELETE" method="POST" style="display: inline;">
     <button type="submit" class="btn btn-danger">Excluir</button>
 </form>

@@ -3,28 +3,28 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Procedimento</th>
             <th>Produto</th>
+            <th>Procedimento</th>
             <th>Quantidade</th>
             <th>Ação</th>
         </tr>
     </thead>
     <tbody>
-        <% items_proces.forEach(items_proce => { %>
+        <% itemsProce.forEach(item => { %>
             <tr>
-                <td><%= items_proce.cod %></td>
-                <td><%= items_proce.procedimentos %></td>
-                <td><%= items_proce.produtos %></td>
-                <td><%= items_proce.quantidade %></td>
+                <td><%= item.cod %></td>
+                <td><%= item.produto_nome %></td>
+                <td><%= item.procedimento_nome %></td>
+                <td><%= item.quantidade %></td>
                 <td>
-                    <a href="/items_proces/<%= items_proce.cod %>" class="btn btn-primary" aria-label="Detalhes de <%= items_proce.produtos %>">Detalhes</a>
-                    <a href="/items_proces/<%= items_proce.cod %>/edit" class="btn btn-warning" aria-label="Editar <%= items_proce.produtos %>">Editar</a>
-                    <form action="/items_proces/<%= items_proce.cod %>?_method=DELETE" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-danger" aria-label="Excluir <%= items_proce.produtos %>">Excluir</button>
+                    <a href="/items_proce/<%= item.cod %>" class="btn btn-primary" aria-label="Detalhes de <%= item.produto_nome %>">Detalhes</a>
+                    <a href="/items_proce/<%= item.cod %>/edit" class="btn btn-warning" aria-label="Editar <%= item.produto_nome %>">Editar</a>
+                    <form action="/items_proce/<%= item.cod %>?_method=DELETE" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-danger" aria-label="Excluir <%= item.produto_nome %>">Excluir</button>
                     </form>
                 </td>
             </tr>
         <% }) %>
     </tbody>
 </table>
-<a href="/items_proces/create" class="btn btn-primary">Novo Item do Procedimento</a>
+<a href="/items_proce/create" class="btn btn-primary">Novo Item do Procedimento</a>

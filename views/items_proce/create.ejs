@@ -1,16 +1,31 @@
-<h1>Cadastrar Novo Item</h1>
+<h1>Cadastrar Novo Item Procedimento</h1>
 <form action="/items_proce" method="POST">
     <div class="form-group">
-        <label for="procedimentos">Procedimento</label>
-        <input type="text" class="form-control" id="procedimentos" name="procedimentos" required placeholder="Insira o procedimento">
+        <label for="produto_cod">Produto</label>
+        <select class="form-control" id="produto_cod" name="produto_cod" required>
+            <option value="">Selecione um Produto</option>
+            <% produtos.forEach(produto => { %>
+                <option value="<%= produto.cod %>"><%= produto.nome %></option>
+            <% }) %>
+        </select>
     </div>
+
     <div class="form-group">
-        <label for="produtos">Produto</label>
-        <input type="text" class="form-control" id="produtos" name="produtos" required placeholder="Insira o produto">
+        <label for="procedimento_cod">Procedimento</label>
+        <select class="form-control" id="procedimento_cod" name="procedimento_cod" required>
+            <option value="">Selecione um Procedimento</option>
+            <% procedimentos.forEach(procedimento => { %>
+                <option value="<%= procedimento.cod %>"><%= procedimento.nome %></option>
+            <% }) %>
+        </select>
     </div>
+
     <div class="form-group">
         <label for="quantidade">Quantidade</label>
         <input type="number" class="form-control" id="quantidade" name="quantidade" required min="1" placeholder="Quantidade mínima é 1">
     </div>
-    <button type="submit" class="btn btn-primary">Cadastrar</button>
+
+    <button type="submit" class="btn btn-success">Cadastrar</button>
 </form>
+
+<a href="/items_proce" class="btn btn-primary">Voltar para a Lista</a>

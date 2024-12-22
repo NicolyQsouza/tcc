@@ -1,14 +1,15 @@
 const express = require('express');
-const itemsProceController = require('../controllers/items_proceController'); // Verifique se o nome do controlador está correto
+const itemsProceController = require('../controllers/itemsProceController');
+ // Verifique se o nome do controlador está correto
 const router = express.Router();
 
-// Rota para obter todos os itens de procedimento
+// Rota para listar todos os items_proce
 router.get('/', itemsProceController.getAllItemsProce);
 
-// Rota para renderizar o formulário de criação de item de procedimento
-router.get('/create', itemsProceController.renderCreateForm);
+// Rota para mostrar o formulário de criação de um novo item_proce
+router.get('/new', itemsProceController.renderCreateForm); // Anteriormente estava '/create'
 
-// Rota para criar um novo item de procedimento
+// Rota para criar um novo item_proce
 router.post('/', itemsProceController.createItemProce);
 
 // Rota para obter um item de procedimento específico por ID
@@ -20,7 +21,7 @@ router.get('/:id/edit', itemsProceController.renderEditForm);
 // Rota para atualizar um item de procedimento específico
 router.put('/:id', itemsProceController.updateItemProce);
 
-// Rota para deletar um item de procedimento específico
+// Rota para excluir um item de procedimento específico
 router.delete('/:id', itemsProceController.deleteItemProce);
 
 module.exports = router;

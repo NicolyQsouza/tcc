@@ -1,7 +1,10 @@
-const ItemsProce = require('../models/items_proceModel'); // Ajuste o caminho conforme necessário
+const ItemsProce = require('../models/items_proceModel'); // Ajuste o caminho conforme necessário 
+const Produtos = require('../models/produtosModel');
+const Procedimentos = require('../models/procedimentosModel');
 
 const itemsProceController = {
 
+    // Obter todos os items_proce
     getAllItemsProce: (req, res) => {
         ItemsProce.getAll((err, itemsProce) => {
             if (err) {
@@ -12,30 +15,34 @@ const itemsProceController = {
         });
     },
 
+    // Renderizar o formulário de criação de um novo item_proce
     renderCreateForm: (req, res) => {
-        ItemsProce.getProcedimentos((err, procedimentos) => {
+        Produtos.getAll((err, produtos) => {
             if (err) {
-                console.error('Erro ao carregar procedimentos:', err);
+                console.error('Erro ao carregar produtos:', err);
                 return res.status(500).json({ error: 'Erro ao carregar o formulário de criação.' });
             }
-            ItemsProce.getProdutos((err, produtos) => {
+
+            Procedimentos.getAll((err, procedimentos) => {
                 if (err) {
-                    console.error('Erro ao carregar produtos:', err);
+                    console.error('Erro ao carregar procedimentos:', err);
                     return res.status(500).json({ error: 'Erro ao carregar o formulário de criação.' });
                 }
-                res.render('items_proce/create', { procedimentos, produtos });
+
+                res.render('items_proce/create', { produtos, procedimentos });
             });
         });
     },
 
+    // Criar um novo item_proce
     createItemProce: (req, res) => {
-        const { procedimentos, produtos, quantidade } = req.body;
+        const { produto_cod, procedimento_cod, quantidade } = req.body;
 
-        if (!procedimentos || !produtos || !quantidade || quantidade <= 0) {
-            return res.status(400).json({ error: 'Todos os campos são obrigatórios e quantidade deve ser maior que zero.' });
+        if (!produto_cod || !procedimento_cod || !quantidade || quantidade <= 0) {
+            return res.status(400).json({ error: 'Produto, Procedimento e Quantidade são obrigatórios e a quantidade deve ser maior que zero.' });
         }
 
-        const newItemProce = { procedimentos, produtos, quantidade };
+        const newItemProce = { produto_cod, procedimento_cod, quantidade };
         ItemsProce.create(newItemProce, (err) => {
             if (err) {
                 console.error('Erro ao criar item_proce:', err);
@@ -45,6 +52,7 @@ const itemsProceController = {
         });
     },
 
+    // Obter um item_proce específico
     getItemProceById: (req, res) => {
         ItemsProce.getById(req.params.id, (err, itemProce) => {
             if (err) {
@@ -58,6 +66,7 @@ const itemsProceController = {
         });
     },
 
+    // Renderizar o formulário de edição de item_proce
     renderEditForm: (req, res) => {
         ItemsProce.getById(req.params.id, (err, itemProce) => {
             if (err) {
@@ -67,30 +76,34 @@ const itemsProceController = {
             if (!itemProce) {
                 return res.status(404).json({ message: 'Item_proce não encontrado.' });
             }
-            ItemsProce.getProcedimentos((err, procedimentos) => {
+
+            Produtos.getAll((err, produtos) => {
                 if (err) {
-                    console.error('Erro ao carregar procedimentos:', err);
+                    console.error('Erro ao carregar produtos:', err);
                     return res.status(500).json({ error: 'Erro ao carregar o formulário de edição.' });
                 }
-                ItemsProce.getProdutos((err, produtos) => {
+
+                Procedimentos.getAll((err, procedimentos) => {
                     if (err) {
-                        console.error('Erro ao carregar produtos:', err);
+                        console.error('Erro ao carregar procedimentos:', err);
                         return res.status(500).json({ error: 'Erro ao carregar o formulário de edição.' });
                     }
-                    res.render('items_proce/edit', { itemProce, procedimentos, produtos });
+
+                    res.render('items_proce/edit', { itemProce, produtos, procedimentos });
                 });
             });
         });
     },
 
+    // Atualizar um item_proce
     updateItemProce: (req, res) => {
-        const { procedimentos, produtos, quantidade } = req.body;
+        const { produto_cod, procedimento_cod, quantidade } = req.body;
 
-        if (!procedimentos || !produtos || !quantidade || quantidade <= 0) {
-            return res.status(400).json({ error: 'Todos os campos são obrigatórios e quantidade deve ser maior que zero.' });
+        if (!produto_cod || !procedimento_cod || !quantidade || quantidade <= 0) {
+            return res.status(400).json({ error: 'Produto, Procedimento e Quantidade são obrigatórios e a quantidade deve ser maior que zero.' });
         }
 
-        const updatedItemProce = { procedimentos, produtos, quantidade };
+        const updatedItemProce = { produto_cod, procedimento_cod, quantidade };
         ItemsProce.update(req.params.id, updatedItemProce, (err) => {
             if (err) {
                 console.error('Erro ao atualizar item_proce:', err);
@@ -100,6 +113,7 @@ const itemsProceController = {
         });
     },
 
+    // Excluir um item_proce
     deleteItemProce: (req, res) => {
         ItemsProce.delete(req.params.id, (err) => {
             if (err) {
