@@ -2,6 +2,7 @@ const Feedback = require('../models/feedbacksModel');
 const Cliente = require('../models/clientesModel');
 
 const feedbackController = {
+    // Função para criar um feedback
     create: (req, res) => {
         const newFeedback = {
             cliente: req.body.cliente,
@@ -18,6 +19,7 @@ const feedbackController = {
         });
     },
 
+    // Função para buscar um feedback pelo ID
     getById: (req, res) => {
         const feedbackCod = req.params.cod;
 
@@ -32,6 +34,7 @@ const feedbackController = {
         });
     },
 
+    // Função para pegar todos os feedbacks
     getAll: (req, res) => {
         Feedback.getAll((err, feedbacks) => {
             if (err) {
@@ -41,6 +44,7 @@ const feedbackController = {
         });
     },
 
+    // Função para renderizar o formulário de criação de feedback
     renderCreateForm: (req, res) => {
         Cliente.getAll((err, clientes) => {
             if (err) {
@@ -50,6 +54,7 @@ const feedbackController = {
         });
     },
 
+    // Função para renderizar o formulário de edição de feedback
     renderEditForm: (req, res) => {
         const feedbackCod = req.params.cod;
 
@@ -70,16 +75,20 @@ const feedbackController = {
         });
     },
 
+    // Função para atualizar um feedback
     update: (req, res) => {
         const feedbackCod = req.params.cod;
 
         const updatedFeedback = {
             cliente: req.body.cliente,
-            foto: req.body.foto,
+            foto: req.body.foto,  // Caso a foto não seja alterada, manterá o valor anterior
             comentario: req.body.comentario,
             avaliacao: req.body.avaliacao
         };
 
+        console.log('Código do feedback:', feedbackCod);  // Adiciona para debug
+
+        // Chama a função de update do modelo para atualizar o feedback no banco
         Feedback.update(feedbackCod, updatedFeedback, (err) => {
             if (err) {
                 return res.status(500).json({ error: 'Erro ao atualizar feedback: ' + err.message });
@@ -88,6 +97,7 @@ const feedbackController = {
         });
     },
 
+    // Função para deletar um feedback
     delete: (req, res) => {
         const feedbackCod = req.params.cod;
 

@@ -88,6 +88,8 @@ const clientesController = {
             data_de_nascimento: req.body.data_de_nascimento
         };
 
+        console.log('Dados recebidos:', updatedCliente);
+
         // Validação básica
         if (!updatedCliente.nome || !updatedCliente.fone || !updatedCliente.email) {
             return res.status(400).json({ error: 'Os campos nome, fone e email são obrigatórios.' });

@@ -17,7 +17,6 @@ const agendaRoutes = require('./routes/agendaRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes'); 
 const items_proceRoutes = require('./routes/items_proceRoutes'); 
 
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -28,7 +27,7 @@ app.use(expressLayouts);
 
 // Middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));  // Configuração do bodyParser para URL-encoded
 app.use(methodOverride('_method'));
 
 // Rotas

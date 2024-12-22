@@ -16,8 +16,13 @@
                     <td><%= feedback.comentario %></td>
                     <td><%= feedback.avaliacao %></td>
                     <td>
+                        <!-- Link para visualizar os detalhes do feedback -->
                         <a href="/feedbacks/<%= feedback.cod %>" class="btn btn-primary">Detalhes</a>
+
+                        <!-- Link para editar o feedback -->
                         <a href="/feedbacks/<%= feedback.cod %>/edit" class="btn btn-warning">Editar</a>
+
+                        <!-- Formulário para excluir feedback -->
                         <form action="/feedbacks/<%= feedback.cod %>?_method=DELETE" method="POST" style="display: inline;">
                             <button type="submit" class="btn btn-danger">Excluir</button>
                         </form>
@@ -31,4 +36,26 @@
         <% } %>
     </tbody>
 </table>
+
+<!-- Botão para criar um novo feedback -->
 <a href="/feedbacks/new" class="btn btn-primary">Novo Feedback</a>
+
+<!-- Formulário para editar o feedback -->
+<% if (feedback) { %>
+    <form action="/feedbacks/<%= feedback.cod %>?_method=PUT" method="POST">
+        <!-- Campos do formulário para editar o feedback -->
+        <div class="form-group">
+            <label for="comentario">Comentário</label>
+            <textarea name="comentario" id="comentario" class="form-control"><%= feedback.comentario %></textarea>
+        </div>
+        <div class="form-group">
+            <label for="avaliacao">Avaliação</label>
+            <input type="number" name="avaliacao" id="avaliacao" class="form-control" value="<%= feedback.avaliacao %>" min="1" max="5">
+        </div>
+        <div class="form-group">
+            <label for="foto">Foto</label>
+            <input type="file" name="foto" id="foto" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Salvar</button>
+    </form>
+<% } %>

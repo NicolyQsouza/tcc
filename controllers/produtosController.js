@@ -33,7 +33,8 @@ const produtoController = {
             if (!produto) {
                 return res.status(404).json({ message: 'Produto não encontrado' });
             }
-            res.render('produtos/show', { produto });
+            res.render('produtos/show', { produtos: produto });
+
         });
     },
 
@@ -65,7 +66,8 @@ const produtoController = {
             if (!produto) {
                 return res.status(404).json({ message: 'Produto não encontrado' });
             }
-            res.render('produtos/edit', { produto });
+            res.render('produtos/edit', { produtos: produto });
+
         });
     },
 

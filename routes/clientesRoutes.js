@@ -19,7 +19,8 @@ router.get('/:cod', clientesController.getClienteById);
 router.get('/:cod/edit', clientesController.renderEditForm);
 
 // Rota para atualizar o cliente
-router.post('/:cod', clientesController.updateCliente);
+router.put('/:cod', clientesController.updateCliente);
+
 
 // Rota para deletar um cliente
 router.get('/:cod/delete', clientesController.deleteCliente);
