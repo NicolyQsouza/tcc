@@ -1,10 +1,8 @@
-const ItemsProce = require('../models/items_proceModel'); // Ajuste o caminho conforme necessário 
+const ItemsProce = require('../models/items_proceModel');
 const Produtos = require('../models/produtosModel');
 const Procedimentos = require('../models/procedimentosModel');
 
 const itemsProceController = {
-
-    // Obter todos os items_proce
     getAllItemsProce: (req, res) => {
         ItemsProce.getAll((err, itemsProce) => {
             if (err) {
@@ -15,7 +13,6 @@ const itemsProceController = {
         });
     },
 
-    // Renderizar o formulário de criação de um novo item_proce
     renderCreateForm: (req, res) => {
         Produtos.getAll((err, produtos) => {
             if (err) {
@@ -34,7 +31,6 @@ const itemsProceController = {
         });
     },
 
-    // Criar um novo item_proce
     createItemProce: (req, res) => {
         const { produto_cod, procedimento_cod, quantidade } = req.body;
 
@@ -52,9 +48,8 @@ const itemsProceController = {
         });
     },
 
-    // Obter um item_proce específico
-    getItemProceById: (req, res) => {
-        ItemsProce.getById(req.params.id, (err, itemProce) => {
+    getItemProceByCod: (req, res) => {
+        ItemsProce.getById(req.params.cod, (err, itemProce) => {
             if (err) {
                 console.error('Erro ao buscar item_proce:', err);
                 return res.status(500).json({ error: 'Erro ao buscar item_proce.' });
@@ -66,9 +61,8 @@ const itemsProceController = {
         });
     },
 
-    // Renderizar o formulário de edição de item_proce
     renderEditForm: (req, res) => {
-        ItemsProce.getById(req.params.id, (err, itemProce) => {
+        ItemsProce.getById(req.params.cod, (err, itemProce) => {
             if (err) {
                 console.error('Erro ao carregar item_proce:', err);
                 return res.status(500).json({ error: 'Erro ao carregar o formulário de edição.' });
@@ -95,7 +89,6 @@ const itemsProceController = {
         });
     },
 
-    // Atualizar um item_proce
     updateItemProce: (req, res) => {
         const { produto_cod, procedimento_cod, quantidade } = req.body;
 
@@ -104,7 +97,7 @@ const itemsProceController = {
         }
 
         const updatedItemProce = { produto_cod, procedimento_cod, quantidade };
-        ItemsProce.update(req.params.id, updatedItemProce, (err) => {
+        ItemsProce.update(req.params.cod, updatedItemProce, (err) => {
             if (err) {
                 console.error('Erro ao atualizar item_proce:', err);
                 return res.status(500).json({ error: 'Erro ao atualizar item_proce.' });
@@ -113,9 +106,8 @@ const itemsProceController = {
         });
     },
 
-    // Excluir um item_proce
     deleteItemProce: (req, res) => {
-        ItemsProce.delete(req.params.id, (err) => {
+        ItemsProce.delete(req.params.cod, (err) => {
             if (err) {
                 console.error('Erro ao deletar item_proce:', err);
                 return res.status(500).json({ error: 'Erro ao deletar item_proce.' });

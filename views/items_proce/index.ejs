@@ -17,14 +17,14 @@
                 <td><%= item.procedimento_nome %></td>
                 <td><%= item.quantidade %></td>
                 <td>
-                    <a href="/items_proce/<%= item.cod %>" class="btn btn-primary" aria-label="Detalhes de <%= item.produto_nome %>">Detalhes</a>
-                    <a href="/items_proce/<%= item.cod %>/edit" class="btn btn-warning" aria-label="Editar <%= item.produto_nome %>">Editar</a>
+                    <a href="/items_proce/<%= item.cod %>" class="btn btn-primary">Detalhes</a>
+                    <a href="/items_proce/<%= item.cod %>/edit" class="btn btn-warning">Editar</a>
                     <form action="/items_proce/<%= item.cod %>?_method=DELETE" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-danger" aria-label="Excluir <%= item.produto_nome %>">Excluir</button>
+                        <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                 </td>
             </tr>
         <% }) %>
     </tbody>
 </table>
-<a href="/items_proce/create" class="btn btn-primary">Novo Item do Procedimento</a>
+<a href="/items_proce/new" class="btn btn-primary">Novo Item do Procedimento</a>
