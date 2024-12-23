@@ -18,7 +18,12 @@ const Procedimentos = {
         const query = 'SELECT * FROM procedimentos';
         db.query(query, (err, result) => {
             if (err) {
+                console.error('Erro ao buscar procedimentos:', err);
                 return callback(err);
+            }
+            if (!result || result.length === 0) {
+                console.log('Nenhum procedimento encontrado.');
+                return callback(null, []); // Retorna um array vazio se não houver resultados
             }
             callback(null, result); // Retorna os procedimentos encontrados
         });

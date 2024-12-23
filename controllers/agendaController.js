@@ -1,6 +1,6 @@
 const Agenda = require('../models/agendaModel');
 const Clientes = require('../models/clientesModel');
-const Procedimentos = require('../models/procedimentosModel'); // Se tiver um model para procedimentos
+const Procedimentos = require('../models/procedimentosModel');
 
 const agendaController = {
     // Obter todas as agendas
@@ -37,12 +37,50 @@ const agendaController = {
         }
     },
 
+    // Obter os detalhes de uma agenda pelo código
+    getById: async (req, res) => {
+        const { cod } = req.params;
+        try {
+            const agenda = await Agenda.getById(cod);
+            if (!agenda) {
+                return res.status(404).send('Agenda não encontrada.');
+            }
+
+            const clienteData = await Clientes.getById(agenda.clientes);
+            const procedimentoData = await Procedimentos.getById(agenda.procedimentos);
+
+            res.render('agenda/detail', {
+                agenda,
+                clienteNome: clienteData ? clienteData.nome : 'Cliente não encontrado',
+                procedimentoNome: procedimentoData ? procedimentoData.nome : 'Procedimento não encontrado'
+            });
+        } catch (err) {
+            console.error('Erro ao buscar detalhes da agenda:', err);
+            res.status(500).send('Erro ao buscar detalhes da agenda.');
+        }
+    },
+
     // Renderizar o formulário de criação de agenda
     renderCreateForm: async (req, res) => {
         try {
+            // Obter clientes e procedimentos
             const clients = await Clientes.getAll();
-            const procedures = await Procedimentos.getAll();
-            res.render('agenda/create', { clients, procedures });
+            Procedimentos.getAll((err, procedures) => {  // Usando o callback de Procedimentos
+                if (err) {
+                    console.error('Erro ao carregar procedimentos:', err);
+                    return res.status(500).send('Erro ao carregar procedimentos.');
+                }
+
+                if (!procedures || procedures.length === 0) {
+                    return res.status(500).send('Nenhum procedimento encontrado.');
+                }
+
+                if (!clients || clients.length === 0) {
+                    return res.status(500).send('Nenhum cliente encontrado.');
+                }
+
+                res.render('agenda/create', { clients, procedures });
+            });
         } catch (err) {
             console.error('Erro ao carregar clientes ou procedimentos:', err);
             res.status(500).send('Erro ao carregar clientes ou procedimentos.');
@@ -58,81 +96,15 @@ const agendaController = {
             return res.status(400).send('Todos os campos são obrigatórios.');
         }
 
-        const newAgenda = { clientes, procedimentos, profissional, forma_pag, data, hora };
+        const createAgenda = { clientes, procedimentos, profissional, forma_pag, data, hora };
 
-        // Vamos garantir que o método create esteja funcionando corretamente
-        Agenda.create(newAgenda, (err, result) => {
+        Agenda.create(createAgenda, (err, result) => {
             if (err) {
                 console.error('Erro ao criar agenda:', err);
                 return res.status(500).send('Erro ao criar agenda.');
             }
 
-            // Verifique se o result tem os dados da agenda criada
-            if (!result) {
-                return res.status(400).send('Erro ao criar agenda.');
-            }
-
-            // Redireciona para a lista de agendas após criação
             res.redirect('/agenda');
-        });
-    },
-
-    // Obter uma agenda por código
-    getById: (req, res) => {
-        const cod = req.params.cod;
-
-        Agenda.getById(cod, (err, agenda) => {
-            if (err) {
-                console.error('Erro ao buscar agenda por cod:', err);
-                return res.status(500).send('Erro ao buscar agenda.');
-            }
-
-            if (!agenda) {
-                return res.status(404).send('Agenda não encontrada.');
-            }
-
-            // Buscar o nome do cliente
-            Clientes.getById(agenda.clientes, (err, clienteData) => {
-                const clienteNome = clienteData ? clienteData.nome : 'Cliente não encontrado';
-
-                // Buscar o nome do procedimento
-                Procedimentos.getById(agenda.procedimentos, (err, procedimentoData) => {
-                    const procedimentoNome = procedimentoData ? procedimentoData.nome : 'Procedimento não encontrado';
-
-                    // Adicionando os nomes ao objeto de agenda
-                    agenda.clientesNome = clienteNome;
-                    agenda.procedimentosNome = procedimentoNome;
-
-                    res.render('agenda/show', { agenda });
-                });
-            });
-        });
-    },
-
-    // Renderizar o formulário de edição da agenda
-    renderEditForm: (req, res) => {
-        const cod = req.params.cod;
-
-        Agenda.getById(cod, (err, agenda) => {
-            if (err) {
-                console.error('Erro ao buscar agenda para edição:', err);
-                return res.status(500).send('Erro ao carregar formulário de edição.');
-            }
-
-            if (!agenda) {
-                return res.status(404).send('Agenda não encontrada.');
-            }
-
-            // Buscar todos os clientes e procedimentos
-            Promise.all([
-                Clientes.getAll(),
-                Procedimentos.getAll()
-            ]).then(([clients, procedures]) => {
-                res.render('agenda/edit', { agenda, clients, procedures });
-            }).catch(err => {
-                console.error('Erro ao carregar clientes ou procedimentos:', err);
-                res.status(500).send('Erro ao carregar clientes ou procedimentos.');
-            });
         });
     },
 
@@ -147,14 +119,10 @@ const agendaController = {
 
         const updatedAgenda = { clientes, procedimentos, profissional, forma_pag, data, hora };
 
-        Agenda.update(cod, updatedAgenda, (err, updated) => {
+        Agenda.update(cod, updatedAgenda, (err) => {
             if (err) {
                 console.error('Erro ao atualizar agenda:', err);
                 return res.status(500).send('Erro ao atualizar agenda.');
-            }
-
-            if (!updated) {
-                return res.status(404).send('Agenda não encontrada para atualização.');
             }
 
             res.redirect('/agenda');
@@ -165,14 +133,10 @@ const agendaController = {
     delete: (req, res) => {
         const cod = req.params.cod;
 
-        Agenda.delete(cod, (err, deleted) => {
+        Agenda.delete(cod, (err) => {
             if (err) {
                 console.error('Erro ao deletar agenda:', err);
                 return res.status(500).send('Erro ao deletar agenda.');
-            }
-
-            if (!deleted) {
-                return res.status(404).send('Agenda não encontrada para exclusão.');
             }
 
             res.redirect('/agenda');

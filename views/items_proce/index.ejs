@@ -16,6 +16,7 @@
                 <td><%= item.procedimento_nome %></td>
                 <td><%= item.quantidade %></td>
                 <td>
+                    <a href="/items_proce/<%= item.cod %>" class="btn btn-info">Ver</a>
                     <a href="/items_proce/<%= item.cod %>/edit" class="btn btn-warning">Editar</a>
                     <form action="/items_proce/<%= item.cod %>?_method=DELETE" method="POST" style="display:inline;">
                         <button class="btn btn-danger">Excluir</button>

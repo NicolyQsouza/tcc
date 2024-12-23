@@ -3,7 +3,13 @@ const db = require('../config/db');  // Importa a conexão com o banco
 const Clientes = {
     // Função para obter todos os clientes
     getAll: (callback) => {
-        db.query('SELECT * FROM clientes', callback);
+        const query = 'SELECT * FROM clientes';
+        db.query(query, (err, results) => {
+            if (err) {
+                return callback(err);  // Retorna erro se houver falha na consulta
+            }
+            callback(null, results);  // Retorna todos os resultados dos clientes
+        });
     },
 
     // Função para obter um cliente por ID (Usando 'cod' como chave primária)
