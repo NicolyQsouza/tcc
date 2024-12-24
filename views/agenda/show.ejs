@@ -1,8 +1,8 @@
 <h1>Detalhes da Agenda</h1>
 <div class="details">
     <p><strong>ID:</strong> <%= agenda.cod %></p>
-    <p><strong>Cliente:</strong> <%= agenda.clientesNome %></p> <!-- Supondo que você tenha esse campo -->
-    <p><strong>Procedimento:</strong> <%= agenda.procedimentosNome %></p> <!-- Supondo que você tenha esse campo -->
+    <p><strong>Cliente:</strong> <%= agenda.clientesNome %></p>
+    <p><strong>Procedimento:</strong> <%= agenda.procedimentosNome %></p>
     <p><strong>Profissional:</strong> <%= agenda.profissional %></p>
     <p><strong>Forma de Pagamento:</strong> <%= agenda.forma_pag %></p>
     <p><strong>Data:</strong> <%= new Date(agenda.data).toLocaleDateString('pt-BR') %></p>

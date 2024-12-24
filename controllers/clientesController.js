@@ -17,6 +17,11 @@ const clientesController = {
             return res.status(400).json({ error: 'Os campos nome, fone e email são obrigatórios.' });
         }
 
+        // Verificação de formato da data (caso seja necessário)
+        if (!newCliente.data_de_nascimento || isNaN(Date.parse(newCliente.data_de_nascimento))) {
+            return res.status(400).json({ error: 'A data de nascimento é inválida.' });
+        }
+
         // Usando o modelo para salvar o novo cliente
         Clientes.create(newCliente, (err, clienteId) => {
             if (err) {
@@ -40,7 +45,7 @@ const clientesController = {
 
     // Obter um cliente específico pelo código
     getClienteById: (req, res) => {
-        const clienteCod = req.params.cod;  // Usando o 'cod' ao invés de 'id'
+        const clienteCod = req.params.cod;
 
         Clientes.getByCod(clienteCod, (err, cliente) => {
             if (err) {
@@ -88,11 +93,16 @@ const clientesController = {
             data_de_nascimento: req.body.data_de_nascimento
         };
 
-        console.log('Dados recebidos:', updatedCliente);
+        console.log('Dados recebidos:', updatedCliente);  // Adicionando o log para verificação
 
         // Validação básica
         if (!updatedCliente.nome || !updatedCliente.fone || !updatedCliente.email) {
             return res.status(400).json({ error: 'Os campos nome, fone e email são obrigatórios.' });
+        }
+
+        // Verificação de formato da data
+        if (!updatedCliente.data_de_nascimento || isNaN(Date.parse(updatedCliente.data_de_nascimento))) {
+            return res.status(400).json({ error: 'A data de nascimento é inválida.' });
         }
 
         // Atualizar no banco de dados

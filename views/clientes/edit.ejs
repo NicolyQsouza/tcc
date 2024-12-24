@@ -1,39 +1,46 @@
 <h1>Editar Cliente</h1>
 <form action="/clientes/<%= cliente.cod %>?_method=PUT" method="POST">
+    <!-- Nome -->
     <div class="form-group">
         <label for="nome">Nome</label>
         <input type="text" class="form-control" id="nome" name="nome" value="<%= cliente.nome %>" required autocomplete="off">
     </div>
 
+    <!-- Gênero -->
     <div class="form-group">
         <label for="genero">Gênero</label>
         <select class="form-control" id="genero" name="genero">
-            <option value="">Selecione</option>
+            <option value="" <%= cliente.genero === null ? 'selected' : '' %>>Selecione</option>
             <option value="masculino" <%= cliente.genero === 'masculino' ? 'selected' : '' %>>Masculino</option>
             <option value="feminino" <%= cliente.genero === 'feminino' ? 'selected' : '' %>>Feminino</option>
             <option value="outro" <%= cliente.genero === 'outro' ? 'selected' : '' %>>Outro</option>
         </select>
     </div>
 
+    <!-- Endereço -->
     <div class="form-group">
         <label for="endereco">Endereço</label>
         <input type="text" class="form-control" id="endereco" name="endereco" value="<%= cliente.endereco %>" required autocomplete="off">
     </div>
 
+    <!-- Telefone -->
     <div class="form-group">
         <label for="fone">Telefone</label>
         <input type="tel" class="form-control" id="fone" name="fone" value="<%= cliente.fone %>" required autocomplete="off">
     </div>
 
+    <!-- Email -->
     <div class="form-group">
         <label for="email">Email</label>
         <input type="email" class="form-control" id="email" name="email" value="<%= cliente.email %>" required>
     </div>
 
+    <!-- Data de Nascimento -->
     <div class="form-group">
         <label for="data_de_nascimento">Data de Nascimento</label>
-        <input type="date" class="form-control" id="data_de_nascimento" name="data_de_nascimento" value="<%= cliente.data_de_nascimento %>" required>
+        <input type="date" class="form-control" id="data_de_nascimento" name="data_de_nascimento" value="<%= cliente.data_de_nascimento ? cliente.data_de_nascimento.toISOString().slice(0, 10) : '' %>" required>
     </div>
 
+    <!-- Botão de submissão -->
     <button type="submit" class="btn btn-warning">Salvar</button>
 </form>

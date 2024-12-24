@@ -14,8 +14,8 @@ const produtosRoutes = require('./routes/produtosRoutes');
 const procedimentosRoutes = require('./routes/procedimentosRoutes');
 const feedbacksRoutes = require('./routes/feedbacksRoutes');
 const agendaRoutes = require('./routes/agendaRoutes');
-const usuariosRoutes = require('./routes/usuariosRoutes'); 
-const items_proceRoutes = require('./routes/items_proceRoutes'); 
+const usuariosRoutes = require('./routes/usuariosRoutes');
+const items_proceRoutes = require('./routes/items_proceRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;

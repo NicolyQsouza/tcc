@@ -40,9 +40,10 @@ const feedbackController = {
             if (err) {
                 return res.status(500).json({ error: 'Erro ao buscar feedbacks: ' + err.message });
             }
-            res.render('feedbacks/index', { feedbacks });
+            res.render('feedbacks/index', { feedbacks }); // Passando feedbacks corretamente para a view
         });
     },
+    
 
     // Função para renderizar o formulário de criação de feedback
     renderCreateForm: (req, res) => {
@@ -78,24 +79,27 @@ const feedbackController = {
     // Função para atualizar um feedback
     update: (req, res) => {
         const feedbackCod = req.params.cod;
-
+    
         const updatedFeedback = {
-            cliente: req.body.cliente,
-            foto: req.body.foto,  // Caso a foto não seja alterada, manterá o valor anterior
+            cliente: parseInt(req.body.cliente, 10), // Converte para número
+            foto: req.body.foto || null,
             comentario: req.body.comentario,
-            avaliacao: req.body.avaliacao
+            avaliacao: parseInt(req.body.avaliacao, 10)
         };
-
-        console.log('Código do feedback:', feedbackCod);  // Adiciona para debug
-
-        // Chama a função de update do modelo para atualizar o feedback no banco
+    
+        if (isNaN(updatedFeedback.cliente)) {
+            return res.status(400).json({ error: 'Cliente inválido' });
+        }
+    
         Feedback.update(feedbackCod, updatedFeedback, (err) => {
             if (err) {
-                return res.status(500).json({ error: 'Erro ao atualizar feedback: ' + err.message });
+                console.error('Erro ao atualizar feedback:', err);
+                return res.status(500).json({ error: 'Erro ao atualizar feedback' });
             }
             res.redirect('/feedbacks');
         });
     },
+    
 
     // Função para deletar um feedback
     delete: (req, res) => {

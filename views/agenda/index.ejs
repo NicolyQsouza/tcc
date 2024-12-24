@@ -25,9 +25,12 @@
                 <td>
                     <a href="/agenda/<%= agenda.cod %>" class="btn btn-primary" aria-label="Ver detalhes da agenda">Detalhes</a>
                     <a href="/agenda/<%= agenda.cod %>/edit" class="btn btn-warning" aria-label="Editar agenda">Editar</a>
-                    <form action="/agenda/<%= agenda.cod %>?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir esta agenda?');">
+                    <form action="/agenda/<%= agenda.cod %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir esta agenda?');">
+                        <input type="hidden" name="_method" value="DELETE" />
                         <button type="submit" class="btn btn-danger" aria-label="Excluir agenda">Excluir</button>
                     </form>
+                    
+                    
                 </td>
             </tr>
         <% }) %>
