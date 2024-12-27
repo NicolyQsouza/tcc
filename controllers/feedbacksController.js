@@ -1,3 +1,4 @@
+// controllers/feedbacksController.js
 const Feedback = require('../models/feedbacksModel');
 const Cliente = require('../models/clientesModel');
 
@@ -10,7 +11,7 @@ const feedbackController = {
             comentario: req.body.comentario,
             avaliacao: req.body.avaliacao
         };
-        console.log(req.body.cliente);
+
         Feedback.create(newFeedback, (err, feedbackCod) => {
             if (err) {
                 return res.status(500).json({ error: 'Erro ao criar feedback: ' + err.message });
@@ -40,14 +41,13 @@ const feedbackController = {
             if (err) {
                 return res.status(500).json({ error: 'Erro ao buscar feedbacks: ' + err.message });
             }
-            res.render('feedbacks/index', { feedbacks }); // Passando feedbacks corretamente para a view
+            res.render('feedbacks/index', { feedbacks });
         });
     },
-    
 
     // Função para renderizar o formulário de criação de feedback
     renderCreateForm: (req, res) => {
-        Cliente.getAll((err, clientes) => {
+        Cliente.getAllCliente((err, clientes) => { // Corrigido para getAllCliente de Cliente
             if (err) {
                 return res.status(500).json({ error: 'Erro ao buscar clientes: ' + err.message });
             }
@@ -67,7 +67,7 @@ const feedbackController = {
                 return res.status(404).json({ message: 'Feedback não encontrado' });
             }
 
-            Cliente.getAll((err, clientes) => {
+            Cliente.getAllCliente((err, clientes) => {
                 if (err) {
                     return res.status(500).json({ error: 'Erro ao buscar clientes: ' + err.message });
                 }
@@ -81,25 +81,24 @@ const feedbackController = {
         const feedbackCod = req.params.cod;
     
         const updatedFeedback = {
-            cliente: parseInt(req.body.cliente, 10), // Converte para número
+            cliente: parseInt(req.body.cliente, 10),
             foto: req.body.foto || null,
             comentario: req.body.comentario,
             avaliacao: parseInt(req.body.avaliacao, 10)
         };
     
+        // Verificando se o cliente é válido
         if (isNaN(updatedFeedback.cliente)) {
             return res.status(400).json({ error: 'Cliente inválido' });
         }
     
         Feedback.update(feedbackCod, updatedFeedback, (err) => {
             if (err) {
-                console.error('Erro ao atualizar feedback:', err);
                 return res.status(500).json({ error: 'Erro ao atualizar feedback' });
             }
             res.redirect('/feedbacks');
         });
     },
-    
 
     // Função para deletar um feedback
     delete: (req, res) => {

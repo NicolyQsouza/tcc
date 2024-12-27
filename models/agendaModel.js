@@ -1,4 +1,3 @@
-// Arquivo: models/agendaModel.js
 const db = require('../config/db');  // Conexão com o banco de dados
 
 class Agenda {

@@ -1,22 +1,37 @@
 <h1>Editar Feedback</h1>
 
 <form action="/feedbacks/<%= feedback.cod %>?_method=PUT" method="POST">
+    <!-- Campo de seleção para o cliente -->
     <div class="form-group">
         <label for="cliente">Cliente</label>
-        <input type="text" class="form-control" id="cliente" name="cliente" value="<%= feedback.cliente_nome %>" readonly>
+        <select class="form-control" id="cliente" name="cliente" required>
+            <% clientes.forEach(cliente => { %>
+                <option value="<%= cliente.cod %>" <% if(cliente.cod === feedback.clientes) { %>selected<% } %>>
+                    <%= cliente.nome %>
+                </option>
+            <% }) %>
+        </select>
     </div>
+
+    <!-- Campo para upload de foto -->
     <div class="form-group">
         <label for="foto">Foto</label>
         <input type="file" class="form-control" id="foto" name="foto">
         <p>Foto atual: <%= feedback.foto %></p>
     </div>
+
+    <!-- Campo para comentário -->
     <div class="form-group">
         <label for="comentario">Comentário</label>
         <textarea class="form-control" id="comentario" name="comentario" rows="4" required><%= feedback.comentario %></textarea>
     </div>
+
+    <!-- Campo para avaliação (1-5) -->
     <div class="form-group">
         <label for="avaliacao">Avaliação</label>
         <input type="number" class="form-control" id="avaliacao" name="avaliacao" min="1" max="5" value="<%= feedback.avaliacao %>" required>
     </div>
+
+    <!-- Botão de envio -->
     <button type="submit" class="btn btn-warning">Salvar</button>
 </form>

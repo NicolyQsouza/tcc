@@ -16,8 +16,8 @@
         <% agendas.forEach(agenda => { %>
             <tr>
                 <td><%= agenda.cod %></td>
-                <td><%= agenda.cliente_nome %></td> <!-- Nome do cliente -->
-                <td><%= agenda.procedimento_nome %></td> <!-- Nome do procedimento -->
+                <td><%= agenda.cliente_nome %></td>
+                <td><%= agenda.procedimento_nome %></td>
                 <td><%= agenda.profissional %></td>
                 <td><%= agenda.forma_pag %></td>
                 <td><%= new Date(agenda.data).toLocaleDateString('pt-BR') %></td>

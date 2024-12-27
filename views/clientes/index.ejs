@@ -19,11 +19,13 @@
                 <td><%= cliente.fone %></td>
                 <td><%= cliente.email %></td>
                 <td>
+                    <!-- Link para ver detalhes do cliente -->
                     <a href="/clientes/<%= cliente.cod %>" class="btn btn-info">Ver</a>
+                    <!-- Link para editar informações do cliente -->
                     <a href="/clientes/<%= cliente.cod %>/edit" class="btn btn-warning">Editar</a>
-                    <!-- Usando formulário com método DELETE para exclusão -->
-                    <form action="/clientes/<%= cliente.cod %>" method="POST" style="display:inline;">
-                        <input type="hidden" name="_method" value="DELETE">
+                    
+                    <!-- Formulário para excluir o cliente -->
+                    <form action="/clientes/<%= cliente.cod %>?_method=DELETE" method="POST" style="display:inline;">
                         <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                 </td>

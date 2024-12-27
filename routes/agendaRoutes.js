@@ -1,4 +1,3 @@
-// Arquivo: routes/agendaRoutes.js
 const express = require('express');
 const router = express.Router();
 const agendaController = require('../controllers/agendaController');
@@ -11,6 +10,9 @@ router.get('/create', agendaController.renderCreateForm);
 
 // Rota para criar uma nova agenda
 router.post('/', agendaController.create);
+
+// Rota para editar uma agenda
+router.get('/:cod/edit', agendaController.getAgendaById);
 
 // Rota para atualizar uma agenda
 router.put('/:cod', agendaController.update);

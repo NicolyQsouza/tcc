@@ -1,5 +1,5 @@
-const Agenda = require('../models/agendaModel'); // Importando o modelo de agenda
-const Clientes = require('../models/clientesModel'); // Importando o modelo de clientes
+const Agenda = require('../models/agendaModel');
+const Clientes = require('../models/clientesModel'); // Supondo que você tenha esse modelo para clientes
 
 const agendaController = {
     // Criar um novo registro de agenda
@@ -24,7 +24,7 @@ const agendaController = {
                 console.error('Erro ao criar agenda:', err);
                 return res.status(500).json({ error: 'Erro ao criar agenda: ' + err.message });
             }
-            res.redirect('/agenda'); // Redireciona para a página de listagem de agendas
+            res.status(201).json({ message: 'Agenda criada com sucesso!', agendaId }); 
         });
     },
 

@@ -3,14 +3,14 @@
 
     <!-- Campo para seleção de cliente -->
     <div class="form-group">
-        <label for="clientes">Cliente</label>
+        <label for="cliente">Cliente</label>
         <select class="form-control" id="cliente" name="cliente" required>
             <option value="" disabled selected>Selecione um cliente</option>
-            <% clientes.forEach(cliente=> { %>
+            <% clientes.forEach(cliente => { %>
                 <option value="<%= cliente.cod %>">
                     <%= cliente.nome %>
                 </option>
-                <% }) %>
+            <% }) %>
         </select>
     </div>
 

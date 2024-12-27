@@ -1,3 +1,4 @@
+// models/feedbacksModel.js
 const db = require('../config/db');
 
 const Feedback = {
@@ -31,11 +32,25 @@ const Feedback = {
         });
     },
 
+    // Função para pegar todos os feedbacks
+    getAll: (callback) => {
+        const query = `
+            SELECT feedbacks.cod, feedbacks.clientes, feedbacks.foto, feedbacks.comentario, feedbacks.avaliacao, 
+                   clientes.nome AS cliente_nome 
+            FROM feedbacks 
+            JOIN clientes ON feedbacks.clientes = clientes.cod`;
+        db.query(query, (err, results) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, results);
+        });
+    },
+
     // Função para atualizar o feedback
     update: (cod, feedback, callback) => {
         const { cliente, foto, comentario, avaliacao } = feedback;
 
-        // Primeiro, buscamos a foto atual no banco de dados
         let query = `
             SELECT foto 
             FROM feedbacks 
@@ -46,15 +61,12 @@ const Feedback = {
                 return callback(err);
             }
 
-            // Se o feedback não for encontrado
             if (results.length === 0) {
                 return callback(new Error('Feedback não encontrado'));
             }
 
-            // Se não houver uma nova foto, mantemos a foto atual
             const currentFoto = foto || results[0].foto;
 
-            // Atualiza a consulta de acordo com a foto (se fornecida ou não)
             query = `
                 UPDATE feedbacks 
                 SET clientes = ?, foto = ?, comentario = ?, avaliacao = ? 
@@ -75,20 +87,6 @@ const Feedback = {
     delete: (cod, callback) => {
         const query = 'DELETE FROM feedbacks WHERE cod = ?';
         db.query(query, [cod], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results);
-        });
-    },
-
-    // Função para pegar todos os feedbacks
-    getAll: (callback) => {
-        const query = `
-            SELECT feedbacks.cod, feedbacks.clientes, feedbacks.foto, feedbacks.comentario, feedbacks.avaliacao, clientes.nome AS cliente_nome 
-            FROM feedbacks 
-            JOIN clientes ON feedbacks.clientes = clientes.cod`;
-        db.query(query, (err, results) => {
             if (err) {
                 return callback(err);
             }

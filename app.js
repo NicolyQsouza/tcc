@@ -1,4 +1,3 @@
-// Arquivo: app.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
@@ -14,7 +13,7 @@ const clientesRoutes = require('./routes/clientesRoutes');
 const produtosRoutes = require('./routes/produtosRoutes');
 const procedimentosRoutes = require('./routes/procedimentosRoutes');
 const feedbacksRoutes = require('./routes/feedbacksRoutes');
-const agendaRoutes = require('./routes/agendaRoutes'); // Certifique-se que esta rota está correta
+const agendaRoutes = require('./routes/agendaRoutes');  // Rota para agenda
 const usuariosRoutes = require('./routes/usuariosRoutes');
 const items_proceRoutes = require('./routes/items_proceRoutes');
 
@@ -29,7 +28,7 @@ app.use(expressLayouts);
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(methodOverride('_method')); // Para permitir o uso de métodos HTTP como PUT e DELETE via formulário
+app.use(methodOverride('_method'));  // Middleware para permitir o uso de métodos PUT/DELETE via formulários
 
 // Rotas
 app.use('/', indexRoutes);
@@ -37,7 +36,7 @@ app.use('/clientes', clientesRoutes);
 app.use('/produtos', produtosRoutes);
 app.use('/procedimentos', procedimentosRoutes);
 app.use('/feedbacks', feedbacksRoutes);
-app.use('/agenda', agendaRoutes); // Certifique-se que a rota de agenda está configurada corretamente
+app.use('/agenda', agendaRoutes);  // Certifique-se que está correto o caminho para /agenda
 app.use('/usuarios', usuariosRoutes);
 app.use('/items_proce', items_proceRoutes);
 
