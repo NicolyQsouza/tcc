@@ -1,8 +1,9 @@
-const db = require('../config/db');  // Importa a conexão com o banco
+// Arquivo: models/clientesModel.js
+const db = require('../config/db');  // Conexão com o banco
 
 const Clientes = {
     // Função para obter todos os clientes
-    getAll: (callback) => {
+    getAllCliente: (callback) => {
         const query = 'SELECT * FROM clientes';
         db.query(query, (err, results) => {
             if (err) {
@@ -13,7 +14,7 @@ const Clientes = {
     },
 
     // Função para obter um cliente por ID (Usando 'cod' como chave primária)
-    getById: (id, callback) => {
+    getClienteById: (id, callback) => {
         const query = 'SELECT * FROM clientes WHERE cod = ?';
         db.query(query, [id], (err, results) => {
             if (err) {
@@ -23,8 +24,8 @@ const Clientes = {
         });
     },
 
-    // Função para obter um cliente por código
-    getByCod: (clienteCod, callback) => {
+    // Função para obter um cliente por código (caso seja necessário)
+    getClienteByCod: (clienteCod, callback) => {
         const query = 'SELECT * FROM clientes WHERE cod = ?';
         db.query(query, [clienteCod], (err, results) => {
             if (err) {
@@ -35,7 +36,7 @@ const Clientes = {
     },
 
     // Criar um novo cliente
-    create: (clienteData, callback) => {
+    createCliente: (clienteData, callback) => {
         const query = `
             INSERT INTO clientes (nome, genero, endereco, fone, email, data_de_nascimento)
             VALUES (?, ?, ?, ?, ?, ?)
@@ -56,7 +57,7 @@ const Clientes = {
     },
 
     // Atualizar cliente
-    update: (clienteCod, clienteData, callback) => {
+    updateCliente: (clienteCod, clienteData, callback) => {
         const query = `
             UPDATE clientes
             SET nome = ?, genero = ?, endereco = ?, fone = ?, email = ?, data_de_nascimento = ?
@@ -79,7 +80,7 @@ const Clientes = {
     },
 
     // Deletar um cliente
-    delete: (clienteCod, callback) => {
+    deleteCliente: (clienteCod, callback) => {
         const query = 'DELETE FROM clientes WHERE cod = ?';
         db.query(query, [clienteCod], (err, result) => {
             if (err) {

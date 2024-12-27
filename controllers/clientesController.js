@@ -1,3 +1,4 @@
+// Arquivo: controllers/clientesController.js
 const Clientes = require('../models/clientesModel');  // Importando o modelo de clientes
 
 const clientesController = {
@@ -23,7 +24,7 @@ const clientesController = {
         }
 
         // Usando o modelo para salvar o novo cliente
-        Clientes.create(newCliente, (err, clienteId) => {
+        Clientes.createCliente(newCliente, (err, clienteId) => {
             if (err) {
                 console.error('Erro ao criar cliente:', err);
                 return res.status(500).json({ error: 'Erro ao criar cliente: ' + err.message });
@@ -33,8 +34,8 @@ const clientesController = {
     },
 
     // Obter todos os clientes
-    getAllClientes: (req, res) => {
-        Clientes.getAll((err, clientes) => {
+    getAllCliente: (req, res) => {
+        Clientes.getAllCliente((err, clientes) => {
             if (err) {
                 console.error('Erro ao obter clientes:', err);
                 return res.status(500).json({ error: 'Erro ao obter clientes: ' + err.message });
@@ -47,7 +48,7 @@ const clientesController = {
     getClienteById: (req, res) => {
         const clienteCod = req.params.cod;
 
-        Clientes.getByCod(clienteCod, (err, cliente) => {
+        Clientes.getClienteByCod(clienteCod, (err, cliente) => {
             if (err) {
                 console.error('Erro ao buscar cliente:', err);
                 return res.status(500).json({ error: 'Erro ao buscar cliente: ' + err.message });
@@ -69,7 +70,7 @@ const clientesController = {
         const clienteCod = req.params.cod;
 
         // Recuperar cliente para edição
-        Clientes.getByCod(clienteCod, (err, cliente) => {
+        Clientes.getClienteByCod(clienteCod, (err, cliente) => {
             if (err) {
                 console.error('Erro ao buscar cliente para edição:', err);
                 return res.status(500).json({ error: 'Erro ao buscar cliente para edição: ' + err.message });
@@ -106,7 +107,7 @@ const clientesController = {
         }
 
         // Atualizar no banco de dados
-        Clientes.update(clienteCod, updatedCliente, (err) => {
+        Clientes.updateCliente(clienteCod, updatedCliente, (err) => {
             if (err) {
                 console.error('Erro ao atualizar cliente:', err);
                 return res.status(500).json({ error: 'Erro ao atualizar cliente: ' + err.message });
@@ -119,7 +120,7 @@ const clientesController = {
     deleteCliente: (req, res) => {
         const clienteCod = req.params.cod;
 
-        Clientes.delete(clienteCod, (err) => {
+        Clientes.deleteCliente(clienteCod, (err) => {
             if (err) {
                 console.error('Erro ao deletar cliente:', err);
                 return res.status(500).json({ error: 'Erro ao deletar cliente: ' + err.message });
@@ -129,4 +130,4 @@ const clientesController = {
     }
 };
 
-module.exports = clientesController;  // Exporta o controlador
+module.exports = clientesController;

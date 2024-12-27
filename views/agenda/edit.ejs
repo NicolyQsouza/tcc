@@ -9,6 +9,7 @@
             <% }); %>
         </select>
     </div>
+
     <div class="form-group">
         <label for="procedimentos">Procedimentos</label>
         <select class="form-control" id="procedimentos" name="procedimentos" required>
@@ -18,22 +19,27 @@
             <% }); %>
         </select>
     </div>
+
     <div class="form-group">
         <label for="profissional">Profissional</label>
         <input type="text" class="form-control" id="profissional" name="profissional" value="<%= agenda.profissional %>" required autocomplete="off">
     </div>
+
     <div class="form-group">
         <label for="forma_pag">Forma de Pagamento</label>
         <input type="text" class="form-control" id="forma_pag" name="forma_pag" value="<%= agenda.forma_pag %>" required autocomplete="off">
     </div>
+
     <div class="form-group">
         <label for="data">Data</label>
         <input type="date" class="form-control" id="data" name="data" value="<%= new Date(agenda.data).toISOString().split('T')[0] %>" required>
     </div>
+
     <div class="form-group">
         <label for="hora">Hora</label>
         <input type="time" class="form-control" id="hora" name="hora" value="<%= agenda.hora %>" required>
     </div>
+
     <button type="submit" class="btn btn-warning">Salvar</button>
 </form>
 <a href="/agenda" class="btn btn-primary">Voltar para a Lista</a>

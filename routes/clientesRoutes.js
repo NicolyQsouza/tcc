@@ -1,10 +1,10 @@
-// clientesRoutes.js
+// Arquivo: routes/clientesRoutes.js
 const express = require('express');
 const router = express.Router();
 const clientesController = require('../controllers/clientesController');
 
 // Rota para a lista de todos os clientes
-router.get('/', clientesController.getAllClientes);
+router.get('/', clientesController.getAllCliente);
 
 // Rota para renderizar o formulário de criação de cliente
 router.get('/create', clientesController.renderCreateForm);
@@ -21,8 +21,7 @@ router.get('/:cod/edit', clientesController.renderEditForm);
 // Rota para atualizar o cliente
 router.put('/:cod', clientesController.updateCliente);
 
-
 // Rota para deletar um cliente
 router.get('/:cod/delete', clientesController.deleteCliente);
 
-module.exports = router;  // Exporta as rotas para o Express
+module.exports = router;

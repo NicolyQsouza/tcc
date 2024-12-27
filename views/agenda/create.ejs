@@ -4,8 +4,8 @@
         <label for="clientes">Clientes</label>
         <select class="form-control" id="clientes" name="clientes" required>
             <option value="">Selecione um cliente</option>
-            <% if (clients && clients.length > 0) { %>
-                <% clients.forEach(cliente => { %>
+            <% if (clientes && clientes.length > 0) { %>
+                <% clientes.forEach(cliente => { %>
                     <option value="<%= cliente.cod %>"><%= cliente.nome %></option>
                 <% }); %>
             <% } else { %>
@@ -18,8 +18,8 @@
         <label for="procedimentos">Procedimentos</label>
         <select class="form-control" id="procedimentos" name="procedimentos" required>
             <option value="">Selecione um procedimento</option>
-            <% if (procedures && procedures.length > 0) { %>
-                <% procedures.forEach(procedimento => { %>
+            <% if (procedimentos && procedimentos.length > 0) { %>
+                <% procedimentos.forEach(procedimento => { %>
                     <option value="<%= procedimento.cod %>"><%= procedimento.nome %></option>
                 <% }); %>
             <% } else { %>

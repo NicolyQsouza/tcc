@@ -1,3 +1,4 @@
+// Arquivo: models/agendaModel.js
 const db = require('../config/db');  // Conexão com o banco de dados
 
 class Agenda {
@@ -43,7 +44,7 @@ class Agenda {
             callback(null, result); // Retorna todos os registros da agenda
         });
     }
-    
+
     // Obter um registro de agenda por código (cod)
     static getById(cod, callback) {
         db.query('SELECT * FROM agenda WHERE cod = ?', [cod], (err, result) => {
@@ -54,7 +55,6 @@ class Agenda {
             callback(null, result[0]); // Retorna o registro específico ou undefined se não existir
         });
     }
-    
 
     // Atualizar um registro de agenda
     static update(cod, agenda, callback) {
@@ -75,7 +75,6 @@ class Agenda {
             }
         );
     }
-    
 
     // Deletar um registro de agenda
     static delete(cod, callback) {
@@ -87,7 +86,6 @@ class Agenda {
             callback(null, result.affectedRows > 0); // Retorna true se a exclusão foi bem-sucedida
         });
     }
-    
 
     // Obter procedimentos (todos os procedimentos)
     static getProcedures(callback) {
@@ -99,18 +97,6 @@ class Agenda {
             callback(null, result); // Retorna todos os procedimentos
         });
     }
-    
-    static getProcedureById(cod, callback) {
-        const query = 'SELECT * FROM procedimentos WHERE cod = ?';
-        db.query(query, [cod], (err, results) => {
-            if (err) {
-                console.error('Erro ao obter procedimento:', err);
-                return callback(err);
-            }
-            callback(null, results[0] || null); // Retorna o procedimento ou null se não encontrado
-        });
-    }
-    
 }
 
 module.exports = Agenda;

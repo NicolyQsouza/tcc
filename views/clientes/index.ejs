@@ -21,7 +21,11 @@
                 <td>
                     <a href="/clientes/<%= cliente.cod %>" class="btn btn-info">Ver</a>
                     <a href="/clientes/<%= cliente.cod %>/edit" class="btn btn-warning">Editar</a>
-                    <a href="/clientes/<%= cliente.cod %>/delete" class="btn btn-danger">Excluir</a>
+                    <!-- Usando formulário com método DELETE para exclusão -->
+                    <form action="/clientes/<%= cliente.cod %>" method="POST" style="display:inline;">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
                 </td>
             </tr>
         <% }) %>
