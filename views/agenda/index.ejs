@@ -15,7 +15,7 @@
     <tbody>
         <% agendas.forEach(agenda => { %>
             <tr>
-                <td><%= agenda.cod %></td>
+                <td><%= agenda.agenda_cod %></td>
                 <td><%= agenda.cliente_nome %></td>
                 <td><%= agenda.procedimento_nome %></td>
                 <td><%= agenda.profissional %></td>
@@ -23,11 +23,11 @@
                 <td><%= new Date(agenda.data).toLocaleDateString('pt-BR') %></td>
                 <td><%= agenda.hora %></td>
                 <td>
-                    <a href="/agenda/<%= agenda.cod %>" class="btn btn-primary" aria-label="Ver detalhes da agenda">Detalhes</a>
-                    <a href="/agenda/<%= agenda.cod %>/edit" class="btn btn-warning" aria-label="Editar agenda">Editar</a>
-                    <form action="/agenda/<%= agenda.cod %>?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir esta agenda?');">
+                    <a href="/agenda/<%= agenda.agenda_cod %>" class="btn btn-primary">Detalhes</a>
+                    <a href="/agenda/<%= agenda.agenda_cod %>/edit" class="btn btn-warning">Editar</a>
+                    <form action="/agenda/<%= agenda.agenda_cod %>?_method=DELETE" method="POST" style="display: inline;">
                         <input type="hidden" name="_method" value="DELETE" />
-                        <button type="submit" class="btn btn-danger" aria-label="Excluir agenda">Excluir</button>
+                        <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                 </td>
             </tr>

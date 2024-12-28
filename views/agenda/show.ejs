@@ -1,11 +1,14 @@
 <h1>Detalhes da Agenda</h1>
-<div class="details">
-    <p><strong>ID:</strong> <%= agenda.cod %></p>
-    <p><strong>Cliente:</strong> <%= agenda.clientesNome %></p>
-    <p><strong>Procedimento:</strong> <%= agenda.procedimentosNome %></p>
-    <p><strong>Profissional:</strong> <%= agenda.profissional %></p>
-    <p><strong>Forma de Pagamento:</strong> <%= agenda.forma_pag %></p>
-    <p><strong>Data:</strong> <%= new Date(agenda.data).toLocaleDateString('pt-BR') %></p>
-    <p><strong>Hora:</strong> <%= agenda.hora %></p>
-</div>
-<a href="/agenda" class="btn btn-primary">Voltar para a Lista</a>
+<p><strong>Cliente:</strong> <%= agenda.clientesNome %></p>
+<p><strong>Procedimento:</strong> <%= agenda.procedimentosNome %></p>
+<p><strong>Profissional:</strong> <%= agenda.profissional %></p>
+<p><strong>Forma de Pagamento:</strong> <%= agenda.forma_pag %></p>
+<p><strong>Data:</strong> <%= new Date(agenda.data).toLocaleDateString('pt-BR') %></p>
+<p><strong>Hora:</strong> <%= agenda.hora %></p>
+
+<a href="/agenda/<%= agenda.cod %>/edit" class="btn btn-warning">Editar</a>
+<form action="/agenda/<%= agenda.cod %>?_method=DELETE" method="POST" style="display: inline;">
+    <input type="hidden" name="_method" value="DELETE" />
+    <button type="submit" class="btn btn-danger">Excluir</button>
+</form>
+<a href="/agenda" class="btn btn-secondary">Voltar</a>

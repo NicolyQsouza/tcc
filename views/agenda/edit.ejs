@@ -1,45 +1,44 @@
 <h1>Editar Agenda</h1>
 <form action="/agenda/<%= agenda.cod %>?_method=PUT" method="POST">
     <div class="form-group">
-        <label for="clientes">Clientes</label>
-        <select class="form-control" id="clientes" name="clientes" required>
-            <option value="">Selecione um cliente</option>
+        <label for="clientes">Cliente:</label>
+        <select name="clientes" id="clientes" class="form-control" required>
+            <option value="">Selecione o Cliente</option>
             <% clientes.forEach(cliente => { %>
-                <option value="<%= cliente.cod %>" <%= cliente.cod === agenda.clientes ? 'selected' : '' %>><%= cliente.nome %></option>
+                <option value="<%= cliente.cod %>" <%= cliente.cod == agenda.clientes.cod ? 'selected' : '' %>><%= cliente.nome %></option>
             <% }); %>
         </select>
     </div>
 
     <div class="form-group">
-        <label for="procedimentos">Procedimentos</label>
-        <select class="form-control" id="procedimentos" name="procedimentos" required>
-            <option value="">Selecione um procedimento</option>
+        <label for="procedimentos">Procedimento:</label>
+        <select name="procedimentos" id="procedimentos" class="form-control" required>
+            <option value="">Selecione o Procedimento</option>
             <% procedimentos.forEach(procedimento => { %>
-                <option value="<%= procedimento.cod %>" <%= procedimento.cod === agenda.procedimentos ? 'selected' : '' %>><%= procedimento.nome %></option>
+                <option value="<%= procedimento.cod %>" <%= procedimento.cod == agenda.procedimentos.cod ? 'selected' : '' %>><%= procedimento.nome %></option>
             <% }); %>
         </select>
     </div>
 
     <div class="form-group">
-        <label for="profissional">Profissional</label>
-        <input type="text" class="form-control" id="profissional" name="profissional" value="<%= agenda.profissional %>" required autocomplete="off">
+        <label for="profissional">Profissional:</label>
+        <input type="text" name="profissional" id="profissional" class="form-control" value="<%= agenda.profissional %>" required>
     </div>
 
     <div class="form-group">
-        <label for="forma_pag">Forma de Pagamento</label>
-        <input type="text" class="form-control" id="forma_pag" name="forma_pag" value="<%= agenda.forma_pag %>" required autocomplete="off">
+        <label for="forma_pag">Forma de Pagamento:</label>
+        <input type="text" name="forma_pag" id="forma_pag" class="form-control" value="<%= agenda.forma_pag %>" required>
     </div>
 
     <div class="form-group">
-        <label for="data">Data</label>
-        <input type="date" class="form-control" id="data" name="data" value="<%= new Date(agenda.data).toISOString().split('T')[0] %>" required>
+        <label for="data">Data:</label>
+        <input type="date" name="data" id="data" class="form-control" value="<%= agenda.data %>" required>
     </div>
 
     <div class="form-group">
-        <label for="hora">Hora</label>
-        <input type="time" class="form-control" id="hora" name="hora" value="<%= agenda.hora %>" required>
+        <label for="hora">Hora:</label>
+        <input type="time" name="hora" id="hora" class="form-control" value="<%= agenda.hora %>" required>
     </div>
 
-    <button type="submit" class="btn btn-warning">Salvar</button>
+    <button type="submit" class="btn btn-warning">Atualizar</button>
 </form>
-<a href="/agenda" class="btn btn-primary">Voltar para a Lista</a>

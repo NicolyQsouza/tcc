@@ -1,27 +1,18 @@
-const db = require('../config/db');  // Conexão com o banco de dados
+const db = require('../config/db');
 
 class Agenda {
-    // Criar um novo registro de agenda
     static create(agenda, callback) {
         const { clientes, procedimentos, profissional, forma_pag, data, hora } = agenda;
-        if (!clientes || !procedimentos || !profissional || !forma_pag || !data || !hora) {
-            return callback(new Error('Todos os campos são obrigatórios.'));
-        }
-    
         db.query(
             'INSERT INTO agenda (clientes, procedimentos, profissional, forma_pag, data, hora) VALUES (?, ?, ?, ?, ?, ?)',
             [clientes, procedimentos, profissional, forma_pag, data, hora],
             (err, result) => {
-                if (err) {
-                    console.error('Erro ao criar agenda:', err);
-                    return callback(err);
-                }
-                callback(null, { id: result.insertId }); // Retorna o ID (cod) do novo registro
+                if (err) return callback(err);
+                callback(null, { id: result.insertId });
             }
         );
     }
 
-    // Obter todos os registros de agenda
     static getAll(callback) {
         const query = `
             SELECT agenda.cod AS agenda_cod, 
@@ -35,66 +26,56 @@ class Agenda {
             JOIN clientes ON agenda.clientes = clientes.cod
             JOIN procedimentos ON agenda.procedimentos = procedimentos.cod;
         `;
-        db.query(query, (err, result) => {
-            if (err) {
-                console.error('Erro ao buscar agendas:', err);
-                return callback(err);
-            }
-            callback(null, result); // Retorna todos os registros da agenda
-        });
+        db.query(query, callback);
     }
 
-    // Obter um registro de agenda por código (cod)
     static getById(cod, callback) {
         db.query('SELECT * FROM agenda WHERE cod = ?', [cod], (err, result) => {
-            if (err) {
-                console.error('Erro ao buscar agenda:', err);
-                return callback(err);
-            }
-            callback(null, result[0]); // Retorna o registro específico ou undefined se não existir
+            if (err) return callback(err);
+            if (result.length === 0) return callback(new Error('Agenda não encontrada')); // Caso não encontre a agenda
+            // Carregar detalhes adicionais de cliente e procedimento
+            db.query('SELECT nome FROM clientes WHERE cod = ?', [result[0].clientes], (err, clientes) => {
+                if (err) return callback(err);
+                result[0].clientes = clientes[0];
+
+                db.query('SELECT nome FROM procedimentos WHERE cod = ?', [result[0].procedimentos], (err, procedimentos) => {
+                    if (err) return callback(err);
+                    result[0].procedimentos = procedimentos[0];
+                    callback(null, result[0]);
+                });
+            });
         });
     }
 
-    // Atualizar um registro de agenda
     static update(cod, agenda, callback) {
         const { clientes, procedimentos, profissional, forma_pag, data, hora } = agenda;
-        if (!clientes || !procedimentos || !profissional || !forma_pag || !data || !hora) {
-            return callback(new Error('Todos os campos são obrigatórios.'));
-        }
-    
-        db.query(
-            'UPDATE agenda SET clientes = ?, procedimentos = ?, profissional = ?, forma_pag = ?, data = ?, hora = ? WHERE cod = ?',
-            [clientes, procedimentos, profissional, forma_pag, data, hora, cod],
-            (err, result) => {
-                if (err) {
-                    console.error('Erro ao atualizar agenda:', err);
-                    return callback(err);
-                }
-                callback(null, result.affectedRows > 0); // Retorna true se a atualização foi bem-sucedida
+        const query = `
+            UPDATE agenda 
+            SET clientes = ?, procedimentos = ?, profissional = ?, forma_pag = ?, data = ?, hora = ?
+            WHERE cod = ?
+        `;
+        db.query(query, [clientes, procedimentos, profissional, forma_pag, data, hora, cod], (err, result) => {
+            if (err) {
+                console.error('Erro ao atualizar agenda:', err);
+                return callback(err); // Retorna erro, se houver
             }
-        );
+            if (result.affectedRows > 0) {
+                callback(null, true); // Atualização bem-sucedida
+            } else {
+                callback(null, false); // Nenhuma linha afetada
+            }
+        });
     }
 
-    // Deletar um registro de agenda
     static delete(cod, callback) {
         db.query('DELETE FROM agenda WHERE cod = ?', [cod], (err, result) => {
-            if (err) {
-                console.error('Erro ao deletar agenda:', err);
-                return callback(err);
-            }
-            callback(null, result.affectedRows > 0); // Retorna true se a exclusão foi bem-sucedida
+            if (err) return callback(err);
+            callback(null, result.affectedRows > 0); // Retorna true ou false dependendo se foi deletado
         });
     }
 
-    // Obter procedimentos (todos os procedimentos)
     static getProcedures(callback) {
-        db.query('SELECT * FROM procedimentos', (err, result) => {
-            if (err) {
-                console.error('Erro ao obter procedimentos:', err);
-                return callback(err);
-            }
-            callback(null, result); // Retorna todos os procedimentos
-        });
+        db.query('SELECT * FROM procedimentos', callback);
     }
 }
 

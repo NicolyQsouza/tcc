@@ -1,52 +1,44 @@
 <h1>Cadastrar Nova Agenda</h1>
 <form action="/agenda" method="POST">
     <div class="form-group">
-        <label for="clientes">Clientes</label>
-        <select class="form-control" id="clientes" name="clientes" required>
-            <option value="">Selecione um cliente</option>
-            <% if (clientes && clientes.length > 0) { %>
-                <% clientes.forEach(cliente => { %>
-                    <option value="<%= cliente.cod %>"><%= cliente.nome %></option>
-                <% }); %>
-            <% } else { %>
-                <option value="">Nenhum cliente disponível</option>
-            <% } %>
+        <label for="clientes">Cliente:</label>
+        <select name="clientes" id="clientes" class="form-control" required>
+            <option value="">Selecione o Cliente</option>
+            <% clientes.forEach(cliente => { %>
+                <option value="<%= cliente.cod %>"><%= cliente.nome %></option>
+            <% }); %>
         </select>
     </div>
 
     <div class="form-group">
-        <label for="procedimentos">Procedimentos</label>
-        <select class="form-control" id="procedimentos" name="procedimentos" required>
-            <option value="">Selecione um procedimento</option>
-            <% if (procedimentos && procedimentos.length > 0) { %>
-                <% procedimentos.forEach(procedimento => { %>
-                    <option value="<%= procedimento.cod %>"><%= procedimento.nome %></option>
-                <% }); %>
-            <% } else { %>
-                <option value="">Nenhum procedimento disponível</option>
-            <% } %>
+        <label for="procedimentos">Procedimento:</label>
+        <select name="procedimentos" id="procedimentos" class="form-control" required>
+            <option value="">Selecione o Procedimento</option>
+            <% procedimentos.forEach(procedimento => { %>
+                <option value="<%= procedimento.cod %>"><%= procedimento.nome %></option>
+            <% }); %>
         </select>
     </div>
 
     <div class="form-group">
-        <label for="profissional">Profissional</label>
-        <input type="text" class="form-control" id="profissional" name="profissional" required autocomplete="off">
+        <label for="profissional">Profissional:</label>
+        <input type="text" name="profissional" id="profissional" class="form-control" required>
     </div>
 
     <div class="form-group">
-        <label for="forma_pag">Forma de Pagamento</label>
-        <input type="text" class="form-control" id="forma_pag" name="forma_pag" required autocomplete="off">
+        <label for="forma_pag">Forma de Pagamento:</label>
+        <input type="text" name="forma_pag" id="forma_pag" class="form-control" required>
     </div>
 
     <div class="form-group">
-        <label for="data">Data</label>
-        <input type="date" class="form-control" id="data" name="data" required>
+        <label for="data">Data:</label>
+        <input type="date" name="data" id="data" class="form-control" required>
     </div>
 
     <div class="form-group">
-        <label for="hora">Hora</label>
-        <input type="time" class="form-control" id="hora" name="hora" required>
+        <label for="hora">Hora:</label>
+        <input type="time" name="hora" id="hora" class="form-control" required>
     </div>
 
-    <button type="submit" class="btn btn-primary">Cadastrar</button>
+    <button type="submit" class="btn btn-success">Cadastrar</button>
 </form>
