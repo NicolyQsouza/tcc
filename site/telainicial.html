@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salão de Beleza</title>
+    <link rel="stylesheet" href="/css/telainicial.css">
+    <script defer src="/js/telainicial.js"></script>
+</head>
+<body>
+    <header>
+        <h1 id="titulo-principal">STUDIO DA BELEZA</h1>
+        <nav>
+            <ul>
+                <li><a href="#salao" class="menu-item">Salão</a></li>
+                <li><a href="#servicos" class="menu-item">Serviços</a></li>
+                <li><a href="#produtos" class="menu-item">Produtos</a></li>
+                <li><a href="#contato" class="menu-item">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section id="salao">
+            <h2>Salão</h2>
+            <p>Bem-vindo ao nosso salão! Temos como missão proporcionar a melhor experiência em beleza e bem-estar.</p>
+        </section>
+
+        <section id="servicos">
+            <h2>Serviços</h2>
+            <p>Oferecemos uma variedade de serviços capilares para atender suas necessidades.</p>
+        </section>
+        
+        <section id="produtos">
+            <h2>Produtos</h2>
+            <p>Descubra nossos produtos de alta qualidade para o cuidado dos seus cabelos.</p>
+        </section>
+        
+        <section id="contato">
+            <div class="contato-container">
+                <div class="formulario-e-mapa">
+                    <!-- Coluna esquerda: Título, parágrafo e formulário -->
+                    <div class="coluna-esquerda">
+                        <h2>Contato</h2>
+                        <p>Agende seu horário de forma rápida e fácil!</p>
+                        <form action="#" method="post">
+                            <label for="nome">Nome:</label>
+                            <input type="text" id="nome" name="nome" required>
+                            
+                            <label for="telefone">Telefone:</label>
+                            <input type="tel" id="telefone" name="telefone" required>
+                            
+                            <label for="mensagem">Mensagem:</label>
+                            <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
+                            
+                            <button type="submit">Enviar</button>
+                        </form>
+                    </div>
+
+                    <!-- Coluna direita: Localização e mapa -->
+                    <div class="coluna-direita">
+                        <h2>Localização</h2>
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3169.0499488831!2d-122.08424968468482!3d37.4219999798231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb0b50be9e5f1%3A0xbbb5b35d656abcd!2sGoogleplex!5e0!3m2!1sen!2sbr!4v1672951037411!5m2!1sen!2sbr" 
+                            width="100%" 
+                            height="400" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div id="informacoes-contato">
+                <p><strong>Email:</strong> studiodabeleza@gmail.com</p>
+                <p><strong>Telefone:</strong> (11) 1234-5678</p>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Rodapé -->
+    <footer>
+        <p><strong>Endereço:</strong> Rua Exemplo, 123 - Centro</p>
+        <p>© 2024 STUDIO DA BELEZA. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Botão flutuante para WhatsApp -->
+    <a href="https://wa.me/5511999999999" class="whatsapp-button" target="_blank" aria-label="Agendar pelo WhatsApp">
+        <img src="whatsapp-icon.png" alt="WhatsApp">
+    </a>
+</body>
+</html>
