@@ -25,7 +25,6 @@ body {
 
 header {
   background-image: url('/fotos/imagemdcabelo.png');
-
   background-size: cover;
   background-position: center;
   color: var(--text-light);
@@ -175,7 +174,6 @@ form button:hover {
   margin-top: var(--spacing); /* Espaçamento adicional acima do mapa */
 }
 
-
 .whatsapp-button {
   position: fixed;
   bottom: 20px;
@@ -208,4 +206,25 @@ footer {
   padding: var(--spacing);
   text-align: center;
   font-size: 0.9rem;
+}
+
+/* Estilo para o botão de login de admin */
+#login-admin {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.login-admin-button {
+  background-color: var(--highlight-color); /* Cor do fundo */
+  color: var(--text-light); /* Cor do texto */
+  padding: 12px 20px; /* Espaçamento interno */
+  text-decoration: none; /* Retira o sublinhado */
+  border-radius: var(--border-radius);
+  font-size: 1.2rem; /* Tamanho da fonte */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.login-admin-button:hover {
+  background-color: rgba(255, 111, 97, 0.8); /* Cor ao passar o mouse */
+  color: var(--text-dark);
 }

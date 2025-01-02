@@ -2,11 +2,13 @@ CREATE DATABASE CRUD;
 
 USE CRUD;
 
-CREATE TABLE usuarios(
+CREATE TABLE usuarios (
     cod INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL, 
-    senha VARCHAR(255) NOT NULL
+    senha VARCHAR(255) NOT NULL,
+    role ENUM('user', 'admin') DEFAULT 'user' -- Campo que define o papel do usuário
 );
+
 
 CREATE TABLE clientes (
    

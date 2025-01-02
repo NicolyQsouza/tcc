@@ -3,10 +3,10 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const expressLayouts = require('express-ejs-layouts');
 const dotenv = require('dotenv');
+const session = require('express-session');
+const flash = require('connect-flash');
 
-dotenv.config();
-
-// Importar rotas de outras partes do sistema
+// Importar rotas
 const indexRoutes = require('./routes/indexRoutes');
 const clientesRoutes = require('./routes/clientesRoutes');
 const produtosRoutes = require('./routes/produtosRoutes');
@@ -15,11 +15,14 @@ const feedbacksRoutes = require('./routes/feedbacksRoutes');
 const agendaRoutes = require('./routes/agendaRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes');
 const items_proceRoutes = require('./routes/items_proceRoutes');
+const authRoutes = require('./routes/authRoutes');
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Definir a engine de visualização para ejs (caso queira usar ejs)
+// Configuração do EJS
 app.set('view engine', 'ejs');
 app.set('views', `${__dirname}/views`);
 app.use(expressLayouts);
@@ -29,32 +32,65 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-// Servir arquivos estáticos
-app.use(express.static('site'));  // Arquivos da pasta "site" (CSS, JS, etc.)
-app.use(express.static('fotos')); // Arquivos da pasta "fotos" (Imagens)
+// Configuração de sessão
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || 'algum_segredo_forte',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: process.env.NODE_ENV === 'production', // Enviar o cookie via HTTPS se for produção
+            maxAge: 24 * 60 * 60 * 1000 // Tempo de expiração do cookie (1 dia)
+        }
+    })
+);
 
-// Rota principal - Página inicial
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/site/telainicial.html'); // Serve o arquivo HTML da pasta "site"
+// Configuração do flash
+app.use(flash());
+
+// Middleware para definir mensagens de flash para todas as páginas
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
 });
 
-// Roteadores para outras partes da aplicação
+// Middleware para verificar se o usuário está autenticado
+function isAuthenticated(req, res, next) {
+    if (req.session.user) {
+        return next(); // Se estiver autenticado, permite o acesso
+    }
+    req.flash('error', 'Você precisa estar autenticado para acessar essa página.');
+    res.redirect('/login'); // Se não estiver autenticado, redireciona para o login
+}
+
+// Servir arquivos estáticos
+app.use(express.static('site'));
+app.use(express.static('fotos'));
+
+// Rota principal
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/site/telainicial.html');
+});
+
+// Roteadores
+app.use('/', indexRoutes);
 app.use('/clientes', clientesRoutes);
 app.use('/produtos', produtosRoutes);
 app.use('/procedimentos', procedimentosRoutes);
 app.use('/feedbacks', feedbacksRoutes);
 app.use('/agenda', agendaRoutes);
-app.use('/usuarios', usuariosRoutes);
+app.use('/usuarios', isAuthenticated, usuariosRoutes); // Protege a rota de usuários
 app.use('/items_proce', items_proceRoutes);
+app.use('/', authRoutes); // Rotas de autenticação
 
-// Roteamento de erro (Página não encontrada)
+// Tratamento de erros
 app.use((req, res, next) => {
     const err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
-// Roteamento de erro interno
 app.use((err, req, res, next) => {
     res.status(err.status || 500).json({
         message: err.message,
@@ -62,7 +98,7 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Iniciar o servidor
+// Iniciar servidor
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Servidor rodando na porta ${PORT}`);
 });

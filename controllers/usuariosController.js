@@ -1,11 +1,21 @@
 const Usuarios = require('../models/usuariosModel');  // Importação do modelo de usuários
 
+// Middleware para verificar autenticação do usuário
+function isAuthenticated(req, res, next) {
+    if (!req.session.user) {
+        req.flash('error', 'Você precisa estar autenticado para acessar essa página.');
+        return res.redirect('/login');
+    }
+    next();
+}
+
 const usuariosController = {
     // Função para listar todos os usuários
     getAll: (req, res) => {
         Usuarios.getAll((err, usuarios) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                req.flash('error', 'Ocorreu um erro ao carregar os usuários.');
+                return res.status(500).render('error', { message: 'Erro no servidor.' });
             }
             res.render('usuarios/index', { usuarios });
         });
@@ -18,17 +28,20 @@ const usuariosController = {
 
     // Função para criar um novo usuário
     create: (req, res) => {
-        const novoUsuario = {
-            nome: req.body.nome,
-            senha: req.body.senha
-        };
+        const { nome, senha } = req.body;
+        if (!nome || !senha) {
+            req.flash('error', 'Nome e senha são obrigatórios.');
+            return res.redirect('/usuarios/create');
+        }
 
-        // Usando o modelo para salvar o novo usuário
+        const novoUsuario = { nome, senha };
+
         Usuarios.create(novoUsuario, (err, usuarioId) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                req.flash('error', 'Erro ao criar usuário. Tente novamente.');
+                return res.status(500).redirect('/usuarios/create');
             }
-            // Redireciona para a página de listagem de usuários
+            req.flash('success', 'Usuário criado com sucesso!');
             res.redirect('/usuarios');
         });
     },
@@ -39,10 +52,12 @@ const usuariosController = {
 
         Usuarios.getById(usuarioId, (err, usuario) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                req.flash('error', 'Erro ao buscar usuário.');
+                return res.status(500).redirect('/usuarios');
             }
             if (!usuario) {
-                return res.status(404).json({ message: 'Usuário não encontrado' });
+                req.flash('error', 'Usuário não encontrado.');
+                return res.status(404).redirect('/usuarios');
             }
             res.render('usuarios/show', { usuario });
         });
@@ -54,10 +69,12 @@ const usuariosController = {
 
         Usuarios.getById(usuarioId, (err, usuario) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                req.flash('error', 'Erro ao buscar dados para edição.');
+                return res.status(500).redirect('/usuarios');
             }
             if (!usuario) {
-                return res.status(404).json({ message: 'Usuário não encontrado' });
+                req.flash('error', 'Usuário não encontrado.');
+                return res.status(404).redirect('/usuarios');
             }
             res.render('usuarios/edit', { usuario });
         });
@@ -73,8 +90,10 @@ const usuariosController = {
 
         Usuarios.update(usuarioId, usuarioAtualizado, (err) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                req.flash('error', 'Erro ao atualizar usuário.');
+                return res.status(500).redirect('/usuarios');
             }
+            req.flash('success', 'Usuário atualizado com sucesso!');
             res.redirect('/usuarios');
         });
     },
@@ -85,8 +104,10 @@ const usuariosController = {
 
         Usuarios.delete(usuarioId, (err) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                req.flash('error', 'Erro ao deletar usuário.');
+                return res.status(500).redirect('/usuarios');
             }
+            req.flash('success', 'Usuário deletado com sucesso!');
             res.redirect('/usuarios');
         });
     }

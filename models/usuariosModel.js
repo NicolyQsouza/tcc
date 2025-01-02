@@ -1,3 +1,4 @@
+// usuariosModel.js
 const db = require('../config/db');
 
 const Usuarios = {
@@ -27,6 +28,20 @@ const Usuarios = {
     getById: (cod, callback) => {
         const query = 'SELECT * FROM usuarios WHERE cod = ?';
         db.query(query, [cod], (err, results) => {
+            if (err) {
+                return callback(err);
+            }
+            if (results.length === 0) {
+                return callback(null, null);  // Se não encontrar o usuário, retorna null
+            }
+            callback(null, results[0]);  // Retorna o usuário encontrado
+        });
+    },
+
+    // Obter um usuário pelo nome (para login)
+    getByUsername: (nome, callback) => {
+        const query = 'SELECT * FROM usuarios WHERE nome = ?';
+        db.query(query, [nome], (err, results) => {
             if (err) {
                 return callback(err);
             }
