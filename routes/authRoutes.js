@@ -17,8 +17,8 @@ router.get('/', (req, res) => {
     res.render('public/home'); // Página inicial pública
 });
 
-// Rota admin (só acessível para administradores)
-router.get('/admin', isAdmin, (req, res) => {
+// Página de dashboard, acessível apenas para admins autenticados
+router.get('/dashboard', isAdmin, (req, res) => {
     res.render('admin/dashboard'); // Página do admin
 });
 

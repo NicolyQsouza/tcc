@@ -1,63 +1,39 @@
-const db = require('../config/db'); // Importa a conexão com o banco de dados
+const Usuarios = require('../models/usuariosModel');
 
-const authController = {
-    // Função para exibir o formulário de login
+module.exports = {
     renderLoginForm: (req, res) => {
-        res.render('auth/login'); // Aqui renderizamos o login.ejs
+        res.render('auth/login', { success: req.flash('success'), error: req.flash('error') });
     },
 
-    // Função para processar o login
     login: (req, res) => {
         const { nome, senha } = req.body;
 
-        if (!nome || !senha) {
-            req.flash('error', 'Por favor, insira seu nome e senha.');
-            return res.redirect('/login');
-        }
-
         // Verificar o usuário no banco de dados
-        const query = 'SELECT * FROM usuarios WHERE nome = ?';
-        db.query(query, [nome], (err, results) => {
+        Usuarios.getByUsername(nome, (err, usuario) => {
             if (err) {
-                req.flash('error', 'Erro ao consultar o banco de dados.');
+                req.flash('error', 'Erro ao verificar usuário.');
                 return res.redirect('/login');
             }
 
-            if (results.length === 0) {
-                req.flash('error', 'Credenciais inválidas!');
-                return res.redirect('/login');
+            if (usuario && usuario.senha === senha) {
+                // Armazenar os dados do usuário na sessão
+                req.session.user = usuario.nome;
+                req.session.role = usuario.role; // Garantir que o papel do usuário seja armazenado (admin ou outro)
+                req.flash('success', 'Login realizado com sucesso!');
+                return res.redirect('/dashboard'); // Redireciona para a página de dashboard ou outra rota privada
             }
 
-            const usuario = results[0];
-
-            // Comparar a senha diretamente com a senha armazenada no banco (sem bcrypt)
-            if (senha === usuario.senha) {
-                // Se a senha for correta
-                req.session.user = { nome: usuario.nome, role: usuario.role }; // Armazena o nome e o role do usuário na sessão
-                req.flash('success', `Bem-vindo, ${usuario.nome}!`);
-
-                // Redireciona para a página correspondente ao tipo de usuário
-                if (usuario.role === 'admin') {
-                    res.redirect('/admin'); // Se for admin, vai para a página do admin
-                } else {
-                    res.redirect('/'); // Se for usuário normal, vai para a página inicial
-                }
-            } else {
-                req.flash('error', 'Credenciais inválidas!');
-                return res.redirect('/login');
-            }
+            req.flash('error', 'Nome ou senha inválidos.');
+            return res.redirect('/login');
         });
     },
 
-    // Função para processar o logout
     logout: (req, res) => {
         req.session.destroy((err) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                return res.redirect('/dashboard');
             }
-            res.redirect('/'); // Redireciona para a página inicial após logout
+            res.redirect('/login');
         });
-    },
+    }
 };
-
-module.exports = authController;

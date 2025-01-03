@@ -65,8 +65,7 @@ function isAuthenticated(req, res, next) {
 }
 
 // Servir arquivos estáticos
-app.use(express.static('site'));
-app.use(express.static('fotos'));
+app.use(express.static(__dirname + '/site'));  // Serve arquivos de 'site' incluindo fotos, css, js
 
 // Rota principal
 app.get('/', (req, res) => {
@@ -75,13 +74,13 @@ app.get('/', (req, res) => {
 
 // Roteadores
 app.use('/', indexRoutes);
-app.use('/clientes', clientesRoutes);
-app.use('/produtos', produtosRoutes);
-app.use('/procedimentos', procedimentosRoutes);
-app.use('/feedbacks', feedbacksRoutes);
-app.use('/agenda', agendaRoutes);
+app.use('/clientes', isAuthenticated, clientesRoutes);
+app.use('/produtos', isAuthenticated, produtosRoutes);
+app.use('/procedimentos', isAuthenticated, procedimentosRoutes);
+app.use('/feedbacks', isAuthenticated, feedbacksRoutes);
+app.use('/agenda', isAuthenticated, agendaRoutes);
 app.use('/usuarios', isAuthenticated, usuariosRoutes); // Protege a rota de usuários
-app.use('/items_proce', items_proceRoutes);
+app.use('/items_proce', isAuthenticated, items_proceRoutes);
 app.use('/', authRoutes); // Rotas de autenticação
 
 // Tratamento de erros
