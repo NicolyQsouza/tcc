@@ -10,89 +10,100 @@
                 <a class="nav-link" href="/">Home</a>
             </li>
 
-            <!-- Dropdown Usuários -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsuarios" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Usuários
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownUsuarios">
-                    <a class="dropdown-item" href="/usuarios/new">Cadastrar Usuário</a>
-                    <a class="dropdown-item" href="/usuarios">Listar Usuários</a>
-                </div>
-            </li>
+            <% if (user) { %> <!-- Verifica se o usuário está autenticado -->
+                <!-- Dropdown Usuários -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsuarios" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Usuários
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownUsuarios">
+                        <a class="dropdown-item" href="/usuarios/new">Cadastrar Usuário</a>
+                        <a class="dropdown-item" href="/usuarios">Listar Usuários</a>
+                    </div>
+                </li>
 
-            <!-- Dropdown Clientes -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownClientes" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Clientes
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownClientes">
-                    <a class="dropdown-item" href="/clientes/create">Cadastrar Cliente</a>
-                    <a class="dropdown-item" href="/clientes">Listar Clientes</a>
-                </div>
-            </li>
+                <!-- Dropdown Clientes -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownClientes" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Clientes
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownClientes">
+                        <a class="dropdown-item" href="/clientes/create">Cadastrar Cliente</a>
+                        <a class="dropdown-item" href="/clientes">Listar Clientes</a>
+                    </div>
+                </li>
 
-            <!-- Dropdown Procedimentos -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProcedimentos" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Procedimentos
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownProcedimentos">
-                    <a class="dropdown-item" href="/procedimentos/new">Cadastrar Procedimento</a>
-                    <a class="dropdown-item" href="/procedimentos">Listar Procedimentos</a>
-                </div>
-            </li>
+                <!-- Dropdown Procedimentos -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProcedimentos" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Procedimentos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownProcedimentos">
+                        <a class="dropdown-item" href="/procedimentos/new">Cadastrar Procedimento</a>
+                        <a class="dropdown-item" href="/procedimentos">Listar Procedimentos</a>
+                    </div>
+                </li>
 
-            <!-- Dropdown Produtos -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProdutos" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Produtos
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownProdutos">
-                    <a class="dropdown-item" href="/produtos/new">Cadastrar Produto</a>
-                    <a class="dropdown-item" href="/produtos">Listar Produtos</a>
-                </div>
-            </li>
+                <!-- Dropdown Produtos -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProdutos" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Produtos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownProdutos">
+                        <a class="dropdown-item" href="/produtos/new">Cadastrar Produto</a>
+                        <a class="dropdown-item" href="/produtos">Listar Produtos</a>
+                    </div>
+                </li>
 
-            <!-- Dropdown Feedbacks -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFeedbacks" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Feedbacks
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownFeedbacks">
-                    <a class="dropdown-item" href="/feedbacks/new">Cadastrar Feedback</a>
-                    <a class="dropdown-item" href="/feedbacks">Listar Feedbacks</a>
-                </div>
-            </li>
+                <!-- Dropdown Feedbacks -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFeedbacks" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Feedbacks
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownFeedbacks">
+                        <a class="dropdown-item" href="/feedbacks/new">Cadastrar Feedback</a>
+                        <a class="dropdown-item" href="/feedbacks">Listar Feedbacks</a>
+                    </div>
+                </li>
 
-            <!-- Dropdown Agenda -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAgenda" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Agenda
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownAgenda">
-                    <a class="dropdown-item" href="/agenda/create">Cadastrar Agenda</a>
-                    <a class="dropdown-item" href="/agenda">Listar Agenda</a>
-                </div>
-            </li>
+                <!-- Dropdown Agenda -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAgenda" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Agenda
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownAgenda">
+                        <a class="dropdown-item" href="/agenda/create">Cadastrar Agenda</a>
+                        <a class="dropdown-item" href="/agenda">Listar Agenda</a>
+                    </div>
+                </li>
 
-            <!-- Dropdown Itens de Procedimentos -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownItemsProce" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Itens de Procedimentos
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownItemsProce">
-                    <a class="dropdown-item" href="/items_proce/create">Cadastrar Item</a>
-                    <a class="dropdown-item" href="/items_proce">Listar Itens</a>
-                </div>
-            </li>
+                <!-- Dropdown Itens de Procedimentos -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownItemsProce" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Itens de Procedimentos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownItemsProce">
+                        <a class="dropdown-item" href="/items_proce/create">Cadastrar Item</a>
+                        <a class="dropdown-item" href="/items_proce">Listar Itens</a>
+                    </div>
+                </li>
+                <!-- Adicionar o logout -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            <% } else { %> 
+                <!-- Link de Login, visível se não estiver autenticado -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+            <% } %>
         </ul>
     </div>
 </nav>

@@ -64,6 +64,12 @@ function isAuthenticated(req, res, next) {
     res.redirect('/login'); // Se não estiver autenticado, redireciona para o login
 }
 
+// Middleware para definir informações globais nas views
+app.use((req, res, next) => {
+    res.locals.user = req.session.user; // Adiciona o usuário autenticado na view
+    next();
+});
+
 // Servir arquivos estáticos
 app.use(express.static(__dirname + '/site'));  // Serve arquivos de 'site' incluindo fotos, css, js
 
