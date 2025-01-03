@@ -15,16 +15,22 @@ module.exports = {
                 return res.redirect('/login');
             }
 
-            if (usuario && usuario.senha === senha) {
-                // Armazenar os dados do usuário na sessão
-                req.session.user = usuario.nome;
-                req.session.role = usuario.role; // Garantir que o papel do usuário seja armazenado (admin ou outro)
-                req.flash('success', 'Login realizado com sucesso!');
-                return res.redirect('/dashboard'); // Redireciona para a página de dashboard ou outra rota privada
+            if (!usuario) {
+                req.flash('error', 'Nome de usuário não encontrado.');
+                return res.redirect('/login');
             }
 
-            req.flash('error', 'Nome ou senha inválidos.');
-            return res.redirect('/login');
+            // Comparar a senha (sem bcrypt, apenas comparação direta)
+            if (usuario.senha === senha) {
+                // Armazenar os dados do usuário na sessão
+                req.session.user = usuario.nome;
+                req.session.role = usuario.role; // Armazenar o papel (admin ou outro)
+                req.flash('success', 'Login realizado com sucesso!');
+                return res.redirect('/dashboard'); // Redireciona para o dashboard
+            } else {
+                req.flash('error', 'Nome ou senha inválidos.');
+                return res.redirect('/login');
+            }
         });
     },
 
@@ -33,7 +39,8 @@ module.exports = {
             if (err) {
                 return res.redirect('/dashboard');
             }
-            res.redirect('/login');
+            res.clearCookie('connect.sid'); // Limpa o cookie de sessão
+            res.redirect('/login'); // Redireciona para a página de login após o logout
         });
     }
 };

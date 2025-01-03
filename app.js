@@ -17,12 +17,15 @@ const usuariosRoutes = require('./routes/usuariosRoutes');
 const items_proceRoutes = require('./routes/items_proceRoutes');
 const authRoutes = require('./routes/authRoutes');
 
+// Importar o middleware de autenticação
+const isAdmin = require('./middleware/isAdmin');
+
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configuração do EJS
+// Configuração do EJS (se você não usar EJS, pode remover isso)
 app.set('view engine', 'ejs');
 app.set('views', `${__dirname}/views`);
 app.use(expressLayouts);
@@ -73,19 +76,22 @@ app.use((req, res, next) => {
 // Servir arquivos estáticos
 app.use(express.static(__dirname + '/site'));  // Serve arquivos de 'site' incluindo fotos, css, js
 
-// Rota principal
+// Rota principal (mantendo como estava antes, com arquivo estático)
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/site/telainicial.html');
+    res.sendFile(__dirname + '/site/telainicial.html'); // Envia o arquivo HTML como estático
 });
 
 // Roteadores
 app.use('/', indexRoutes);
 app.use('/clientes', isAuthenticated, clientesRoutes);
-app.use('/produtos', isAuthenticated, produtosRoutes);
+
+// Remover o middleware de autenticação das rotas de produtos e feedbacks
+app.use('/produtos', produtosRoutes); // Permite acesso público
+app.use('/feedbacks', feedbacksRoutes); // Permite acesso público
+
 app.use('/procedimentos', isAuthenticated, procedimentosRoutes);
-app.use('/feedbacks', isAuthenticated, feedbacksRoutes);
 app.use('/agenda', isAuthenticated, agendaRoutes);
-app.use('/usuarios', isAuthenticated, usuariosRoutes); // Protege a rota de usuários
+app.use('/usuarios', isAuthenticated, isAdmin, usuariosRoutes); // Protege a rota de usuários
 app.use('/items_proce', isAuthenticated, items_proceRoutes);
 app.use('/', authRoutes); // Rotas de autenticação
 
