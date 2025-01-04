@@ -24,7 +24,7 @@ body {
 }
 
 header {
-  background-image: url('http://localhost:3000/fotos/imagemdcabelo.png');
+  background-image: url(../fotos/imagemdcabelo.png);
   background-size: cover;
   background-position: center;
   color: var(--text-light);
@@ -85,6 +85,65 @@ section {
 section h2 {
   color: var(--text-dark);
   margin-bottom: var(--spacing);
+}
+
+
+/* Estilos gerais para o conteúdo da seção de serviços */
+#servicos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background-color: var(--text-light);
+  box-shadow: 0 2px 4px var(--shadow-light);
+  border-radius: var(--border-radius);
+  text-align: center;
+}
+
+.servicos-container {
+  display: flex;
+  flex-direction: row; /* Garante que as duplas fiquem lado a lado */
+  justify-content: center; /* Centraliza as duplas */
+  gap: 50px; /* Distanciamento entre as duplas */
+  align-items: center; /* Alinha as imagens e listas verticalmente */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.servico-item {
+  display: flex;
+  justify-content: center; /* Alinha imagem e lista no centro */
+  align-items: center; /* Alinha verticalmente */
+  gap: 30px; /* Distanciamento entre a imagem e a lista */
+}
+
+.imagem-servicos {
+  width: 200px; /* Padroniza a largura da imagem */
+  height: 200px; /* Padroniza a altura da imagem */
+  object-fit: cover; /* Garante que a imagem cubra o espaço sem distorção */
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 4px var(--shadow-light);
+}
+
+.lista-servicos {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  margin: 0;
+  max-width: 400px; /* Define o limite para a largura da lista */
+}
+
+.lista-servicos li {
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: var(--text-dark);
+  position: relative;
+  padding-left: 0; /* Remove o espaço à esquerda */
+}
+
+.lista-servicos li::before {
+  content: none; /* Remove o ícone */
 }
 
 /* Estilos para os produtos */
@@ -209,6 +268,9 @@ form button:hover {
   border-radius: var(--border-radius);
   margin-top: var(--spacing);
 }
+
+
+
 
 /* Botão flutuante para WhatsApp */
 .whatsapp-button {
