@@ -5,6 +5,7 @@ const expressLayouts = require('express-ejs-layouts');
 const dotenv = require('dotenv');
 const session = require('express-session');
 const flash = require('connect-flash');
+const path = require('path');
 
 // Importar rotas
 const indexRoutes = require('./routes/indexRoutes');
@@ -17,7 +18,8 @@ const usuariosRoutes = require('./routes/usuariosRoutes');
 const items_proceRoutes = require('./routes/items_proceRoutes');
 const authRoutes = require('./routes/authRoutes');
 
-// Importar o middleware de autenticação
+// Importar middlewares
+const isAuthenticated = require('./middleware/authMiddleware');
 const isAdmin = require('./middleware/isAdmin');
 
 dotenv.config();
@@ -25,9 +27,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configuração do EJS (se você não usar EJS, pode remover isso)
+// Configuração do EJS
 app.set('view engine', 'ejs');
-app.set('views', `${__dirname}/views`);
+app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 
 // Configuração do body-parser
@@ -42,74 +44,71 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            secure: process.env.NODE_ENV === 'production', // Enviar o cookie via HTTPS se for produção
-            maxAge: 24 * 60 * 60 * 1000 // Tempo de expiração do cookie (1 dia)
-        }
+            secure: process.env.NODE_ENV === 'production', // HTTPS em produção
+            httpOnly: true, // Protege o cookie de acesso via client-side JS
+            maxAge: 24 * 60 * 60 * 1000, // Expiração em 1 dia
+        },
     })
 );
 
 // Configuração do flash
 app.use(flash());
 
-// Middleware para definir mensagens de flash para todas as páginas
+// Middleware para mensagens flash disponíveis nas views
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 });
 
-// Middleware para verificar se o usuário está autenticado
-function isAuthenticated(req, res, next) {
-    if (req.session.user) {
-        return next(); // Se estiver autenticado, permite o acesso
-    }
-    req.flash('error', 'Você precisa estar autenticado para acessar essa página.');
-    res.redirect('/login'); // Se não estiver autenticado, redireciona para o login
-}
-
-// Middleware para definir informações globais nas views
+// Middleware para informações globais nas views
 app.use((req, res, next) => {
-    res.locals.user = req.session.user; // Adiciona o usuário autenticado na view
+    res.locals.user = req.session.user || null; // Adiciona o usuário autenticado nas views
     next();
 });
 
 // Servir arquivos estáticos
-app.use(express.static(__dirname + '/site'));  // Serve arquivos de 'site' incluindo fotos, css, js
+app.use(express.static(path.join(__dirname, 'site')));
 
-// Rota principal (mantendo como estava antes, com arquivo estático)
+// Rota principal
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/site/telainicial.html'); // Envia o arquivo HTML como estático
+    res.sendFile(path.join(__dirname, 'site', 'telainicial.html'));
 });
 
 // Roteadores
 app.use('/', indexRoutes);
-app.use('/clientes', isAuthenticated, clientesRoutes);
+app.use('/clientes', clientesRoutes);
 
-// Remover o middleware de autenticação das rotas de produtos e feedbacks
-app.use('/produtos', produtosRoutes); // Permite acesso público
-app.use('/feedbacks', feedbacksRoutes); // Permite acesso público
+// Rotas públicas
+app.use('/produtos', produtosRoutes);
+app.use('/feedbacks', feedbacksRoutes);
 
+// Rotas protegidas
 app.use('/procedimentos', isAuthenticated, procedimentosRoutes);
 app.use('/agenda', isAuthenticated, agendaRoutes);
-app.use('/usuarios', isAuthenticated, isAdmin, usuariosRoutes); // Protege a rota de usuários
+app.use('/usuarios', isAuthenticated, isAdmin, usuariosRoutes);
 app.use('/items_proce', isAuthenticated, items_proceRoutes);
-app.use('/', authRoutes); // Rotas de autenticação
 
-// Tratamento de erros
+// Rotas de autenticação
+app.use('/', authRoutes);
+
+// Tratamento de erros (404)
 app.use((req, res, next) => {
-    const err = new Error('Not Found');
+    const err = new Error('Página não encontrada');
     err.status = 404;
     next(err);
 });
 
+// Tratamento de erros gerais
 app.use((err, req, res, next) => {
-    res.status(err.status || 500).json({
+    res.status(err.status || 500);
+    res.render('error', {
         message: err.message,
         error: process.env.NODE_ENV === 'development' ? err : {},
     });
 });
 
-// Iniciar servidor
+// Iniciar o servidor
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });

@@ -1,11 +1,12 @@
-<form action="/usuarios" method="POST">
-    <div class="form-group">
-        <label for="nome">Nome</label>
-        <input type="text" class="form-control" id="nome" name="nome" required>
+<form action="/usuarios" method="POST" class="p-4 border rounded shadow-sm">
+    <h2 class="mb-4">Cadastrar Usuário</h2>
+    <div class="form-group mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="nome" name="nome" required placeholder="Digite seu nome">
     </div>
-    <div class="form-group">
-        <label for="senha">Senha</label>
-        <input type="password" class="form-control" id="senha" name="senha" required>
+    <div class="form-group mb-4">
+        <label for="senha" class="form-label">Senha</label>
+        <input type="password" class="form-control" id="senha" name="senha" required placeholder="Digite sua senha">
     </div>
-    <button type="submit" class="btn btn-primary">Cadastrar</button>
+    <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
 </form>

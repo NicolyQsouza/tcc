@@ -1,42 +1,33 @@
-<h1>Cadastrar Novo Feedback</h1>
-<form action="/feedbacks" method="POST">
+<h1 class="text-center my-4">Cadastrar Novo Feedback</h1>
 
-    <!-- Campo para seleção de cliente -->
-    <div class="form-group">
-        <label for="cliente">Cliente</label>
-        <select class="form-control" id="cliente" name="cliente" required>
+<form action="/feedbacks" method="POST" enctype="multipart/form-data" class="container p-4 shadow rounded bg-light">
+    <div class="mb-3">
+        <label for="cliente" class="form-label">Cliente</label>
+        <select class="form-select" id="cliente" name="cliente" required>
             <option value="" disabled selected>Selecione um cliente</option>
             <% clientes.forEach(cliente => { %>
-                <option value="<%= cliente.cod %>">
-                    <%= cliente.nome %>
-                </option>
+                <option value="<%= cliente.cod %>"><%= cliente.nome %></option>
             <% }) %>
         </select>
     </div>
 
-    <!-- Campo para upload de foto -->
-    <div class="form-group">
-        <label for="foto">Foto</label>
-        <input type="file" class="form-control" id="foto" name="foto" accept="image/*" aria-describedby="fotoHelp">
-        <small id="fotoHelp" class="form-text text-muted">
-            Selecione uma imagem para o feedback (opcional).
-        </small>
+    <div class="mb-3">
+        <label for="foto" class="form-label">Foto</label>
+        <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+        <small class="form-text text-muted">Selecione uma imagem para o feedback (opcional).</small>
     </div>
 
-    <!-- Campo para comentário -->
-    <div class="form-group">
-        <label for="comentario">Comentário</label>
-        <textarea class="form-control" id="comentario" name="comentario" rows="4" required
-            placeholder="Digite seu comentário aqui..."></textarea>
+    <div class="mb-3">
+        <label for="comentario" class="form-label">Comentário</label>
+        <textarea class="form-control" id="comentario" name="comentario" rows="4" required></textarea>
     </div>
 
-    <!-- Campo para avaliação (1-5) -->
-    <div class="form-group">
-        <label for="avaliacao">Avaliação (1 a 5)</label>
-        <input type="number" class="form-control" id="avaliacao" name="avaliacao" min="1" max="5" required
-            placeholder="Digite sua avaliação">
+    <div class="mb-3">
+        <label for="avaliacao" class="form-label">Avaliação (1 a 5)</label>
+        <input type="number" class="form-control" id="avaliacao" name="avaliacao" min="1" max="5" required>
     </div>
 
-    <!-- Botão de envio -->
-    <button type="submit" class="btn btn-primary">Cadastrar</button>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary px-4">Cadastrar</button>
+    </div>
 </form>

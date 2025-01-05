@@ -34,7 +34,6 @@ const produtoController = {
                 return res.status(404).json({ message: 'Produto não encontrado' });
             }
             res.render('produtos/show', { produtos: produto });
-
         });
     },
 
@@ -67,7 +66,6 @@ const produtoController = {
                 return res.status(404).json({ message: 'Produto não encontrado' });
             }
             res.render('produtos/edit', { produtos: produto });
-
         });
     },
 

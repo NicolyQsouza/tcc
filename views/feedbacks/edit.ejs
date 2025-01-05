@@ -1,37 +1,34 @@
-<h1>Editar Feedback</h1>
+<h1 class="text-center my-4">Editar Feedback</h1>
 
-<form action="/feedbacks/<%= feedback.cod %>?_method=PUT" method="POST">
-    <!-- Campo de seleção para o cliente -->
-    <div class="form-group">
-        <label for="cliente">Cliente</label>
-        <select class="form-control" id="cliente" name="cliente" required>
+<form action="/feedbacks/<%= feedback.cod %>?_method=PUT" method="POST" enctype="multipart/form-data" class="container p-4 shadow rounded bg-light">
+    <div class="mb-3">
+        <label for="cliente" class="form-label">Cliente</label>
+        <select class="form-select" id="cliente" name="cliente" required>
             <% clientes.forEach(cliente => { %>
-                <option value="<%= cliente.cod %>" <% if(cliente.cod === feedback.clientes) { %>selected<% } %>>
+                <option value="<%= cliente.cod %>" <%= cliente.cod === feedback.cliente ? 'selected' : '' %>>
                     <%= cliente.nome %>
                 </option>
             <% }) %>
         </select>
     </div>
 
-    <!-- Campo para upload de foto -->
-    <div class="form-group">
-        <label for="foto">Foto</label>
+    <div class="mb-3">
+        <label for="foto" class="form-label">Foto</label>
         <input type="file" class="form-control" id="foto" name="foto">
-        <p>Foto atual: <%= feedback.foto %></p>
+        <p class="mt-2">Foto atual: <em><%= feedback.foto || "Nenhuma" %></em></p>
     </div>
 
-    <!-- Campo para comentário -->
-    <div class="form-group">
-        <label for="comentario">Comentário</label>
+    <div class="mb-3">
+        <label for="comentario" class="form-label">Comentário</label>
         <textarea class="form-control" id="comentario" name="comentario" rows="4" required><%= feedback.comentario %></textarea>
     </div>
 
-    <!-- Campo para avaliação (1-5) -->
-    <div class="form-group">
-        <label for="avaliacao">Avaliação</label>
+    <div class="mb-3">
+        <label for="avaliacao" class="form-label">Avaliação</label>
         <input type="number" class="form-control" id="avaliacao" name="avaliacao" min="1" max="5" value="<%= feedback.avaliacao %>" required>
     </div>
 
-    <!-- Botão de envio -->
-    <button type="submit" class="btn btn-warning">Salvar</button>
+    <div class="text-center">
+        <button type="submit" class="btn btn-warning px-4">Salvar</button>
+    </div>
 </form>

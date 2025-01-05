@@ -1,20 +1,21 @@
-<h1>Cadastrar Novo Procedimento</h1>
+<h1 class="text-center my-4">Cadastrar Novo Procedimento</h1>
 
-<form action="/procedimentos" method="POST">
-    <div class="form-group">
-        <label for="nome">Nome</label>
+<form action="/procedimentos" method="POST" class="container p-4 shadow rounded bg-light">
+    <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
         <input type="text" class="form-control" id="nome" name="nome" required placeholder="Nome do Procedimento">
     </div>
-    <div class="form-group">
-        <label for="descricao">Descrição</label>
+    <div class="mb-3">
+        <label for="descricao" class="form-label">Descrição</label>
         <textarea class="form-control" id="descricao" name="descricao" required placeholder="Descrição do Procedimento"></textarea>
     </div>
-    <div class="form-group">
-        <label for="valor">Valor</label>
+    <div class="mb-3">
+        <label for="valor" class="form-label">Valor</label>
         <input type="number" class="form-control" id="valor" name="valor" required step="0.01" placeholder="Valor do Procedimento">
     </div>
 
-    <button type="submit" class="btn btn-success">Cadastrar</button>
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-success">Cadastrar</button>
+        <a href="/procedimentos" class="btn btn-primary">Voltar para a Lista</a>
+    </div>
 </form>
-
-<a href="/procedimentos" class="btn btn-primary">Voltar para a Lista</a>

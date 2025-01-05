@@ -1,21 +1,20 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">CRUD</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary shadow-lg">
+    <a class="navbar-brand" href="/">
+        <i class="fas fa-cogs"></i> Studio Beleza
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
-            </li>
+        <ul class="navbar-nav ml-auto">
 
-            <% if (user) { %> <!-- Verifica se o usuário está autenticado -->
+            <% if (user) { %>
                 <!-- Dropdown Usuários -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsuarios" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Usuários
+                        <i class="fas fa-users"></i> Usuários
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownUsuarios">
                         <a class="dropdown-item" href="/usuarios/new">Cadastrar Usuário</a>
@@ -27,7 +26,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownClientes" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Clientes
+                        <i class="fas fa-user-tie"></i> Clientes
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownClientes">
                         <a class="dropdown-item" href="/clientes/create">Cadastrar Cliente</a>
@@ -39,7 +38,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProcedimentos" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Procedimentos
+                        <i class="fas fa-concierge-bell"></i> Procedimentos
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownProcedimentos">
                         <a class="dropdown-item" href="/procedimentos/new">Cadastrar Procedimento</a>
@@ -51,7 +50,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProdutos" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Produtos
+                        <i class="fas fa-cogs"></i> Produtos
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownProdutos">
                         <a class="dropdown-item" href="/produtos/new">Cadastrar Produto</a>
@@ -59,51 +58,109 @@
                     </div>
                 </li>
 
-                <!-- Dropdown Feedbacks -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFeedbacks" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Feedbacks
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownFeedbacks">
-                        <a class="dropdown-item" href="/feedbacks/new">Cadastrar Feedback</a>
-                        <a class="dropdown-item" href="/feedbacks">Listar Feedbacks</a>
-                    </div>
-                </li>
-
-                <!-- Dropdown Agenda -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAgenda" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Agenda
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownAgenda">
-                        <a class="dropdown-item" href="/agenda/create">Cadastrar Agenda</a>
-                        <a class="dropdown-item" href="/agenda">Listar Agenda</a>
-                    </div>
-                </li>
-
-                <!-- Dropdown Itens de Procedimentos -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownItemsProce" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Itens de Procedimentos
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownItemsProce">
-                        <a class="dropdown-item" href="/items_proce/create">Cadastrar Item</a>
-                        <a class="dropdown-item" href="/items_proce">Listar Itens</a>
-                    </div>
-                </li>
-                <!-- Adicionar o logout -->
+                <!-- Logout -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
+                    <a class="nav-link" href="/logout">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </a>
                 </li>
-            <% } else { %> 
-                <!-- Link de Login, visível se não estiver autenticado -->
+            <% } else { %>
+                <!-- Login -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="/login">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
                 </li>
             <% } %>
         </ul>
     </div>
 </nav>
+
+<!-- Estilos Customizados -->
+<style>
+    .navbar {
+        font-family: 'Arial', sans-serif;
+        font-size: 1rem;
+    }
+
+    .navbar-brand i {
+        margin-right: 8px;
+        font-size: 1.5rem;
+    }
+
+    .nav-link {
+        font-weight: 600;
+        padding: 12px 15px;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        color: #f8f9fa;
+    }
+
+    .nav-link:hover {
+        background-color: #004085;
+        color: #fff;
+        border-radius: 5px;
+    }
+
+    .dropdown-menu {
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        background-color: #f8f9fa;
+        padding: 0;
+    }
+
+    .dropdown-item {
+        padding: 12px 18px;
+        font-size: 1rem;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        color: #212529;
+    }
+
+    .dropdown-item:hover {
+        background-color: #0056b3;
+        color: #fff;
+    }
+
+    .navbar-toggler {
+        border: none;
+        background-color: transparent;
+    }
+
+    .navbar-toggler-icon {
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+    }
+
+    .navbar-toggler-icon::before,
+    .navbar-toggler-icon::after,
+    .navbar-toggler-icon span {
+        content: '';
+        display: block;
+        background-color: #f8f9fa;
+        height: 3px;
+        width: 100%;
+        margin: 4px 0;
+    }
+
+    /* Gradient Navbar */
+    .navbar-dark.bg-gradient-primary {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Responsividade */
+    @media (max-width: 991px) {
+        .navbar-nav {
+            text-align: center;
+        }
+
+        .nav-link {
+            padding: 10px;
+        }
+
+        .dropdown-menu {
+            text-align: left;
+        }
+    }
+</style>

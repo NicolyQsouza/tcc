@@ -8,20 +8,19 @@ async function loadProducts() {
     }
     const produtos = await response.json();
 
-    const listaProdutos = document.getElementById('lista-produtos');
+    const listaProdutos = document.getElementById('produtos-list');  // Alterado para id correto
     listaProdutos.innerHTML = ''; // Limpar conteúdo existente
 
     // Exibindo os produtos
     produtos.forEach(produto => {
-      const div = document.createElement('div');
-      div.classList.add('produto-item');
-      div.innerHTML = `
+      const li = document.createElement('li');
+      li.innerHTML = `
         <h3>${produto.nome}</h3>
         <p><strong>Marca:</strong> ${produto.marca}</p>
         <p><strong>Valor:</strong> R$ ${produto.valor}</p>
         <p>${produto.descricao}</p>
       `;
-      listaProdutos.appendChild(div);
+      listaProdutos.appendChild(li);
     });
   } catch (error) {
     console.error('Erro ao carregar produtos:', error);
@@ -38,7 +37,7 @@ async function loadFeedbacks() {
     }
     const feedbacks = await response.json();
 
-    const listaFeedbacks = document.getElementById('lista-feedbacks');
+    const listaFeedbacks = document.getElementById('feedbacks-list');  // Alterado para id correto
     listaFeedbacks.innerHTML = ''; // Limpar conteúdo existente
 
     // Exibindo os feedbacks

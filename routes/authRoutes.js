@@ -1,25 +1,28 @@
 const express = require('express');
-const authController = require('../controllers/authController');
-const isAdmin = require('../middleware/authMiddleware');
 const router = express.Router();
+const authController = require('../controllers/authController');
+const isAuthenticated = require('../middleware/authMiddleware');
+const isAdmin = require('../middleware/isAdmin');
 
-// Rota para a página de login
-router.get('/login', authController.renderLoginForm);
-
-// Rota para processar o login (POST)
-router.post('/login', authController.login);
-
-// Rota para logout
-router.get('/logout', authController.logout);
-
-// Página pública (qualquer usuário pode acessar)
-router.get('/', (req, res) => {
-    res.render('public/home'); // Página inicial pública
+// Rotas públicas
+router.get('/login', authController.renderLoginForm); // Formulário de login
+router.post('/login', authController.login); // Processamento de login
+router.get('/usuarios/create', (req, res) => {
+    res.render('usuarios/create'); // Página de criação de usuários
 });
 
-// Página de dashboard, acessível apenas para admins autenticados
-router.get('/dashboard', isAdmin, (req, res) => {
-    res.render('admin/dashboard'); // Página do admin
+// Middleware global para rotas autenticadas
+router.use(isAuthenticated);
+
+// Rotas autenticadas
+router.get('', (req, res) => {
+    res.render('dashboard'); // Painel do usuário
+});
+router.get('/logout', authController.logout); // Logout
+
+// Rotas administrativas
+router.get('/admin', isAdmin, (req, res) => {
+    res.render('admin/dashboard', { user: req.session.user }); // Painel administrativo
 });
 
 module.exports = router;

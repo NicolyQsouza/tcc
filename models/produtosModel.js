@@ -24,22 +24,22 @@ const Produtos = {
         });
     },
 
-    // Obter um produto pelo código
-    getById: (cod, callback) => {
-        const query = 'SELECT * FROM produtos WHERE cod = ?';
-        db.query(query, [cod], (err, result) => {
+    // Obter um produto pelo id
+    getById: (id, callback) => {
+        const query = 'SELECT * FROM produtos WHERE id = ?';
+        db.query(query, [id], (err, result) => {
             if (err) {
                 return callback(err);
             }
-            callback(null, result[0]); // Retorna o produto ou undefined se não encontrado
+            callback(null, result[0] || null); // Retorna o produto ou null se não encontrado
         });
     },
 
     // Atualizar um produto existente
-    update: (cod, produto, callback) => {
+    update: (id, produto, callback) => {
         const { nome, valor, marca, descricao, foto } = produto;
-        const query = 'UPDATE produtos SET nome = ?, valor = ?, marca = ?, descricao = ?, foto = ? WHERE cod = ?';
-        db.query(query, [nome, valor, marca, descricao, foto, cod], (err, result) => {
+        const query = 'UPDATE produtos SET nome = ?, valor = ?, marca = ?, descricao = ?, foto = ? WHERE id = ?';
+        db.query(query, [nome, valor, marca, descricao, foto, id], (err, result) => {
             if (err) {
                 return callback(err);
             }
@@ -48,13 +48,24 @@ const Produtos = {
     },
 
     // Deletar um produto
-    delete: (cod, callback) => {
-        const query = 'DELETE FROM produtos WHERE cod = ?';
-        db.query(query, [cod], (err, result) => {
+    delete: (id, callback) => {
+        const query = 'DELETE FROM produtos WHERE id = ?';
+        db.query(query, [id], (err, result) => {
             if (err) {
                 return callback(err);
             }
             callback(null, result); // Indica sucesso na exclusão
+        });
+    },
+
+    // Buscar produtos por nome
+    searchByName: (name, callback) => {
+        const query = 'SELECT * FROM produtos WHERE nome LIKE ?';
+        db.query(query, [`%${name}%`], (err, result) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, result); // Retorna os produtos encontrados
         });
     }
 };
