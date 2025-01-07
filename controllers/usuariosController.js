@@ -1,4 +1,4 @@
-const Usuarios = require('../models/usuariosModel');  // Importação do modelo de usuários
+const Usuarios = require('../models/usuariosModel');
 
 // Middleware para verificar autenticação do usuário
 function isAuthenticated(req, res, next) {
@@ -9,75 +9,7 @@ function isAuthenticated(req, res, next) {
     next();
 }
 
-// Middleware para verificar se o usuário é administrador
-function isAdmin(req, res, next) {
-    if (req.session.role !== 'admin') {
-        req.flash('error', 'Acesso restrito! Somente administradores podem acessar.');
-        return res.redirect('/login');
-    }
-    next();
-}
-
 const usuariosController = {
-    // Renderiza o formulário de login
-    renderLoginForm: (req, res) => {
-        res.render('auth/login', { success: req.flash('success'), error: req.flash('error') });
-    },
-
-    // Processa o login
-    login: (req, res) => {
-        const { nome, senha } = req.body;
-
-        // Verificar o usuário no banco de dados
-        Usuarios.getByUsername(nome, (err, usuario) => {
-            if (err) {
-                req.flash('error', 'Erro ao verificar usuário.');
-                return res.redirect('/login');
-            }
-
-            if (!usuario) {
-                req.flash('error', 'Nome de usuário não encontrado.');
-                return res.redirect('/login');
-            }
-
-            // Comparar a senha
-            if (usuario.senha === senha) {
-                // Armazenar os dados do usuário na sessão
-                req.session.user = usuario.nome;
-                req.session.role = usuario.role; // Papel do usuário (admin ou outro)
-                req.flash('success', 'Login realizado com sucesso!');
-
-                // Redirecionar com base no papel do usuário
-                if (usuario.role === 'admin') {
-                    return res.redirect('/admin'); // Área administrativa
-                } else {
-                    return res.redirect('/produtos'); // Área normal de usuários
-                }
-            } else {
-                req.flash('error', 'Nome ou senha inválidos.');
-                return res.redirect('/login');
-            }
-        });
-    },
-
-    // Processa o logout
-    logout: (req, res) => {
-        req.session.destroy((err) => {
-            if (err) {
-                req.flash('error', 'Erro ao realizar logout.');
-                return res.redirect('/dashboard');
-            }
-            res.clearCookie('connect.sid'); // Limpa o cookie de sessão
-            req.flash('success', 'Logout realizado com sucesso!');
-            res.redirect('/login'); // Redireciona para a página de login após o logout
-        });
-    },
-
-    // Área administrativa - Painel
-    adminDashboard: (req, res) => {
-        res.render('admin/dashboard', { user: req.session.user });
-    },
-
     // Função para listar todos os usuários
     getAll: (req, res) => {
         Usuarios.getAll((err, usuarios) => {
@@ -96,21 +28,34 @@ const usuariosController = {
 
     // Função para criar um novo usuário
     create: (req, res) => {
-        const { nome, senha } = req.body;
+        const { nome, senha, role } = req.body;
         if (!nome || !senha) {
             req.flash('error', 'Nome e senha são obrigatórios.');
             return res.redirect('/usuarios/create');
         }
 
-        const novoUsuario = { nome, senha };
+        // Define o papel padrão como "user"
+        const novoUsuario = { nome, senha, role: role || 'user' };
 
-        Usuarios.create(novoUsuario, (err, usuarioId) => {
+        Usuarios.getAll((err, usuarios) => {
             if (err) {
-                req.flash('error', 'Erro ao criar usuário. Tente novamente.');
+                req.flash('error', 'Erro ao verificar usuários existentes.');
                 return res.status(500).redirect('/usuarios/create');
             }
-            req.flash('success', 'Usuário criado com sucesso!');
-            res.redirect('/usuarios');
+
+            // Se for o primeiro usuário, ele será "admin"
+            if (usuarios.length === 0) {
+                novoUsuario.role = 'admin';
+            }
+
+            Usuarios.create(novoUsuario, (err) => {
+                if (err) {
+                    req.flash('error', 'Erro ao criar usuário. Tente novamente.');
+                    return res.status(500).redirect('/usuarios/create');
+                }
+                req.flash('success', 'Usuário criado com sucesso!');
+                res.redirect('/login');
+            });
         });
     },
 
@@ -153,7 +98,8 @@ const usuariosController = {
         const usuarioId = req.params.cod;
         const usuarioAtualizado = {
             nome: req.body.nome,
-            senha: req.body.senha || null  // Senha pode ser null se não for alterada
+            senha: req.body.senha || null, // Senha pode ser null se não for alterada
+            role: req.body.role || 'user',
         };
 
         Usuarios.update(usuarioId, usuarioAtualizado, (err) => {

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary shadow-lg">
+<nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary shadow-lg fixed-top">
     <a class="navbar-brand" href="/">
         <i class="fas fa-cogs"></i> Studio Beleza
     </a>
@@ -8,7 +8,6 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-
             <% if (user) { %>
                 <!-- Dropdown Usuários -->
                 <li class="nav-item dropdown">
@@ -81,6 +80,8 @@
     .navbar {
         font-family: 'Arial', sans-serif;
         font-size: 1rem;
+        z-index: 1050; /* Garantir que a navbar fique acima de outros elementos */
+        width: 100%;
     }
 
     .navbar-brand i {
@@ -163,4 +164,18 @@
             text-align: left;
         }
     }
+
+    /* Navbar full width */
+    .navbar.fixed-top {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1050;
+    }
+
+    body {
+        padding-top: 60px; 
+    }
+
 </style>

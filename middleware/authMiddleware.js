@@ -1,9 +1,13 @@
 function isAuthenticated(req, res, next) {
+    console.log('Rota acessada:', req.originalUrl);
     if (req.session.user) {
-        return next(); // Se estiver autenticado, continua a requisição
+        console.log('Usuário autenticado:', req.session.user);
+        return next();
     }
+    console.log('Usuário não autenticado. Redirecionando...');
     req.flash('error', 'Você precisa estar autenticado para acessar essa página.');
-    res.redirect('/login'); // Se não estiver autenticado, redireciona para o login
+    res.redirect('/login');
 }
+
 
 module.exports = isAuthenticated;

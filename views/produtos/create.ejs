@@ -1,24 +1,128 @@
-<h1 class="mb-4">Cadastrar Novo Produto</h1>
-<form action="/produtos" method="POST" class="p-4 border rounded shadow-sm">
-    <div class="form-group mb-3">
-        <label for="nome" class="form-label">Nome do Produto</label>
-        <input type="text" class="form-control" id="nome" name="nome" required placeholder="Digite o nome do produto">
-    </div>
-    <div class="form-group mb-3">
-        <label for="valor" class="form-label">Valor</label>
-        <input type="number" step="0.01" class="form-control" id="valor" name="valor" required placeholder="Digite o valor">
-    </div>
-    <div class="form-group mb-3">
-        <label for="marca" class="form-label">Marca</label>
-        <input type="text" class="form-control" id="marca" name="marca" placeholder="Digite a marca">
-    </div>
-    <div class="form-group mb-3">
-        <label for="descricao" class="form-label">Descrição</label>
-        <textarea class="form-control" id="descricao" name="descricao" required placeholder="Adicione uma descrição"></textarea>
-    </div>
-    <div class="form-group mb-4">
-        <label for="foto" class="form-label">Foto do Produto</label>
-        <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
-    </div>
-    <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
-</form>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Produto</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f3f4f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: #4CAF50;
+        }
+
+        .form-label {
+            font-size: 1rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        select, input {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 4px rgba(76, 175, 80, 0.5);
+        }
+
+        button {
+            padding: 0.8rem;
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #388E3C;
+        }
+
+        .mb-3 {
+            margin-bottom: 1.5rem;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <form action="/produtos" method="POST">
+        <h1>Cadastrar Novo Produto</h1>
+
+        <div class="form-group">
+            <label for="nome">Nome do Produto</label>
+            <input type="text" class="form-control" id="nome" name="nome" required placeholder="Digite o nome do produto">
+        </div>
+        
+        <div class="form-group">
+            <label for="valor">Valor</label>
+            <input type="number" step="0.01" class="form-control" id="valor" name="valor" required placeholder="Digite o valor">
+        </div>
+        
+        <div class="form-group">
+            <label for="marca">Marca</label>
+            <input type="text" class="form-control" id="marca" name="marca" placeholder="Digite a marca">
+        </div>
+
+        <div class="form-group">
+            <label for="descricao">Descrição</label>
+            <textarea class="form-control" id="descricao" name="descricao" required placeholder="Adicione uma descrição"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="foto">Foto do Produto</label>
+            <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+        </div>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+</body>
+</html>

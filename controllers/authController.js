@@ -22,7 +22,6 @@ module.exports = {
 
             // Comparar a senha (sem bcrypt, apenas comparação direta)
             if (usuario.senha === senha) {
-                // Armazenar os dados do usuário na sessão
                 req.session.user = usuario.nome;
                 req.session.role = usuario.role; // Armazenar o papel (admin ou outro)
                 req.flash('success', 'Login realizado com sucesso!');
@@ -42,5 +41,25 @@ module.exports = {
             res.clearCookie('connect.sid'); // Limpa o cookie de sessão
             res.redirect('/login'); // Redireciona para a página de login após o logout
         });
-    }
+    },
+
+    createUser: (req, res) => {
+        const { nome, email, senha } = req.body;
+    
+        if (!nome || !email || !senha) {
+            req.flash('error', 'Por favor, preencha todos os campos.');
+            return res.redirect('/usuarios/new');
+        }
+
+        Usuarios.create({ nome, email, senha }, (err) => {
+            if (err) {
+                console.error('Erro ao criar o usuário:', err);
+                req.flash('error', 'Erro ao criar o usuário.');
+                return res.redirect('/usuarios/new');
+            }
+
+            req.flash('success', 'Usuário criado com sucesso!');
+            res.redirect('/login');
+        });
+    },
 };
