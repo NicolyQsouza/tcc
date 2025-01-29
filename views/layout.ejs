@@ -13,9 +13,9 @@
         .jumbotron {
             background-color: #007bff;
             color: #f4f4f4;
-            padding: 2rem 1rem;
+            padding: 10rem 1rem;
             margin-bottom: 2rem;
-            border-radius: 0.5rem;
+            border-radius: 0;
         }
         .jumbotron h1 {
             font-size: 2.5rem;
@@ -49,23 +49,28 @@
             font-size: 1.5rem;
             font-weight: bold;
         }
+        footer {
+            background-color: #f8f9fa;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid px-0">
         <!-- Navbar inclusion -->
         <%- include('partials/navbar') %>
 
         <!-- Main content body -->
-        <%- body %>
+        <div class="content">
+            <%- body %>
+        </div>
 
         <!-- Footer -->
-        <footer class="footer mt-auto py-3 bg-light text-center">
+        <footer class="footer mt-auto py-3 text-center">
             <div class="container">
                 <span class="text-muted">&copy; 2025 Sistema de Gerenciamento</span>
             </div>
         </footer>
-    </div> <!-- Closing the container div -->
+    </div> <!-- Closing the container-fluid div -->
 
     <!-- JS Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

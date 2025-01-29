@@ -1,27 +1,104 @@
-<h1>Listagem de Procedimentos</h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Valor</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% procedimentos.forEach(procedimento => { %>
-            <tr>
-                <td><%= procedimento.cod %></td>
-                <td><%= procedimento.nome %></td>
-                <td><%= procedimento.descricao %></td>
-                   <td>
-                    <a href="/procedimentos/<%= procedimento.cod %>" class="btn btn-primary">Detalhes</a>
-                    <a href="/procedimentos/<%= procedimento.cod %>/edit" class="btn btn-warning">Editar</a>
-                    <form action="/procedimentos/<%= procedimento.cod %>?_method=DELETE" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-danger">Excluir</button>
-                    </form>
-                </td>
-            </tr>
-        <% }) %>
-    </tbody>
-</table>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Procedimentos</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f3f4f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 1000px;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        button {
+            padding: 0.5rem;
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background: #388E3C;
+        }
+
+        .btn-sm {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center my-4">Listagem de Procedimentos</h1>
+
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Categoria</th>
+                    <th>Preço</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% procedimentos.forEach(procedimento => { %>
+                    <tr>
+                        <td><%= procedimento.cod %></td>
+                        <td><%= procedimento.nome %></td>
+                        <td><%= procedimento.categoria %></td>
+                        <td><%= procedimento.preco %></td>
+                        <td>
+                            <a href="/procedimentos/<%= procedimento.cod %>" class="btn btn-primary btn-sm">Ver</a>
+                            <a href="/procedimentos/<%= procedimento.cod %>/edit" class="btn btn-warning btn-sm">Editar</a>
+                            <form action="/procedimentos/<%= procedimento.cod %>?_method=DELETE" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

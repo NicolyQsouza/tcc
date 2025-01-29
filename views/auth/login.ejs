@@ -2,29 +2,144 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffb6c1, #ffb6c1);
+            font-family: 'Poppins', sans-serif;
+            color: #4a4a4a;
+        }
+
+        .login-container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #e91e63;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        label {
+            text-align: left;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #e91e63;
+            box-shadow: 0 0 4px rgba(233, 30, 99, 0.5);
+        }
+
+        button {
+            padding: 0.8rem;
+            background: #e91e63;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background: #c2185b;
+        }
+
+        .create-account {
+            margin-top: 1.5rem;
+        }
+
+        .create-account a {
+            color: #e91e63;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .create-account a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        .footer span {
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body>
-    <h2>Login</h2>
-    
-    <% if (error) { %>
-        <div class="alert alert-danger"><%= error %></div>
-    <% } %>
-
-    <% if (success) { %>
-        <div class="alert alert-success"><%= success %></div>
-    <% } %>
-
-    <form action="/login" method="POST">
-        <div>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form action="/login" method="POST">
             <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
-        </div>
-        <div>
+            <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
             <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha" required>
+            <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <div class="create-account">
+            <p>Não tem uma conta? <a href="/usuarios/new">Criar Conta</a></p>
         </div>
-        <button type="submit">Entrar</button>
-    </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <span>&copy; 2025 Sistema de Gerenciamento</span>
+        </div>
+    </footer>
 </body>
 </html>

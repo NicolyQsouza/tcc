@@ -5,32 +5,21 @@ const expressLayouts = require('express-ejs-layouts');
 const dotenv = require('dotenv');
 const session = require('express-session');
 const flash = require('connect-flash');
+const path = require('path');
+const usuariosController = require('./controllers/usuariosController');
 
-// Importar rotas
-const indexRoutes = require('./routes/indexRoutes');
-const clientesRoutes = require('./routes/clientesRoutes');
-const produtosRoutes = require('./routes/produtosRoutes');
-const procedimentosRoutes = require('./routes/procedimentosRoutes');
-const feedbacksRoutes = require('./routes/feedbacksRoutes');
-const agendaRoutes = require('./routes/agendaRoutes');
-const usuariosRoutes = require('./routes/usuariosRoutes');
-const items_proceRoutes = require('./routes/items_proceRoutes');
-const authRoutes = require('./routes/authRoutes');
-
-// Importar o middleware de autenticação
-const isAdmin = require('./middleware/isAdmin');
-
+// Configurações de ambiente
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configuração do EJS (se você não usar EJS, pode remover isso)
+// Configuração do EJS
 app.set('view engine', 'ejs');
-app.set('views', `${__dirname}/views`);
+app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 
-// Configuração do body-parser
+// Middlewares básicos
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
@@ -42,74 +31,110 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            secure: process.env.NODE_ENV === 'production', // Enviar o cookie via HTTPS se for produção
-            maxAge: 24 * 60 * 60 * 1000 // Tempo de expiração do cookie (1 dia)
-        }
+            secure: process.env.NODE_ENV === 'production',
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000,
+        },
     })
 );
 
 // Configuração do flash
 app.use(flash());
 
-// Middleware para definir mensagens de flash para todas as páginas
+// Middleware para passar mensagens flash para as views
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
-    next();
-});
-
-// Middleware para verificar se o usuário está autenticado
-function isAuthenticated(req, res, next) {
-    if (req.session.user) {
-        return next(); // Se estiver autenticado, permite o acesso
-    }
-    req.flash('error', 'Você precisa estar autenticado para acessar essa página.');
-    res.redirect('/login'); // Se não estiver autenticado, redireciona para o login
-}
-
-// Middleware para definir informações globais nas views
-app.use((req, res, next) => {
-    res.locals.user = req.session.user; // Adiciona o usuário autenticado na view
+    res.locals.user = req.session.user || null;
     next();
 });
 
 // Servir arquivos estáticos
-app.use(express.static(__dirname + '/site'));  // Serve arquivos de 'site' incluindo fotos, css, js
+app.use(express.static(path.join(__dirname, 'site')));
 
-// Rota principal (mantendo como estava antes, com arquivo estático)
+// Rota principal
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/site/telainicial.html'); // Envia o arquivo HTML como estático
+    res.sendFile(path.join(__dirname, 'site', 'telainicial.html'));
 });
 
-// Roteadores
-app.use('/', indexRoutes);
-app.use('/clientes', isAuthenticated, clientesRoutes);
+// Importação e verificação das rotas
+const loadRoute = (routePath) => {
+    try {
+        const route = require(routePath);
+        if (route && typeof route === 'function') {
+            return route;
+        } else {
+            console.error(`Erro: ${routePath} não exporta um Router válido.`);
+            return null;
+        }
+    } catch (error) {
+        console.error(`Erro ao carregar ${routePath}:`, error);
+        return null;
+    }
+};
 
-// Remover o middleware de autenticação das rotas de produtos e feedbacks
-app.use('/produtos', produtosRoutes); // Permite acesso público
-app.use('/feedbacks', feedbacksRoutes); // Permite acesso público
+// Carregar rotas
+const indexRoutes = loadRoute('./routes/indexRoutes');
+const clientesRoutes = loadRoute('./routes/clientesRoutes');
+const produtosRoutes = loadRoute('./routes/produtosRoutes');
+const procedimentosRoutes = loadRoute('./routes/procedimentosRoutes');
+const feedbacksRoutes = loadRoute('./routes/feedbacksRoutes');
+const agendaRoutes = loadRoute('./routes/agendaRoutes');
+const usuariosRoutes = loadRoute('./routes/usuariosRoutes');
+const items_proceRoutes = loadRoute('./routes/items_proceRoutes');
+const authRoutes = loadRoute('./routes/authRoutes');
 
-app.use('/procedimentos', isAuthenticated, procedimentosRoutes);
-app.use('/agenda', isAuthenticated, agendaRoutes);
-app.use('/usuarios', isAuthenticated, isAdmin, usuariosRoutes); // Protege a rota de usuários
-app.use('/items_proce', isAuthenticated, items_proceRoutes);
-app.use('/', authRoutes); // Rotas de autenticação
+// Importação de middlewares
+const isAuthenticated = require('./middleware/authMiddleware');
+const isAdmin = require('./middleware/isAdmin');
 
-// Tratamento de erros
+// Aplicar rotas se forem válidas
+if (indexRoutes) app.use('/', indexRoutes);
+if (clientesRoutes) app.use('/clientes', clientesRoutes);
+if (produtosRoutes) app.use('/produtos', produtosRoutes);
+if (feedbacksRoutes) app.use('/feedbacks', feedbacksRoutes);
+if (procedimentosRoutes) app.use('/procedimentos', isAuthenticated, procedimentosRoutes);
+if (agendaRoutes) app.use('/agenda', isAuthenticated, agendaRoutes);
+if (usuariosRoutes) app.use('/usuarios', isAuthenticated, isAdmin, usuariosRoutes);
+if (items_proceRoutes) app.use('/items_proce', isAuthenticated, items_proceRoutes);
+if (authRoutes) app.use('/', authRoutes);
+
+// Rotas de Login e Logout
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+app.post('/login', usuariosController.login);
+
+app.get('/logout', usuariosController.logout);
+
+// Rota de Usuários (somente admin)
+app.get('/usuarios', usuariosController.getAll);
+
+// Rotas de criação, edição e deleção de usuários
+app.get('/usuarios/create', usuariosController.renderCreateForm);
+app.post('/usuarios/create', usuariosController.create);
+app.get('/usuarios/:cod/edit', usuariosController.renderEditForm);
+app.post('/usuarios/:cod/edit', usuariosController.update);
+app.get('/usuarios/:cod/delete', usuariosController.delete);
+
+// Tratamento de erros (404)
 app.use((req, res, next) => {
-    const err = new Error('Not Found');
+    const err = new Error('Página não encontrada');
     err.status = 404;
     next(err);
 });
 
+// Tratamento de erros gerais
 app.use((err, req, res, next) => {
-    res.status(err.status || 500).json({
+    res.status(err.status || 500);
+    res.render('error', {
         message: err.message,
         error: process.env.NODE_ENV === 'development' ? err : {},
     });
 });
 
-// Iniciar servidor
+// Iniciar o servidor
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
