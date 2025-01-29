@@ -8,69 +8,40 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-            <% if (user) { %>
-                <!-- Dropdown Usuários -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsuarios" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-users"></i> Usuários
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownUsuarios">
-                        <a class="dropdown-item" href="/usuarios/new">Cadastrar Usuário</a>
-                        <a class="dropdown-item" href="/usuarios">Listar Usuários</a>
-                    </div>
-                </li>
 
-                <!-- Dropdown Clientes -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownClientes" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user-tie"></i> Clientes
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownClientes">
-                        <a class="dropdown-item" href="/clientes/create">Cadastrar Cliente</a>
-                        <a class="dropdown-item" href="/clientes">Listar Clientes</a>
-                    </div>
-                </li>
 
-                <!-- Dropdown Procedimentos -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProcedimentos" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-concierge-bell"></i> Procedimentos
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownProcedimentos">
-                        <a class="dropdown-item" href="/procedimentos/new">Cadastrar Procedimento</a>
-                        <a class="dropdown-item" href="/procedimentos">Listar Procedimentos</a>
-                    </div>
-                </li>
 
-                <!-- Dropdown Produtos -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProdutos" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-cogs"></i> Produtos
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownProdutos">
-                        <a class="dropdown-item" href="/produtos/new">Cadastrar Produto</a>
-                        <a class="dropdown-item" href="/produtos">Listar Produtos</a>
-                    </div>
-                </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownClientes" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user-tie"></i> Clientes
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownClientes">
+                    <a class="dropdown-item" href="/clientes/create">Cadastrar Cliente</a>
+                    <a class="dropdown-item" href="/clientes">Listar Clientes</a>
+                </div>
+            </li>
 
-                <!-- Logout -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">
-                        <i class="fas fa-sign-out-alt"></i> Sair
-                    </a>
-                </li>
-            <% } else { %>
-                <!-- Login -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </a>
-                </li>
-            <% } %>
+
+            <!-- Dropdown Produtos -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProdutos" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-cogs"></i> Produtos
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownProdutos">
+                    <a class="dropdown-item" href="/produtos/new">Cadastrar Produto</a>
+                    <a class="dropdown-item" href="/produtos">Listar Produtos</a>
+                </div>
+            </li>
+
+            <!-- Logout -->
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </a>
+            </li>
+            </li>
         </ul>
     </div>
 </nav>
@@ -80,7 +51,7 @@
     .navbar {
         font-family: 'Arial', sans-serif;
         font-size: 1rem;
-        z-index: 1050; /* Garantir que a navbar fique acima de outros elementos */
+        z-index: 1050;
         width: 100%;
     }
 
@@ -177,5 +148,4 @@
     body {
         padding-top: 60px; 
     }
-
 </style>

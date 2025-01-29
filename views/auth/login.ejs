@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Admin</title>
     <style>
-        html, body {
+        html,
+        body {
             height: 100%;
             margin: 0;
             padding: 0;
@@ -18,7 +20,7 @@
             color: #4a4a4a;
         }
 
-        .login-container {
+        .admin-container {
             background: #fff;
             padding: 2rem;
             border-radius: 12px;
@@ -34,6 +36,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -46,63 +49,10 @@
             color: #e91e63;
         }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-
-        label {
-            text-align: left;
-            font-size: 0.95rem;
-            font-weight: 500;
+        p {
+            font-size: 1.2rem;
             color: #333;
-        }
-
-        input {
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            width: 100%;
-            box-sizing: border-box;
-            transition: border-color 0.3s ease;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #e91e63;
-            box-shadow: 0 0 4px rgba(233, 30, 99, 0.5);
-        }
-
-        button {
-            padding: 0.8rem;
-            background: #e91e63;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background: #c2185b;
-        }
-
-        .create-account {
-            margin-top: 1.5rem;
-        }
-
-        .create-account a {
-            color: #e91e63;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .create-account a:hover {
-            text-decoration: underline;
+            margin-bottom: 1.5rem;
         }
 
         footer {
@@ -120,19 +70,11 @@
         }
     </style>
 </head>
+
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form action="/login" method="POST">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
-            <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
-            <button type="submit">Entrar</button>
-        </form>
-        <div class="create-account">
-            <p>Não tem uma conta? <a href="/usuarios/new">Criar Conta</a></p>
-        </div>
+    <div class="admin-container">
+        <h2>Bem-vindo, Administrador!</h2>
+        <p>Você tem acesso completo ao sistema. Utilize o painel para gerenciar as funcionalidades.</p>
     </div>
 
     <!-- Footer -->
@@ -142,4 +84,5 @@
         </div>
     </footer>
 </body>
+
 </html>
