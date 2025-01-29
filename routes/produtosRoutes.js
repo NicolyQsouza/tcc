@@ -3,24 +3,24 @@ const produtosController = require('../controllers/produtosController');
 const router = express.Router();
 
 // Rota para listar todos os produtos
-router.get('/', produtosController.getAllProdutos); // Função para obter todos os produtos
+router.get('/', produtosController.getAllProdutos);
 
 // Rota para mostrar o formulário de criação de um novo produto
-router.get('/new', produtosController.renderCreateForm); // Função para renderizar o formulário de criação
+router.get('/new', produtosController.renderCreateForm);
 
 // Rota para criar um novo produto
-router.post('/', produtosController.createProduto); // Função para criar um novo produto
+router.post('/', produtosController.createProduto);
 
 // Rota para mostrar detalhes de um produto específico
-router.get('/:id', produtosController.getProdutosById); // Função para obter um produto por ID
+router.get('/:cod', produtosController.getProdutoById); // Corrigido o nome da função
 
 // Rota para mostrar o formulário de edição de um produto específico
-router.get('/:id/edit', produtosController.renderEditForm); // Função para renderizar o formulário de edição
+router.get('/:cod/edit', produtosController.renderEditForm);
 
 // Rota para atualizar um produto específico
-router.put('/:id', produtosController.updateProdutos); // Função para atualizar um produto
+router.put('/:cod', produtosController.updateProduto); // Corrigido o nome da função
 
 // Rota para deletar um produto específico
-router.delete('/:id', produtosController.deleteProdutos); // Função para deletar um produto
+router.delete('/:cod', produtosController.deleteProduto); // Corrigido o nome da função
 
 module.exports = router;

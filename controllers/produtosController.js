@@ -1,120 +1,116 @@
 const Produtos = require('../models/produtosModel');
 
 const produtoController = {
-
-    // Criar um novo produto
+    // Criar um novo produto (API e página)
     createProduto: (req, res) => {
-        const { nome, valor, marca, descricao, foto } = req.body;
+        let { nome, valor, marca, descricao, foto } = req.body;
+        valor = parseFloat(valor) || 0;
 
-        // Validação de campos obrigatórios
-        if (!nome || !valor) {
+        const newProduto = { nome, valor, marca, descricao, foto };
+
+        if (!newProduto.nome || !newProduto.valor) {
             return res.status(400).json({ error: 'Nome e valor são obrigatórios.' });
         }
 
-        const newProduto = { nome, valor, marca, descricao, foto };
-        Produtos.create(newProduto, (err, produtoId) => {
+        // Validar foto se necessário
+        if (!newProduto.foto) {
+            return res.status(400).json({ error: 'Foto do produto é obrigatória.' });
+        }
+
+        Produtos.create(newProduto, (err) => {
             if (err) {
-                console.error('Erro ao criar produto:', err);
-                return res.status(500).json({ error: 'Erro ao criar produto.' });
+                return res.status(500).json({ error: err });
             }
-            res.redirect('/produtos');
+            res.json({ message: 'Produto criado com sucesso!' });
         });
     },
 
-    // Buscar produto por ID
-    getProdutosById: (req, res) => {
-        const produtoId = req.params.id;
+    // Buscar produto por ID (API e página)
+    getProdutoById: (req, res) => {
+        const produtoCod = req.params.cod;
 
-        Produtos.getById(produtoId, (err, produto) => {
+        Produtos.getById(produtoCod, (err, produto) => {
             if (err) {
-                console.error('Erro ao buscar produto por ID:', err);
-                return res.status(500).json({ error: 'Erro ao buscar produto.' });
+                return res.status(500).json({ error: err });
             }
             if (!produto) {
-                return res.status(404).json({ message: 'Produto não encontrado' });
+                return res.status(404).json({ message: 'Produto não encontrado.' });
             }
-            res.render('produtos/show', { produtos: produto });
-
+            res.json(produto);
         });
     },
 
-    // Obter todos os produtos
+    // Obter todos os produtos (API e página)
     getAllProdutos: (req, res) => {
         Produtos.getAll((err, produtos) => {
             if (err) {
-                console.error('Erro ao buscar produtos:', err);
                 return res.status(500).json({ error: 'Erro ao buscar produtos.' });
             }
+
+            if (req.xhr || req.accepts('json')) {
+                return res.json(produtos);
+            }
+
             res.render('produtos/index', { produtos });
         });
     },
 
-    // Renderizar o formulário de criação
     renderCreateForm: (req, res) => {
         res.render('produtos/create');
     },
 
-    // Renderizar o formulário de edição
     renderEditForm: (req, res) => {
-        const produtoId = req.params.id;
+        const produtoCod = req.params.cod;
 
-        Produtos.getById(produtoId, (err, produto) => {
+        Produtos.getById(produtoCod, (err, produto) => {
             if (err) {
-                console.error('Erro ao carregar formulário de edição:', err);
-                return res.status(500).json({ error: 'Erro ao carregar formulário de edição.' });
+                return res.status(500).json({ error: err });
             }
             if (!produto) {
-                return res.status(404).json({ message: 'Produto não encontrado' });
+                return res.status(404).json({ message: 'Produto não encontrado.' });
             }
-            res.render('produtos/edit', { produtos: produto });
-
+            res.render('produtos/edit', { produto });
         });
     },
 
-    // Atualizar um produto
-    updateProdutos: (req, res) => {
-        const produtoId = req.params.id;
+    updateProduto: (req, res) => {
+        const produtoCod = req.params.cod;
         const { nome, valor, marca, descricao, foto } = req.body;
 
-        // Validação de campos obrigatórios
-        if (!nome || !valor) {
-            return res.status(400).json({ error: 'Nome e valor são obrigatórios.' });
-        }
+        const updatedProduto = { nome, valor: parseFloat(valor) || 0, marca, descricao, foto };
 
-        const updatedProduto = { nome, valor, marca, descricao, foto };
-
-        Produtos.update(produtoId, updatedProduto, (err) => {
+        Produtos.update(produtoCod, updatedProduto, (err) => {
             if (err) {
-                console.error('Erro ao atualizar produto:', err);
-                return res.status(500).json({ error: 'Erro ao atualizar produto.' });
+                return res.status(500).json({ error: err });
             }
-            res.redirect('/produtos');
+            res.json({ message: 'Produto atualizado com sucesso!' });
         });
     },
 
-    // Deletar um produto
-    deleteProdutos: (req, res) => {
-        const produtoId = req.params.id;
+    deleteProduto: (req, res) => {
+        const produtoCod = req.params.cod;
 
-        Produtos.delete(produtoId, (err) => {
+        Produtos.delete(produtoCod, (err) => {
             if (err) {
-                console.error('Erro ao deletar produto:', err);
-                return res.status(500).json({ error: 'Erro ao deletar produto.' });
+                return res.status(500).json({ error: err });
             }
-            res.redirect('/produtos');
+            res.json({ message: 'Produto deletado com sucesso!' });
         });
     },
 
-    // Buscar produtos por nome (pesquisa)
     searchProduto: (req, res) => {
         const search = req.query.search || '';
 
         Produtos.searchByName(search, (err, produtos) => {
             if (err) {
-                console.error('Erro ao pesquisar produtos:', err);
-                return res.status(500).json({ error: 'Erro ao pesquisar produtos.' });
+                return res.status(500).json({ error: err });
             }
-            res.json({ produtos });
+
+            if (req.xhr || req.accepts('json')) {
+                return res.json(produtos);
+            }
+
+            res.render('produtos/search', { produtos });
         });
     }
 };

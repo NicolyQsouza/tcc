@@ -47,7 +47,7 @@ const feedbackController = {
 
     // Função para renderizar o formulário de criação de feedback
     renderCreateForm: (req, res) => {
-        Cliente.getAllCliente((err, clientes) => { // Corrigido para getAllCliente de Cliente
+        Cliente.getAllCliente((err, clientes) => {
             if (err) {
                 return res.status(500).json({ error: 'Erro ao buscar clientes: ' + err.message });
             }
@@ -79,22 +79,22 @@ const feedbackController = {
     // Função para atualizar um feedback
     update: (req, res) => {
         const feedbackCod = req.params.cod;
-    
+
         const updatedFeedback = {
             cliente: parseInt(req.body.cliente, 10),
             foto: req.body.foto || null,
             comentario: req.body.comentario,
             avaliacao: parseInt(req.body.avaliacao, 10)
         };
-    
+
         // Verificando se o cliente é válido
         if (isNaN(updatedFeedback.cliente)) {
             return res.status(400).json({ error: 'Cliente inválido' });
         }
-    
+
         Feedback.update(feedbackCod, updatedFeedback, (err) => {
             if (err) {
-                return res.status(500).json({ error: 'Erro ao atualizar feedback' });
+                return res.status(500).json({ error: 'Erro ao atualizar feedback: ' + err.message });
             }
             res.redirect('/feedbacks');
         });
