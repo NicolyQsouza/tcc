@@ -22,7 +22,6 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 1000px;
-            animation: fadeIn 0.8s ease-in-out;
         }
 
         table {
@@ -53,54 +52,32 @@
             border-radius: 8px;
             font-size: 0.9rem;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background: #388E3C;
-        }
-
-        .btn-sm {
-            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <h1 class="text-center my-4">Lista de Clientes</h1>
-
-        <table class="table table-striped table-bordered">
-            <thead class="table-dark">
+        <h1 class="text-center">Lista de Feedback</h1>
+        <table>
+            <thead>
                 <tr>
                     <th>Nome</th>
-                    <th>Gênero</th>
-                    <th>Endereço</th>
                     <th>Telefone</th>
                     <th>Email</th>
-                    <th>Ações</th>
+                    <th>Avaliação</th>
                 </tr>
             </thead>
             <tbody>
                 <% clientes.forEach(cliente => { %>
                     <tr>
                         <td><%= cliente.nome %></td>
-                        <td><%= cliente.genero %></td>
-                        <td><%= cliente.endereco %></td>
                         <td><%= cliente.fone %></td>
                         <td><%= cliente.email %></td>
-                        <td>
-                            <a href="/clientes/<%= cliente.cod %>" class="btn btn-info btn-sm">Ver</a>
-                            <a href="/clientes/<%= cliente.cod %>/edit" class="btn btn-warning btn-sm">Editar</a>
-                            <form action="/clientes/<%= cliente.cod %>?_method=DELETE" method="POST" style="display:inline;">
-                                <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-                            </form>
-                        </td>
+                        <td><%= cliente.avaliacao %></td>
                     </tr>
                 <% }) %>
             </tbody>
         </table>
     </div>
-
 </body>
 </html>

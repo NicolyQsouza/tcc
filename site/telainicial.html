@@ -78,8 +78,7 @@
                 </ul>
             </div>
         </section>
-        
-        
+
         <section id="feedbacks">
             <h2>Feedbacks</h2>
             <p>Veja o que nossos clientes estão dizendo.</p>
@@ -115,7 +114,6 @@
                         
                             <button type="submit">Enviar</button>
                         </form>
-                        
                     </div>
 
                     <div class="coluna-direita">
@@ -129,7 +127,7 @@
 
             <div id="informacoes-contato">
                 <p><strong>Email:</strong> studiodabeleza@gmail.com</p>
-                <p><strong>Telefone:(48) 3533-3155</strong></p>
+                <p><strong>Telefone:</strong> (48) 3533-3155</p>
             </div>
         </section>
 
@@ -169,6 +167,12 @@
                         <p><strong>Valor:</strong> R$ ${produto.valor}</p>
                         <p>${produto.descricao}</p>
                     `;
+
+                    // Carregar imagem do localStorage, se disponível
+                    const imagemProduto = localStorage.getItem("fotoProduto");
+                    if (imagemProduto) {
+                        li.innerHTML += `<img src="${imagemProduto}" alt="Foto do produto" class="produto-imagem">`;
+                    }
                     listaProdutos.appendChild(li);
                 });
             } catch (error) {

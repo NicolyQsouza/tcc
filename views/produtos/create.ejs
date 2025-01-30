@@ -93,7 +93,7 @@
 </head>
 <body>
 
-    <form action="/produtos" method="POST">
+    <form id="produtoForm" method="POST">
         <h1>Cadastrar Novo Produto</h1>
 
         <div class="form-group">
@@ -123,6 +123,31 @@
 
         <button type="submit">Cadastrar</button>
     </form>
+
+    <script>
+        document.getElementById("produtoForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            var fotoInput = document.getElementById("foto");
+            var fotoFile = fotoInput.files[0];
+            
+            if (fotoFile) {
+                var reader = new FileReader();
+
+                reader.onloadend = function() {
+                    // Convert the image to base64 and store it in localStorage
+                    localStorage.setItem("fotoProduto", reader.result);
+
+                    // Exibir mensagem ou continuar o envio
+                    alert("Foto salva com sucesso no LocalStorage!");
+                    // Caso queira enviar o formulário após o armazenamento
+                    // event.target.submit();
+                };
+
+                reader.readAsDataURL(fotoFile);
+            }
+        });
+    </script>
 
 </body>
 </html>
