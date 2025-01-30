@@ -1,6 +1,7 @@
 const db = require('../config/db');
 
 const Produtos = {
+    // Criar um novo produto
     create: (produto, callback) => {
         const { nome, valor, marca, descricao, foto } = produto;
         const fotoPath = foto ? `/uploads/${foto}` : null; // Caminho relativo
@@ -14,6 +15,7 @@ const Produtos = {
         });
     },
 
+    // Obter todos os produtos
     getAll: (callback) => {
         const query = 'SELECT * FROM produtos';
         db.query(query, (err, result) => {
@@ -24,6 +26,7 @@ const Produtos = {
         });
     },
 
+    // Obter produto por ID
     getById: (cod, callback) => {
         const query = 'SELECT * FROM produtos WHERE cod = ?';
         db.query(query, [cod], (err, result) => {
@@ -34,6 +37,7 @@ const Produtos = {
         });
     },
 
+    // Atualizar produto
     update: (cod, produto, callback) => {
         const { nome, valor, marca, descricao, foto } = produto;
         const fotoPath = foto ? `/uploads/${foto}` : null; // Caminho relativo
@@ -47,6 +51,7 @@ const Produtos = {
         });
     },
 
+    // Deletar produto
     delete: (cod, callback) => {
         const query = 'DELETE FROM produtos WHERE cod = ?';
         db.query(query, [cod], (err, result) => {

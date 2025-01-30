@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Produtos</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f3f4f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 1000px;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: #4CAF50;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .btn {
+            padding: 0.5rem;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin-right: 5px;
+        }
+
+        .btn-primary {
+            background: #007bff;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Lista de Produtos</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Valor</th>
+                    <th>Marca</th>
+                    <th>Descrição</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (produtos && produtos.length > 0) { %>
+                    <% produtos.forEach(produto => { %>
+                        <tr>
+                            <td><%= produto.cod %></td>
+                            <td><%= produto.nome %></td>
+                            <td>R$ <%= produto.valor.toFixed(2) %></td>
+                            <td><%= produto.marca %></td>
+                            <td><%= produto.descricao %></td>
+                            <td>
+                                <a href="/produtos/<%= produto.cod %>" class="btn btn-primary">Ver</a>
+                                <a href="/produtos/<%= produto.cod %>/edit" class="btn btn-warning">Editar</a>
+                                <form action="/produtos/<%= produto.cod %>?_method=DELETE" method="POST" class="delete-form" style="display: inline;">
+                                    <button type="submit" class="btn btn-danger">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="6" class="text-center">Nenhum produto encontrado.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const deleteForms = document.querySelectorAll(".delete-form");
+
+            deleteForms.forEach(form => {
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault(); // Impede o envio imediato do formulário
+
+                    const confirmDelete = confirm("Tem certeza que deseja excluir este produto?");
+                    
+                    if (confirmDelete) {
+                        form.submit(); // Envia o formulário se o usuário confirmar
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

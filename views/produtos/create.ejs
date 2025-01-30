@@ -13,6 +13,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            margin: 0;
         }
 
         .container {
@@ -26,14 +27,8 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
@@ -43,26 +38,22 @@
             color: #4CAF50;
         }
 
-        .form-label {
-            font-size: 1rem;
-            color: #333;
-            font-weight: 500;
+        .form-group {
+            margin-bottom: 1.5rem;
         }
 
-        select, input {
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        input, textarea {
+            width: 100%;
             padding: 0.8rem;
             border: 1px solid #ddd;
             border-radius: 8px;
-            width: 100%;
-            box-sizing: border-box;
             font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        select:focus, input:focus {
-            outline: none;
-            border-color: #4CAF50;
-            box-shadow: 0 0 4px rgba(76, 175, 80, 0.5);
         }
 
         button {
@@ -72,82 +63,73 @@
             border: none;
             border-radius: 8px;
             font-size: 1rem;
-            font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s ease;
             width: 100%;
+            transition: background 0.3s;
         }
 
         button:hover {
             background: #388E3C;
         }
-
-        .mb-3 {
-            margin-bottom: 1.5rem;
-        }
-
-        .text-center {
-            text-align: center;
-        }
     </style>
 </head>
 <body>
+    <div class="container">
+        <form id="produtoForm" method="POST" enctype="multipart/form-data">
+            <h1>Cadastrar Novo Produto</h1>
 
-    <form id="produtoForm" method="POST">
-        <h1>Cadastrar Novo Produto</h1>
+            <div class="form-group">
+                <label for="nome">Nome do Produto</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="valor">Valor</label>
+                <input type="number" step="0.01" id="valor" name="valor" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="marca">Marca</label>
+                <input type="text" id="marca" name="marca">
+            </div>
 
-        <div class="form-group">
-            <label for="nome">Nome do Produto</label>
-            <input type="text" class="form-control" id="nome" name="nome" required placeholder="Digite o nome do produto">
-        </div>
-        
-        <div class="form-group">
-            <label for="valor">Valor</label>
-            <input type="number" step="0.01" class="form-control" id="valor" name="valor" required placeholder="Digite o valor">
-        </div>
-        
-        <div class="form-group">
-            <label for="marca">Marca</label>
-            <input type="text" class="form-control" id="marca" name="marca" placeholder="Digite a marca">
-        </div>
+            <div class="form-group">
+                <label for="descricao">Descrição</label>
+                <textarea id="descricao" name="descricao" required></textarea>
+            </div>
 
-        <div class="form-group">
-            <label for="descricao">Descrição</label>
-            <textarea class="form-control" id="descricao" name="descricao" required placeholder="Adicione uma descrição"></textarea>
-        </div>
+            <div class="form-group">
+                <label for="foto">Foto do Produto</label>
+                <input type="file" id="foto" name="foto" accept="image/*" required>
+            </div>
 
-        <div class="form-group">
-            <label for="foto">Foto do Produto</label>
-            <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
-        </div>
-
-        <button type="submit">Cadastrar</button>
-    </form>
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
 
     <script>
-        document.getElementById("produtoForm").addEventListener("submit", function(event) {
+        document.getElementById("produtoForm").addEventListener("submit", async function(event) {
             event.preventDefault();
+            const formData = new FormData(this);
 
-            var fotoInput = document.getElementById("foto");
-            var fotoFile = fotoInput.files[0];
-            
-            if (fotoFile) {
-                var reader = new FileReader();
+            try {
+                const response = await fetch('/produtos', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
 
-                reader.onloadend = function() {
-                    // Convert the image to base64 and store it in localStorage
-                    localStorage.setItem("fotoProduto", reader.result);
-
-                    // Exibir mensagem ou continuar o envio
-                    alert("Foto salva com sucesso no LocalStorage!");
-                    // Caso queira enviar o formulário após o armazenamento
-                    // event.target.submit();
-                };
-
-                reader.readAsDataURL(fotoFile);
+                if (response.ok) {
+                    alert('Produto cadastrado com sucesso!');
+                    this.reset();
+                } else {
+                    throw new Error(result.message || "Erro ao cadastrar");
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao cadastrar produto');
             }
         });
     </script>
-
 </body>
 </html>

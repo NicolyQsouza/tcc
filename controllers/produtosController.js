@@ -1,9 +1,12 @@
 const Produtos = require('../models/produtosModel');
+const multer = require('../config/multer'); // Importando o multer configurado
 
 const produtoController = {
     // Criar um novo produto (API e página)
-    createProduto: (req, res) => {
-        let { nome, valor, marca, descricao, foto } = req.body;
+    createProduto: [multer.single('foto'), (req, res) => {
+        let { nome, valor, marca, descricao } = req.body;
+        const foto = req.file ? req.file.filename : null; // Foto do arquivo
+
         valor = parseFloat(valor) || 0;
 
         const newProduto = { nome, valor, marca, descricao, foto };
@@ -12,18 +15,18 @@ const produtoController = {
             return res.status(400).json({ error: 'Nome e valor são obrigatórios.' });
         }
 
-        // Validar foto se necessário
         if (!newProduto.foto) {
             return res.status(400).json({ error: 'Foto do produto é obrigatória.' });
         }
 
         Produtos.create(newProduto, (err) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                return res.status(500).json({ error: 'Erro ao criar produto.' });
             }
-            res.json({ message: 'Produto criado com sucesso!' });
+
+            return res.redirect('/produtos2'); // Redireciona para a página de lista de produtos após criação
         });
-    },
+    }],
 
     // Buscar produto por ID (API e página)
     getProdutoById: (req, res) => {
@@ -31,12 +34,13 @@ const produtoController = {
 
         Produtos.getById(produtoCod, (err, produto) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                return res.status(500).json({ error: 'Erro ao buscar produto.' });
             }
             if (!produto) {
                 return res.status(404).json({ message: 'Produto não encontrado.' });
             }
-            res.json(produto);
+
+            return res.json(produto);
         });
     },
 
@@ -47,24 +51,26 @@ const produtoController = {
                 return res.status(500).json({ error: 'Erro ao buscar produtos.' });
             }
 
-            if (req.xhr || req.accepts('json')) {
-                return res.json(produtos);
+            if (req.path === '/produtos2') {
+                return res.render('produtos/index', { produtos });
             }
 
-            res.render('produtos/index', { produtos });
+            return res.json(produtos);
         });
     },
 
+    // Renderizar formulário de criação (página)
     renderCreateForm: (req, res) => {
         res.render('produtos/create');
     },
 
+    // Renderizar formulário de edição (página)
     renderEditForm: (req, res) => {
         const produtoCod = req.params.cod;
 
         Produtos.getById(produtoCod, (err, produto) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                return res.status(500).json({ error: 'Erro ao buscar produto.' });
             }
             if (!produto) {
                 return res.status(404).json({ message: 'Produto não encontrado.' });
@@ -73,44 +79,51 @@ const produtoController = {
         });
     },
 
-    updateProduto: (req, res) => {
+    // Atualizar produto
+    updateProduto: [multer.single('foto'), (req, res) => {
         const produtoCod = req.params.cod;
-        const { nome, valor, marca, descricao, foto } = req.body;
+        const { nome, valor, marca, descricao, fotoAntiga } = req.body;
 
-        const updatedProduto = { nome, valor: parseFloat(valor) || 0, marca, descricao, foto };
+        // Se houver foto nova, usa ela; caso contrário, mantém a foto antiga
+        const foto = req.file ? req.file.filename : fotoAntiga;
+        const valorConvertido = parseFloat(valor) || 0;
+
+        const updatedProduto = { nome, valor: valorConvertido, marca, descricao, foto };
 
         Produtos.update(produtoCod, updatedProduto, (err) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                console.error("Erro ao atualizar:", err);
+                return res.status(500).json({ error: 'Erro ao atualizar produto.', details: err });
             }
-            res.json({ message: 'Produto atualizado com sucesso!' });
-        });
-    },
 
+            console.log("Produto atualizado com sucesso!");
+            return res.redirect('/produtos/produtos2'); // Redireciona para a lista de produtos após atualização
+        });
+    }],
+
+    // Deletar produto
     deleteProduto: (req, res) => {
         const produtoCod = req.params.cod;
 
         Produtos.delete(produtoCod, (err) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                return res.status(500).json({ error: 'Erro ao deletar produto.' });
             }
-            res.json({ message: 'Produto deletado com sucesso!' });
+
+            return res.redirect('/produtos/produtos2'); // Redireciona para a lista de produtos após exclusão
         });
     },
 
+    // Buscar produto por nome (API e página)
     searchProduto: (req, res) => {
         const search = req.query.search || '';
 
         Produtos.searchByName(search, (err, produtos) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                return res.status(500).json({ error: 'Erro ao buscar produtos.' });
             }
 
-            if (req.xhr || req.accepts('json')) {
-                return res.json(produtos);
-            }
-
-            res.render('produtos/search', { produtos });
+            return res.render('produtos/search', { produtos });
         });
     }
 };

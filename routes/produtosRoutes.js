@@ -4,23 +4,25 @@ const router = express.Router();
 
 // Rota para listar todos os produtos
 router.get('/', produtosController.getAllProdutos);
+router.get('/produtos2', produtosController.getAllProdutos); // Acesso via /produtos/produtos2
 
-// Rota para mostrar o formulário de criação de um novo produto
+// Rota para criação de produto
 router.get('/new', produtosController.renderCreateForm);
-
-// Rota para criar um novo produto
 router.post('/', produtosController.createProduto);
 
-// Rota para mostrar detalhes de um produto específico
-router.get('/:cod', produtosController.getProdutoById); // Corrigido o nome da função
+// Rota para exibir detalhes de um produto
+router.get('/:cod', produtosController.getProdutoById);
 
-// Rota para mostrar o formulário de edição de um produto específico
+// Rotas para edição de produtos
 router.get('/:cod/edit', produtosController.renderEditForm);
+router.get('/produtos2/:cod/edit', produtosController.renderEditForm); // Ajuste para /produtos/produtos2/:cod/edit
 
-// Rota para atualizar um produto específico
-router.put('/:cod', produtosController.updateProduto); // Corrigido o nome da função
+// Rota para atualização de produto
+router.put('/:cod', produtosController.updateProduto);
+router.put('/produtos2/:cod', produtosController.updateProduto); // Ajuste para /produtos/produtos2/:cod
 
-// Rota para deletar um produto específico
-router.delete('/:cod', produtosController.deleteProduto); // Corrigido o nome da função
+// Rota para deletar produto
+router.delete('/:cod', produtosController.deleteProduto);
+router.delete('/produtos2/:cod', produtosController.deleteProduto); // Ajuste para /produtos/produtos2/:cod
 
 module.exports = router;

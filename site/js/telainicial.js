@@ -1,29 +1,32 @@
 // Função para carregar os produtos
-async function loadProducts() {
-  try {
-      const response = await fetch('/produtos');
-      if (!response.ok) {
-          throw new Error('Falha ao carregar produtos');
-      }
-      const produtos = await response.json();
+    async function loadProducts() {
+        try {
+            const response = await fetch('/produtos');
+            if (!response.ok) {
+                throw new Error('Falha ao carregar produtos');
+            }
+            const produtos = await response.json();
 
-      const listaProdutos = document.getElementById('produtos-list');
-      listaProdutos.innerHTML = ''; // Limpar conteúdo existente
+            const listaProdutos = document.getElementById('produtos-list');
+            listaProdutos.innerHTML = '';
 
-      produtos.forEach(produto => {
-          const li = document.createElement('li');
-          li.innerHTML = `
-              <h3>${produto.nome}</h3>
-              <p><strong>Marca:</strong> ${produto.marca}</p>
-              <p><strong>Valor:</strong> R$ ${produto.valor}</p>
-              <p>${produto.descricao}</p>
-          `;
-          listaProdutos.appendChild(li);
-      });
-  } catch (error) {
-      console.error('Erro ao carregar produtos:', error);
-  }
-}
+            produtos.forEach(produto => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <h3>${produto.nome}</h3>
+                    <p><strong>Marca:</strong> ${produto.marca}</p>
+                    <p><strong>Valor:</strong> R$ ${produto.valor}</p>
+                    <p>${produto.descricao}</p>
+                    <img src="${produto.foto}" alt="${produto.nome}" class="produto-imagem">
+                `;
+                listaProdutos.appendChild(li);
+            });
+        } catch (error) {
+            console.error('Erro ao carregar produtos:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadProducts);
 
 // Função para carregar os feedbacks
 async function loadFeedbacks() {

@@ -19,6 +19,8 @@ const PORT = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
+// Serve arquivos estáticos de pastas específicas
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Middlewares básicos
 app.use(bodyParser.json());
@@ -134,8 +136,8 @@ app.post('/enviar-email', (req, res) => {
 
     // Configuração do email
     const mailOptions = {
-        from: process.env.EMAIL_USER, // De onde está sendo enviado
-        to: 'nicaula2007@gmail.com', // Para quem o email será enviado
+        from: process.env.EMAIL_USER, 
+        to: 'nicaula2007@gmail.com', 
         subject: 'Novo Formulário de Contato',
         text: `Nome: ${nome}\nTelefone: ${telefone}\nMensagem: ${mensagem}`,
     };
