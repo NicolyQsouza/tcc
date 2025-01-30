@@ -3,8 +3,10 @@ const db = require('../config/db');
 const Produtos = {
     create: (produto, callback) => {
         const { nome, valor, marca, descricao, foto } = produto;
+        const fotoPath = foto ? `/uploads/${foto}` : null; // Caminho relativo
+
         const query = 'INSERT INTO produtos (nome, valor, marca, descricao, foto) VALUES (?, ?, ?, ?, ?)';
-        db.query(query, [nome, valor, marca, descricao, foto], (err, result) => {
+        db.query(query, [nome, valor, marca, descricao, fotoPath], (err, result) => {
             if (err) {
                 return callback(err);
             }
@@ -34,8 +36,10 @@ const Produtos = {
 
     update: (cod, produto, callback) => {
         const { nome, valor, marca, descricao, foto } = produto;
+        const fotoPath = foto ? `/uploads/${foto}` : null; // Caminho relativo
+        
         const query = 'UPDATE produtos SET nome = ?, valor = ?, marca = ?, descricao = ?, foto = ? WHERE cod = ?';
-        db.query(query, [nome, valor, marca, descricao, foto, cod], (err, result) => {
+        db.query(query, [nome, valor, marca, descricao, fotoPath, cod], (err, result) => {
             if (err) {
                 return callback(err);
             }

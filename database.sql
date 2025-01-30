@@ -9,16 +9,15 @@ CREATE TABLE usuarios (
     role ENUM('user', 'admin') DEFAULT 'user' -- Campo que define o papel do usuário
 );
 
-
 CREATE TABLE clientes (
-   
     cod INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(50),
     genero VARCHAR(10),
     endereco VARCHAR(100),
     fone VARCHAR(15),
     email VARCHAR(255),
-    data_de_nascimento DATE
+    data_de_nascimento DATE,
+    avaliacao TEXT -- Adicionando a coluna de avaliação como tipo texto
 );
 
 CREATE TABLE procedimentos (

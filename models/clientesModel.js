@@ -1,4 +1,3 @@
-// Arquivo: models/clientesModel.js
 const db = require('../config/db');
 
 const Clientes = {
@@ -24,16 +23,17 @@ const Clientes = {
 
     createCliente: (clienteData, callback) => {
         const query = `
-            INSERT INTO clientes (nome, genero, endereco, fone, email, data_de_nascimento)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO clientes (nome, genero, endereco, fone, email, data_de_nascimento, avaliacao)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
         db.query(query, [
             clienteData.nome,
-            clienteData.genero,
-            clienteData.endereco,
+            clienteData.genero || null,
+            clienteData.endereco || null,
             clienteData.fone,
             clienteData.email,
-            clienteData.data_de_nascimento
+            clienteData.data_de_nascimento || null,
+            clienteData.avaliacao
         ], (err, result) => {
             if (err) {
                 return callback(err);
@@ -45,16 +45,17 @@ const Clientes = {
     updateCliente: (clienteCod, clienteData, callback) => {
         const query = `
             UPDATE clientes
-            SET nome = ?, genero = ?, endereco = ?, fone = ?, email = ?, data_de_nascimento = ?
+            SET nome = ?, genero = ?, endereco = ?, fone = ?, email = ?, data_de_nascimento = ?, avaliacao = ?
             WHERE cod = ?
         `;
         db.query(query, [
             clienteData.nome,
-            clienteData.genero,
-            clienteData.endereco,
+            clienteData.genero || null,
+            clienteData.endereco || null,
             clienteData.fone,
             clienteData.email,
-            clienteData.data_de_nascimento,
+            clienteData.data_de_nascimento || null,
+            clienteData.avaliacao,
             clienteCod
         ], (err) => {
             if (err) {

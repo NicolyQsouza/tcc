@@ -7,6 +7,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const path = require('path');
 const usuariosController = require('./controllers/usuariosController');
+const nodemailer = require('nodemailer');
 
 // Configurações de ambiente
 dotenv.config();
@@ -117,6 +118,39 @@ app.post('/usuarios/create', usuariosController.create);
 app.get('/usuarios/:cod/edit', usuariosController.renderEditForm);
 app.post('/usuarios/:cod/edit', usuariosController.update);
 app.get('/usuarios/:cod/delete', usuariosController.delete);
+
+// Rota para enviar o email do formulário de contato
+app.post('/enviar-email', (req, res) => {
+    const { nome, telefone, mensagem } = req.body;
+
+    // Criar um transportador para o envio de email (configuração com Gmail como exemplo)
+    const transporter = nodemailer.createTransport({
+        service: 'gmail', // Você pode alterar para o serviço que preferir
+        auth: {
+            user: process.env.EMAIL_USER, // Email de envio (utilize variáveis de ambiente para segurança)
+            pass: process.env.EMAIL_PASS, // Senha ou senha de app (se usar Gmail, é recomendável usar uma senha de app)
+        },
+    });
+
+    // Configuração do email
+    const mailOptions = {
+        from: process.env.EMAIL_USER, // De onde está sendo enviado
+        to: 'nicaula2007@gmail.com', // Para quem o email será enviado
+        subject: 'Novo Formulário de Contato',
+        text: `Nome: ${nome}\nTelefone: ${telefone}\nMensagem: ${mensagem}`,
+    };
+
+    // Enviar o email
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error('Erro ao enviar o email:', error);
+            req.flash('error', 'Erro ao enviar o email. Tente novamente mais tarde.');
+            return res.redirect('/#contato'); // Redireciona de volta para a seção de contato
+        }
+        req.flash('success', 'Email enviado com sucesso!');
+        res.redirect('/#contato'); // Redireciona para a seção de contato
+    });
+});
 
 // Tratamento de erros (404)
 app.use((req, res, next) => {
